@@ -26,6 +26,9 @@ import ArsipDinamis from "@/views/admin/ArsipDinamis.vue";
 import SuratDisposisi from "@/views/admin/SuratDisposisi.vue";
 import NaskahMasuk from "@/views/admin/NaskahMasuk.vue";
 import NaskahKeluar from "@/views/admin/NaskahKeluar.vue";
+import UserJabatan from "@/views/admin/UserJabatan.vue";
+import UserPegawai from "@/views/admin/UserPegawai.vue";
+
 
 // views for Auth layout
 
@@ -83,6 +86,16 @@ const routes = [
         path: "/admin/naskah-keluar",
         component: NaskahKeluar,
       },
+      // Pegawai
+      {
+        path: "/admin/user-jabatan",
+        component: UserJabatan,
+      },
+      {
+        path: "/admin/user-pegawai",
+        component: UserPegawai,
+      },
+
     ],
   },
   {
