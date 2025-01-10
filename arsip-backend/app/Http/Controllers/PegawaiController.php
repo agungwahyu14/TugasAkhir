@@ -76,7 +76,7 @@ class PegawaiController extends Controller
             'nama' => 'required|string|max:255',
             'email' => 'required|email|unique:pegawais,email,' . $id . '|unique:admins,email',
             'username' => 'required|string|max:255|unique:pegawai,username,' . $id,
-            'jabatan' => 'required|string|max:255',
+            'bidang' => 'required|string|max:255',
             'status' => 'required|in:aktif,tidak aktif',
         ], [
             'nip.required' => 'NIP wajib diisi.',
@@ -88,7 +88,7 @@ class PegawaiController extends Controller
             'email.unique' => 'Email sudah terdaftar.',
             'username.required' => 'Username wajib diisi.',
             'username.unique' => 'Username sudah terdaftar.',
-            'jabatan.required' => 'Jabatan wajib diisi.',
+            'bidang.required' => 'bidang wajib diisi.',
             'status.required' => 'Status wajib diisi.',
             'status.in' => 'Status harus salah satu dari: aktif, tidak aktif.',
         ]);
@@ -108,7 +108,7 @@ class PegawaiController extends Controller
                 'nama' => $request->nama,
                 'email' => $request->email,
                 'username' => $request->username,
-                'jabatan' => $request->jabatan,
+                'bidang' => $request->jabatan,
                 'status' => $request->status,
             ]);
 
