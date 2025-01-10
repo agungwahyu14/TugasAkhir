@@ -19,6 +19,7 @@
     "@vue/compiler-sfc": "3.0.7",
     "chart.js": "2.9.4",
     "core-js": "3.9.1",
+    "flowbite": "^2.5.2",
     "gulp": "4.0.2",
     "gulp-append-prepend": "1.0.8",
     "tailwindcss": "2.0.4",
@@ -32,11 +33,11 @@
     "@vue/cli-plugin-eslint": "5.0.0-alpha.7",
     "@vue/cli-service": "5.0.0-alpha.7",
     "autoprefixer": "10.2.5",
+    "cross-env": "^7.0.3",
     "eslint": "7.22.0",
     "eslint-plugin-vue": "7.7.0",
     "postcss": "8.4.39",
-    "vue-template-compiler": "2.6.12",
-    "cross-env": "^7.0.3"
+    "vue-template-compiler": "2.6.12"
   },
   "eslintConfig": {
     "root": true,
