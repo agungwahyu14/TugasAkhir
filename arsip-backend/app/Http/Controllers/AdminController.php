@@ -31,9 +31,8 @@ class AdminController extends Controller
         
         $validator = Validator::make($request->all(), [
             'nip' => 'required|integer|unique:admins,nip',
-            'id_admin' => 'required|integer|unique:admins,id_admin',
             'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:admins,email',
+            'email' => 'required|email|unique:admins,email|unique:pegawais,email',
             'password' => 'required|string|min:6',
             'username' => 'required|string|max:255|unique:admins,username',
             'bidang' => 'required|string|max:255',
@@ -63,9 +62,12 @@ class AdminController extends Controller
         }
 
         try {
+            $lastIdAdmin = Admin::max('id_admin');
+            $newIdAdmin = $lastIdAdmin ? $lastIdAdmin + 1 : 1;
+
             $admin = Admin::create([
                 'nip' => $request->nip,
-                'id_admin' => $request->id_admin,
+                'id_admin' => $newIdAdmin,
                 'nama' => $request->nama,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
@@ -102,7 +104,7 @@ class AdminController extends Controller
             'nip' => 'required|integer|unique:admins,nip,' . $id,
             'id_admin' => 'required|integer|unique:admins,id_admin,' . $id,
             'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:admins,email,' . $id,
+            'email' => 'required|email|unique:admins,email,' . $id . '|unique:pegawais,email',
             'password' => 'nullable|string|min:6',
             'username' => 'required|string|max:255|unique:admins,username,' . $id,
             'bidang' => 'required|string|max:255',
