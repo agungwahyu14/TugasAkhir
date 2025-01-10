@@ -37,12 +37,12 @@
                 @click="hideDropdown">
                 Surat Disposisi
             </router-link>
-            <router-link to="/admin/naskah-masuk"
+            <router-link to="/admin/naskah/naskah-masuk"
                 class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 @click="hideDropdown">
                 Naskah Masuk
             </router-link>
-            <router-link to="/admin/naskah-keluar"
+            <router-link to="/admin/naskah/naskah-keluar"
                 class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 @click="hideDropdown">
                 Naskah Keluar
