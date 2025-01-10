@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\NaskahMasukController;
 
 Route::prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'index']);
@@ -26,3 +27,9 @@ Route::prefix('pegawai')->group(function () {
 });
  
 
+Route::prefix('naskah-masuks')->group(function () {
+  Route::get('/', [NaskahMasukController::class, 'index'])->name('naskahmasuk.index');
+  Route::post('/',[NaskahMasukController::class,'store'])->name('naskahmasuk.store');
+  Route::put('{id}', [NaskahMasukController::class, 'update'])->name('naskahmasuk.update');
+
+});
