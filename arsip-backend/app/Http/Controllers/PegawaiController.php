@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use Validator;
+use App\Models\Admin;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
-use Validator;
-use Exception;
 
 class PegawaiController extends Controller
 {
@@ -14,12 +15,12 @@ class PegawaiController extends Controller
     {
         // Validate the incoming request
         $validator = Validator::make($request->all(), [
-            'nip' => 'required|integer|unique:pegawai,nip',
+            'nip' => 'required|integer|unique:pegawais,nip',
             'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:pegawai,email',
+            'email' => 'required|email|unique:pegawais,email|unique:admins,email',
             'password' => 'required|string|min:6',
-            'username' => 'required|string|max:255|unique:pegawai,username',
-            'jabatan' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:pegawais,username',
+            'bidang' => 'required|string|max:255',
             'status' => 'required|in:aktif,tidak aktif',
         ], [
             'nip.required' => 'NIP wajib diisi.',
@@ -33,7 +34,7 @@ class PegawaiController extends Controller
             'password.min' => 'Password minimal 6 karakter.',
             'username.required' => 'Username wajib diisi.',
             'username.unique' => 'Username sudah terdaftar.',
-            'jabatan.required' => 'Jabatan wajib diisi.',
+            'bidang.required' => 'bidang wajib diisi.',
             'status.required' => 'Status wajib diisi.',
             'status.in' => 'Status harus salah satu dari: aktif, tidak aktif.',
         ]);
@@ -44,14 +45,17 @@ class PegawaiController extends Controller
         }
 
         try {
+            $lastIdAdmin = Admin::max('id_admin');
+            $newIdAdmin = $lastIdAdmin ? $lastIdAdmin + 1 : 1;
             // Create the new Pegawai
             $pegawai = Pegawai::create([
                 'nip' => $request->nip,
                 'nama' => $request->nama,
+                'id_admin'=>$newIdAdmin,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
                 'username' => $request->username,
-                'jabatan' => $request->jabatan,
+                'bidang' => $request->bidang,
                 'status' => $request->status,
             ]);
 
@@ -70,7 +74,7 @@ class PegawaiController extends Controller
         $validator = Validator::make($request->all(), [
             'nip' => 'required|integer|unique:pegawai,nip,' . $id,
             'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:pegawai,email,' . $id,
+            'email' => 'required|email|unique:pegawais,email,' . $id . '|unique:admins,email',
             'username' => 'required|string|max:255|unique:pegawai,username,' . $id,
             'jabatan' => 'required|string|max:255',
             'status' => 'required|in:aktif,tidak aktif',

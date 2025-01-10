@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\NaskahMasukController;
 
@@ -33,3 +34,6 @@ Route::prefix('naskah-masuks')->group(function () {
   Route::put('{id}', [NaskahMasukController::class, 'update'])->name('naskahmasuk.update');
 
 });
+
+
+Route::post('/login', [LoginController::class, 'login']);
