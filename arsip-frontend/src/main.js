@@ -12,16 +12,16 @@ import "@/assets/styles/tailwind.css";
 import App from "@/App.vue";
 
 // layouts
-
+import AdminDashboard from "@/layouts/AdminDashboard.vue";
 import Admin from "@/layouts/Admin.vue";
 import Auth from "@/layouts/Auth.vue";
 
 // views for Admin layout
 
-import Dashboard from "@/views/admin/Dashboard.vue";
-import Settings from "@/views/admin/Settings.vue";
-import Tables from "@/views/admin/Tables.vue";
-import Maps from "@/views/admin/Maps.vue";
+// import Dashboard from "@/views/admin/Dashboard.vue";
+// import Settings from "@/views/admin/Settings.vue";
+// import Tables from "@/views/admin/Tables.vue";
+// import Maps from "@/views/admin/Maps.vue";
 import ArsipStatis from "@/views/admin/ArsipStatis.vue";
 import ArsipDinamis from "@/views/admin/ArsipDinamis.vue";
 import SuratDisposisi from "@/views/admin/SuratDisposisi.vue";
@@ -50,27 +50,13 @@ import Index from "@/views/Index.vue";
 
 const routes = [
   {
+    path: "/admindashboard",
+    component: AdminDashboard,
+  },
+  {
     path: "/admin",
-    redirect: "/admin/dashboard",
     component: Admin,
     children: [
-      {
-        path: "/admin/dashboard",
-        component: Dashboard,
-      },
-      {
-        path: "/admin/settings",
-        component: Settings,
-      },
-      {
-        path: "/admin/tables",
-        component: Tables,
-      },
-      {
-        path: "/admin/maps",
-        component: Maps,
-      },
-// Arsip
       {
         path: "/admin/arsip-statis",
         component: ArsipStatis,
