@@ -81,11 +81,10 @@ export default {
         const data = response.data;
         console.log('Login berhasil:', data);
 
-        // Simpan token ke localStorage
-        localStorage.setItem('token', data.token);
+        sessionStorage.setItem('token', data.token);
 
-        // Simpan detail pengguna ke localStorage
-        localStorage.setItem('user', JSON.stringify(data.user));
+        // Simpan detail pengguna ke sessionStorage
+        sessionStorage.setItem('user', JSON.stringify(data.user));
 
         // // Tampilkan pesan sukses (opsional)
         // alert(data.message);

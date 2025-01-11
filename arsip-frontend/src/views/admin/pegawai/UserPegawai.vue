@@ -65,10 +65,10 @@
                                         {{ employee.status || '-' }}
                                     </td>
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                                        {{ employee.created_at || '-' }}
+                                        {{ formatDate(employee.created_at) || '-' }}
                                     </td>
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                                        {{ employee.updated_at || '-' }}
+                                        {{ formatDate(employee.updated_at) || '-' }}
                                     </td>
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         <button @click="editEmployee(employee.id)"
@@ -125,13 +125,20 @@ export default {
     },
     methods: {
         fetchEmployees() {
+            const token = sessionStorage.getItem('token'); // Ambil token dari localStorage
             axios
-                .get("http://127.0.0.1:8000/api/pegawai")
+                .get("http://127.0.0.1:8000/api/pegawai", {
+                    headers: {
+                        Authorization: `Bearer ${token}` // Tambahkan header Bearer Token
+                    }
+                })
                 .then((response) => {
+                    console.log("Fetch Employees Response:", response); // Print seluruh response
+                    console.log("Data Pegawai:", response.data.data); // Print hanya data pegawai
                     this.employees = response.data.data;
                 })
                 .catch((error) => {
-                    console.error("Error fetching data:", error);
+                    console.error("Error fetching data:", error.response || error); // Print error detail
                 });
         },
         editEmployee(id) {
@@ -139,9 +146,33 @@ export default {
             // Add logic for editing employee
         },
         deleteEmployee(id) {
-            console.log("Deleting employee with ID:", id);
-            // Add logic for deleting employee
+            const token = localStorage.getItem('token'); // Ambil token dari localStorage
+            axios
+                .delete(`http://127.0.0.1:8000/api/pegawai/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}` // Tambahkan header Bearer Token
+                    }
+                })
+                .then((response) => {
+                    console.log("Delete Employee Response:", response); // Print seluruh response
+                    console.log("Employee Deleted:", response.data); // Print hanya pesan sukses
+                    // Fetch employees again or update state after deletion
+                    this.fetchEmployees();
+                })
+                .catch((error) => {
+                    console.error("Error deleting employee:", error.response || error); // Print error detail
+                });
         },
+
+        formatDate(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('id-ID', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            });
+        }
     },
     props: {
         color: {
