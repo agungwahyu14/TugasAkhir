@@ -140,7 +140,7 @@ class PegawaiController extends Controller
     public function index()
     {
         try {
-            $pegawais = Pegawai::all();
+            $pegawais = Pegawai::where('status','aktif')->get();
             return $this->templateRESPONSEAPI(true, 'Data Pegawai ditemukan.', $pegawais, 200);
         } catch (Exception $e) {
             return $this->templateRESPONSEAPI(false, 'Gagal mengambil data Pegawai.', null, 500, true);

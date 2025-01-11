@@ -20,26 +20,30 @@ class LoginController extends Controller
         $password = $request->password;
 
         // Check Pegawai first
-        $user = Pegawai::where('email', $email)->first();
+        $user = Pegawai::where('email', $email)
+                      ->where('status', 'aktif')
+                      ->first();
         $model = 'Pegawai';
 
         if (!$user) {
             // If not found in Pegawai, check Admin
-            $user = Admin::where('email', $email)->first();
+            $user = Admin::where('email', $email)
+                        ->where('status', 'aktif')
+                        ->first();
             $model = 'Admin';
         }
 
         if (!$user) {
             return response()->json([
-                'status_code'=>404,
+                'status_code' => 404,
                 'success' => false,
-                'message' => 'Email tidak ditemukan.',
+                'message' => 'Email tidak ditemukan atau akun tidak aktif.',
             ], 404);
         }
 
         if (!Hash::check($password, $user->password)) {
             return response()->json([
-                'status_code'=>401,
+                'status_code' => 401,
                 'success' => false,
                 'message' => 'Password salah.',
             ], 401);
@@ -48,14 +52,15 @@ class LoginController extends Controller
         // Create custom claims with model type
         $customClaims = [
             'model' => $model,
-            'email' => $user->email
+            'email' => $user->email,
+            'status' => $user->status
         ];
 
         // Generate token with custom claims
         $token = JWTAuth::claims($customClaims)->fromUser($user);
 
         return response()->json([
-            'status_code'=>200,
+            'status_code' => 200,
             'success' => true,
             'message' => 'Login berhasil.',
             'token' => $token,
