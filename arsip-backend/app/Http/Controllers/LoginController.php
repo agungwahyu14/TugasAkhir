@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
@@ -12,44 +11,51 @@ class LoginController extends Controller
 {
     public function login(Request $request)
     {
-        // Validasi input
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|string|min:6',
         ]);
 
-        // Ambil input
         $email = $request->email;
         $password = $request->password;
 
-        // Cek di tabel Pegawai
+        // Check Pegawai first
         $user = Pegawai::where('email', $email)->first();
+        $model = 'Pegawai';
 
         if (!$user) {
-            // Jika tidak ditemukan di Pegawai, cek di Admin
+            // If not found in Pegawai, check Admin
             $user = Admin::where('email', $email)->first();
+            $model = 'Admin';
         }
 
-        // Jika user tidak ditemukan
         if (!$user) {
             return response()->json([
+                'status_code'=>404,
                 'success' => false,
                 'message' => 'Email tidak ditemukan.',
             ], 404);
         }
 
-        // Verifikasi password
         if (!Hash::check($password, $user->password)) {
             return response()->json([
+                'status_code'=>401,
                 'success' => false,
                 'message' => 'Password salah.',
             ], 401);
         }
 
-        // Buat token JWT
-        $token = JWTAuth::fromUser($user);
+        // Create custom claims with model type
+        $customClaims = [
+            'model' => $model,
+            'email' => $user->email
+        ];
+
+        // Generate token with custom claims
+        $token = JWTAuth::claims($customClaims)->fromUser($user);
 
         return response()->json([
+            'status_code'=>200,
             'success' => true,
             'message' => 'Login berhasil.',
             'token' => $token,
