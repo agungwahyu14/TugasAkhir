@@ -34,6 +34,8 @@ import TambahNaskahMasuk from "@/views/admin/naskahmasuk/TambahNaskahMasuk.vue";
 import EditNaskahMasuk from "@/views/admin/naskahmasuk/EditNaskahMasuk.vue";
 import TambahNaskahKeluar from "@/views/admin/naskahkeluar/TambahNaskahKeluar.vue";
 import EditNaskahKeluar from "@/views/admin/naskahkeluar/EditNaskahKeluar.vue";
+import TambahUserPegawai from "@/views/admin/pegawai/TambahUserPegawai.vue";
+import EditUserPegawai from "@/views/admin/pegawai/EditUserPegawai.vue";
 
 
 // views for Auth layout
@@ -105,6 +107,16 @@ const routes = [
       {
         path: "/admin/naskah/edit-naskah-keluar",
         component: EditNaskahKeluar,
+      },
+
+      // Crud Pegawai
+      {
+        path: "/admin/pegawai/tambah-user-pegawai",
+        component: TambahUserPegawai,
+      },
+      {
+        path: "/admin/pegawai/edit-user-pegawai",
+        component: EditUserPegawai,
       },
    
 

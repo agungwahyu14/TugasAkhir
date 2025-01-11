@@ -11,7 +11,7 @@
                                 Data Pegawai
                             </h3>
 
-                            <router-link to="/admin/naskah/tambah-naskah-masuk"
+                            <router-link to="/admin/pegawai/tambah-user-pegawai"
                                 class="bg-emerald-500 text-white font-bold px-4 py-2 rounded shadow hover:bg-blue-600">
                                 Add Data [+]
                             </router-link>
@@ -71,12 +71,12 @@
                                         {{ formatDate(employee.updated_at) || '-' }}
                                     </td>
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                                        <button @click="editEmployee(employee.id)"
-                                            class="bg-orange-500 text-white font-bold px-2 py-1 rounded shadow hover:bg-blue-700">
+                                        <router-link to="/admin/pegawai/edit-user-pegawai/' + employee.id"
+                                            class="text-white rounded bg-orange-500 text-xs px-4 py-2 mr-2">
                                             Edit
-                                        </button>
+                                        </router-link>
                                         <button @click="deleteEmployee(employee.id)"
-                                            class="bg-red-500 text-white font-bold px-2 py-1 rounded shadow hover:bg-red-700 ml-2">
+                                            class="text-white rounded bg-red-500 text-xs px-4 py-2">
                                             Delete
                                         </button>
                                     </td>
