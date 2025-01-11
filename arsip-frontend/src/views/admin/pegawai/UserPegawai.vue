@@ -1,0 +1,156 @@
+<template>
+    <div class="flex flex-wrap mt-4">
+        <div class="w-full mb-12 px-4">
+            <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded"
+                :class="[color === 'light' ? 'bg-white' : 'bg-emerald-900 text-white']">
+                <div class="rounded-t mb-0 px-4 py-3 border-0">
+                    <div class="flex flex-wrap items-center">
+                        <div class="relative w-full px-4 max-w-full flex-grow flex-1 flex items-center justify-between">
+                            <h3 class="font-semibold text-lg"
+                                :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
+                                Data Pegawai
+                            </h3>
+
+                            <router-link to="/admin/naskah/tambah-naskah-masuk"
+                                class="bg-emerald-500 text-white font-bold px-4 py-2 rounded shadow hover:bg-blue-600">
+                                Add Data [+]
+                            </router-link>
+                        </div>
+                    </div>
+                </div>
+                <div class="block w-full overflow-x-auto">
+                    <!-- Projects table -->
+                    <table class="items-center w-full bg-transparent border-collapse">
+                        <thead>
+                            <tr>
+                                <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+                                    :class="[color === 'light' ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100' : 'bg-emerald-800 text-emerald-300 border-emerald-700']">
+                                    #
+                                </th>
+                                <th v-for="header in headers" :key="header"
+                                    class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+                                    :class="[color === 'light' ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100' : 'bg-emerald-800 text-emerald-300 border-emerald-700']">
+                                    {{ header }}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template v-if="employees.length > 0">
+                                <tr v-for="(employee, index) in employees" :key="employee.id">
+                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                        {{ index + 1 }}
+                                    </td>
+                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                        {{ employee.nip || '-' }}
+                                    </td>
+                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                        {{ employee.id_admin || '-' }}
+                                    </td>
+                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                        {{ employee.nama || '-' }}
+                                    </td>
+                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                        {{ employee.email || '-' }}
+                                    </td>
+                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                        {{ employee.password || '-' }}
+                                    </td>
+                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                        {{ employee.username || '-' }}
+                                    </td>
+                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                        {{ employee.bidang || '-' }}
+                                    </td>
+                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                        {{ employee.status || '-' }}
+                                    </td>
+                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                        {{ employee.created_at || '-' }}
+                                    </td>
+                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                        {{ employee.updated_at || '-' }}
+                                    </td>
+                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                        <button @click="editEmployee(employee.id)"
+                                            class="bg-orange-500 text-white font-bold px-2 py-1 rounded shadow hover:bg-blue-700">
+                                            Edit
+                                        </button>
+                                        <button @click="deleteEmployee(employee.id)"
+                                            class="bg-red-500 text-white font-bold px-2 py-1 rounded shadow hover:bg-red-700 ml-2">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            </template>
+                            <template v-else>
+                                <tr>
+                                    <td colspan="13" class="text-center py-4 text-sm text-gray-500">
+                                        Tidak ada data tersedia.
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import axios from "axios";
+
+export default {
+    name: "DataPegawai",
+    data() {
+        return {
+            employees: [], // Store API data
+            headers: [
+                "NIP",
+                "Id Admin",
+                "Nama",
+                "Email",
+                "Password",
+                "Username",
+                "Bidang",
+                "Status",
+                "Create At",
+                "Update At",
+                "Aksi",
+            ],
+        };
+    },
+    mounted() {
+        this.fetchEmployees();
+    },
+    methods: {
+        fetchEmployees() {
+            axios
+                .get("http://127.0.0.1:8000/api/pegawai")
+                .then((response) => {
+                    this.employees = response.data.data;
+                })
+                .catch((error) => {
+                    console.error("Error fetching data:", error);
+                });
+        },
+        editEmployee(id) {
+            console.log("Editing employee with ID:", id);
+            // Add logic for editing employee
+        },
+        deleteEmployee(id) {
+            console.log("Deleting employee with ID:", id);
+            // Add logic for deleting employee
+        },
+    },
+    props: {
+        color: {
+            default: "light",
+            validator: function (value) {
+                // The value must match one of these strings
+                return ["light", "dark"].indexOf(value) !== -1;
+            },
+        },
+    },
+};
+</script>

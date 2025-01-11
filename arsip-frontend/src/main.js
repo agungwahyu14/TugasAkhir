@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 import { createWebHistory, createRouter } from "vue-router";
 
+
 // styles
 
 import 'flowbite';
@@ -28,7 +29,7 @@ import SuratDisposisi from "@/views/admin/SuratDisposisi.vue";
 import NaskahMasuk from "@/views/admin/naskahmasuk/NaskahMasuk.vue";
 import NaskahKeluar from "@/views/admin/naskahkeluar/NaskahKeluar.vue";
 import UserJabatan from "@/views/admin/UserJabatan.vue";
-import UserPegawai from "@/views/admin/UserPegawai.vue";
+import UserPegawai from "@/views/admin/pegawai/UserPegawai.vue";
 import TambahNaskahMasuk from "@/views/admin/naskahmasuk/TambahNaskahMasuk.vue";
 import EditNaskahMasuk from "@/views/admin/naskahmasuk/EditNaskahMasuk.vue";
 import TambahNaskahKeluar from "@/views/admin/naskahkeluar/TambahNaskahKeluar.vue";
@@ -42,9 +43,9 @@ import Register from "@/views/auth/Register.vue";
 
 // views without layouts
 
-import Landing from "@/views/Landing.vue";
-import Profile from "@/views/Profile.vue";
-import Index from "@/views/Index.vue";
+// import Landing from "@/views/Landing.vue";
+// import Profile from "@/views/Profile.vue";
+// import Index from "@/views/Index.vue";
 
 // routes
 
@@ -83,7 +84,7 @@ const routes = [
         component: UserJabatan,
       },
       {
-        path: "/admin/user-pegawai",
+        path: "/admin/pegawai/user-pegawai",
         component: UserPegawai,
       },
       // Crud Naskah Masuk
@@ -110,7 +111,7 @@ const routes = [
     ],
   },
   {
-    path: "/auth",
+    path: "/",
     redirect: "/auth/login",
     component: Auth,
     children: [
@@ -124,18 +125,7 @@ const routes = [
       },
     ],
   },
-  {
-    path: "/landing",
-    component: Landing,
-  },
-  {
-    path: "/profile",
-    component: Profile,
-  },
-  {
-    path: "/",
-    component: Index,
-  },
+
   { path: "/:pathMatch(.*)*", redirect: "/" },
 ];
 

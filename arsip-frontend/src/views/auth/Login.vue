@@ -3,114 +3,104 @@
     <div class="flex content-center items-center justify-center h-full">
       <div class="w-full lg:w-4/12 px-4">
         <div
-          class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0"
-        >
+          class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
           <div class="rounded-t mb-0 px-6 py-6">
             <div class="text-center mb-3">
               <h6 class="text-blueGray-500 text-sm font-bold">
-                Sign in with
+                Sign In
               </h6>
-            </div>
-            <div class="btn-wrapper text-center">
-              <button
-                class="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                type="button"
-              >
-                <img alt="..." class="w-5 mr-1" :src="github" />
-                Github
-              </button>
-              <button
-                class="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                type="button"
-              >
-                <img alt="..." class="w-5 mr-1" :src="google" />
-                Google
-              </button>
             </div>
             <hr class="mt-6 border-b-1 border-blueGray-300" />
           </div>
           <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
             <div class="text-blueGray-400 text-center mb-3 font-bold">
-              <small>Or sign in with credentials</small>
+              <small>Welcome Home</small>
             </div>
-            <form>
+            <form @submit.prevent="handleLogin">
               <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                  htmlFor="grid-password"
-                >
+                <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="email">
                   Email
                 </label>
-                <input
-                  type="email"
+                <input v-model="email" type="email" id="email"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  placeholder="Email"
-                />
+                  placeholder="Email" required />
               </div>
 
               <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                  htmlFor="grid-password"
-                >
+                <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="password">
                   Password
                 </label>
-                <input
-                  type="password"
+                <input v-model="password" type="password" id="password"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  placeholder="Password"
-                />
-              </div>
-              <div>
-                <label class="inline-flex items-center cursor-pointer">
-                  <input
-                    id="customCheckLogin"
-                    type="checkbox"
-                    class="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                  />
-                  <span class="ml-2 text-sm font-semibold text-blueGray-600">
-                    Remember me
-                  </span>
-                </label>
+                  placeholder="Password" required />
               </div>
 
               <div class="text-center mt-6">
                 <button
                   class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                  type="button"
-                >
+                  type="submit" :disabled="loading">
                   Sign In
                 </button>
               </div>
             </form>
           </div>
         </div>
-        <div class="flex flex-wrap mt-6 relative">
-          <div class="w-1/2">
-            <a href="javascript:void(0)" class="text-blueGray-200">
-              <small>Forgot password?</small>
-            </a>
-          </div>
-          <div class="w-1/2 text-right">
+        <div class="flex justify-center mt-6 relative">
+          <div class="text-center">
             <router-link to="/auth/register" class="text-blueGray-200">
               <small>Create new account</small>
             </router-link>
           </div>
         </div>
+
       </div>
     </div>
   </div>
 </template>
+
 <script>
-import github from "@/assets/img/github.svg";
-import google from "@/assets/img/google.svg";
+import axios from 'axios';
 
 export default {
   data() {
     return {
-      github,
-      google,
+      email: '',
+      password: '',
+      loading: false,
     };
+  },
+  methods: {
+    async handleLogin() {
+      this.loading = true;
+      try {
+        const response = await axios.post('http://127.0.0.1:8000/api/login', {
+          email: this.email,
+          password: this.password,
+        });
+
+        const data = response.data;
+        console.log('Login berhasil:', data);
+
+        // Simpan token ke localStorage
+        localStorage.setItem('token', data.token);
+
+        // Simpan detail pengguna ke localStorage
+        localStorage.setItem('user', JSON.stringify(data.user));
+
+        // // Tampilkan pesan sukses (opsional)
+        // alert(data.message);
+
+        // Optionally, store token or redirect
+        // Example: localStorage.setItem('token', response.data.token);
+        this.$router.push('/admindashboard'); // Redirect to a dashboard or home page
+      } catch (error) {
+        // Handle login error
+        console.error('Login failed:', error.response ? error.response.data : error.message);
+        alert('Login failed. Please check your credentials.');
+      } finally {
+        this.loading = false;
+      }
+    },
   },
 };
 </script>

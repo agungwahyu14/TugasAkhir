@@ -20,7 +20,7 @@
         class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
         Settings
       </a>
-      <a href="javascript:void(0);"
+      <a href="javascript:void(0);" @click="logout"
         class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
         Logout
       </a>
@@ -66,6 +66,23 @@ export default {
         document.removeEventListener("click", this.handleOutsideClick);
       }
     },
+    logout() {
+      // Tampilkan dialog konfirmasi
+      if (confirm("Apakah Anda yakin ingin logout?")) {
+        // Hapus data dari localStorage
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+
+        // Redirect ke halaman login
+        this.$router.push('/auth/login');
+
+
+      } else {
+        // Tampilkan pesan pembatalan (opsional)
+        console.log("Logout dibatalkan");
+      }
+    },
+
   },
 };
 </script>
