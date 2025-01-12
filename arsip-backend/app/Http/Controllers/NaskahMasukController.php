@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-
+use Symfony\Component\HttpFoundation\StreamedResponse;
 class NaskahMasukController extends Controller
 {
 
@@ -253,6 +253,103 @@ class NaskahMasukController extends Controller
                 "status_code" => 200,
                 "status" => "sukses"
             ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat memproses permintaan.',
+                'error' => $e->getMessage(),
+                'status_code' => 500,
+                'status' => 'gagal'
+            ], 500);
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $naskahMasuk = NaskahMasuk::where('id_naskah_masuk', $id)->firstOrFail();
+            if ($naskahMasuk->file) {
+                Storage::disk('public')->delete($naskahMasuk->file);
+            }
+            $naskahMasuk->delete();
+    
+            return response()->json([
+                'message' => 'Data naskah masuk berhasil dihapus.',
+                'status_code' => 200,
+                'status' => 'sukses'
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Data naskah masuk tidak ditemukan.',
+                'error' => $e->getMessage(),
+                'status_code' => 404,
+                'status' => 'gagal'
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menghapus data naskah masuk.',
+                'error' => $e->getMessage(),
+                'status_code' => 500,
+                'status' => 'gagal'
+            ], 500);
+        }
+    }
+    
+    public function show($id)
+    {
+        try {
+            $naskahMasuk = NaskahMasuk::findOrFail($id);
+    
+            return response()->json([
+                'message' => 'Data naskah masuk berhasil ditemukan.',
+                'data' => $naskahMasuk,
+                'status_code' => 200,
+                'status' => 'sukses'
+            ], 200);
+    
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Data naskah masuk tidak ditemukan.',
+                'error' => $e->getMessage(),
+                'status_code' => 404,
+                'status' => 'gagal'
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat memproses permintaan.',
+                'error' => $e->getMessage(),
+                'status_code' => 500,
+                'status' => 'gagal'
+            ], 500);
+        }
+    }
+       
+
+
+    public function downloadFile($id)
+    {
+        try {
+            // Find the record by ID
+            $naskahMasuk = NaskahMasuk::findOrFail($id);
+
+            // Check if the file exists
+            if (!Storage::disk('public')->exists($naskahMasuk->file)) {
+                return response()->json([
+                    'message' => 'File tidak ditemukan.',
+                    'status_code' => 404,
+                    'status' => 'gagal'
+                ], 404);
+            }
+
+            // Download the file
+            return Storage::disk('public')->download($naskahMasuk->file);
+
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Data naskah masuk tidak ditemukan.',
+                'error' => $e->getMessage(),
+                'status_code' => 404,
+                'status' => 'gagal'
+            ], 404);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Terjadi kesalahan saat memproses permintaan.',

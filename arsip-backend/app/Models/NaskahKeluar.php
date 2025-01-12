@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class NaskahKeluar extends Model
 {
-    protected $table = 'naskah_keluars'; 
+    protected $table = 'naskah_keluars';
     protected $primaryKey = 'id_naskah_keluar';
-    public $incrementing = false; 
+    public $incrementing = false;
     protected $keyType = 'int';
 
     protected $fillable = [
@@ -23,6 +23,10 @@ class NaskahKeluar extends Model
         'tujuan',
         'file',
         'tgl_naskah',
+        'status',
+        'is_valid',
+        'catatan',
+        'updated_by',
     ];
 
     public function pegawai()
@@ -30,19 +34,23 @@ class NaskahKeluar extends Model
         return $this->belongsTo(Pegawai::class, 'id_pengguna', 'nip');
     }
 
-    /**
-     * Relasi ke model Admin.
-     */
     public function admin()
     {
         return $this->belongsTo(Admin::class, 'id_pengguna', 'nip');
     }
 
-    /**
-     * Method untuk mendapatkan pengguna (Admin atau Pegawai).
-     */
     public function pengguna()
     {
         return $this->pegawai ?? $this->admin;
+    }
+
+    public function scopeByStatus($query, $status)
+    {
+        return $query->where('status', $status);
+    }
+
+    public function scopeIsValid($query, $isValid)
+    {
+        return $query->where('is_valid', $isValid);
     }
 }
