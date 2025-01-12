@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class NaskahMasuk extends Model
 {
     protected $table = 'naskah_masuks'; 
+    protected $primaryKey = 'id_naskah_masuk';
     public $timestamps = true; 
     protected $fillable = [
         'id_pengguna',

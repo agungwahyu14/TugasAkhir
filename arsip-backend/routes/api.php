@@ -32,5 +32,7 @@ Route::middleware(['verify-token'])->group(function () {
         Route::get('/', [NaskahMasukController::class, 'index'])->name('naskahmasuk.index');
         Route::post('/', [NaskahMasukController::class, 'store'])->name('naskahmasuk.store');
         Route::put('{id}', [NaskahMasukController::class, 'update'])->name('naskahmasuk.update');
+        Route::post('/sendWA', [NaskahMasukController::class, 'sendMessage'])->name('naskahmasuk.sendMessage');
+        Route::post('/accepet', [NaskahMasukController::class, 'accepet'])->name('naskahmasuk.accepet');
     });
 });
