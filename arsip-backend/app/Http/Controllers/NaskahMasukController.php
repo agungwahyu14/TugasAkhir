@@ -156,7 +156,7 @@ class NaskahMasukController extends Controller
             ]);
     
             
-            $naskahMasuk = NaskahMasuk::findOrFail($id);
+            $naskahMasuk = NaskahMasuk::where('id_naskah_masuk', $id)->firstOrFail();
             if ($request->hasFile('file')) {
                 if ($naskahMasuk->file) {
                     Storage::disk('public')->delete($naskahMasuk->file);
@@ -167,7 +167,7 @@ class NaskahMasukController extends Controller
                 $filePath = $file->storeAs($path, $fileName, 'public');
                 $validatedData['file'] = $filePath;
             }
-            if($naskah->tujuan=='kadis'){
+            if($naskahMasuk->tujuan=='kadis'){
                 $validatedData['status'] = 'Menunggu Validasi';
             }else{
                 $validatedData['status'] = 'Diproses';
@@ -190,6 +190,77 @@ class NaskahMasukController extends Controller
         }
     }
     
+    public function sendMessage(Request $request)
+    {
+        try {
+            $naskahMasuk = NaskahMasuk::where('id_naskah_masuk', $request->id_naskah_masuk)->firstOrFail();
+            if ($request->is_valid||$request->is_valid=='true') {
+                $naskahMasuk->update([
+                    "is_valid" => true,
+                    "catatan" => $request->catatan,
+                    "updated_by" => $request->user->nip,
+                    "status" => "Diproses"
+                ]);
+
+                $phoneNumber = env('WHATSAPP_PHONE_NUMBER'); 
+                $message = urlencode(
+                    "*Naskah Masuk:* #{$naskahMasuk->no_naskah}\n" .  
+                    "*Status:* {$naskahMasuk->status}\n" .              
+                    "*Catatan:* {$naskahMasuk->catatan}"            
+                );
+                $whatsappUrl = "https://wa.me/{$phoneNumber}?text={$message}";
+            } if(!$request->is_valid||$request->is_valid=='false') {
+                $naskahMasuk->update([
+                    "is_valid" => false,
+                    "catatan" => $request->catatan,
+                    "updated_by" => $request->user->nip,
+                    "status" => "Ditolak"
+                ]);
     
+                $phoneNumber = env('WHATSAPP_PHONE_NUMBER'); 
+                $message = urlencode(
+                    "*Naskah Masuk:* #{$naskahMasuk->no_naskah}\n" .  
+                    "*Status:* {$naskahMasuk->status}\n" .              
+                    "*Catatan:* {$naskahMasuk->catatan}"            
+                );
+                $whatsappUrl = "https://wa.me/{$phoneNumber}?text={$message}";
+            }
+            return response()->json([
+                'whatsapp_url' => $whatsappUrl,
+                "status_code" => 200,
+                "status" => "sukses"
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat memproses permintaan.',
+                'error' => $e->getMessage(),
+                'status_code' => 500,
+                'status' => 'gagal'
+            ], 500);
+        }
+    }
+    
+    public function accepet(Request $request){
+        try {
+            $naskahMasuk = NaskahMasuk::where('id_naskah_masuk', $request->id_naskah_masuk)->firstOrFail();
+            if($naskahMasuk->status=='Diproses'){
+                $naskahMasuk->update([
+                    "status"=>"Diterima"
+                ]);
+            }
+            return response()->json([
+                'message' => "Naskah berhasil diterima",
+                "status_code" => 200,
+                "status" => "sukses"
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat memproses permintaan.',
+                'error' => $e->getMessage(),
+                'status_code' => 500,
+                'status' => 'gagal'
+            ], 500);
+        }
+    }
 
 }
