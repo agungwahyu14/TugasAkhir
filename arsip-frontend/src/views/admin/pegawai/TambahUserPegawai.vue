@@ -71,7 +71,7 @@
                                 <select id="status" v-model="status"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
                                     <option value="aktif">Aktif</option>
-                                    <option value="tidak_aktif">Tidak Aktif</option>
+
                                 </select>
                             </div>
 

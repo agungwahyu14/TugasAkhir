@@ -23,12 +23,12 @@ import Auth from "@/layouts/Auth.vue";
 // import Settings from "@/views/admin/Settings.vue";
 // import Tables from "@/views/admin/Tables.vue";
 // import Maps from "@/views/admin/Maps.vue";
-import ArsipStatis from "@/views/admin/ArsipStatis.vue";
-import ArsipDinamis from "@/views/admin/ArsipDinamis.vue";
-import SuratDisposisi from "@/views/admin/SuratDisposisi.vue";
+import ArsipStatis from "@/views/admin/arsipstatis/ArsipStatis.vue";
+import ArsipDinamis from "@/views/admin/arsipdinamis/ArsipDinamis.vue";
+import SuratDisposisi from "@/views/admin/suratdisposisi/SuratDisposisi.vue";
 import NaskahMasuk from "@/views/admin/naskahmasuk/NaskahMasuk.vue";
 import NaskahKeluar from "@/views/admin/naskahkeluar/NaskahKeluar.vue";
-import UserJabatan from "@/views/admin/UserJabatan.vue";
+import UserJabatan from "@/views/admin/jabatan/UserJabatan.vue";
 import UserPegawai from "@/views/admin/pegawai/UserPegawai.vue";
 import TambahNaskahMasuk from "@/views/admin/naskahmasuk/TambahNaskahMasuk.vue";
 import EditNaskahMasuk from "@/views/admin/naskahmasuk/EditNaskahMasuk.vue";
@@ -61,15 +61,15 @@ const routes = [
     component: Admin,
     children: [
       {
-        path: "/admin/arsip-statis",
+        path: "/admin/arsipstatis/arsip-statis",
         component: ArsipStatis,
       },
       {
-        path: "/admin/arsip-dinamis",
+        path: "/admin/arsipdinamis/arsip-dinamis",
         component: ArsipDinamis,
       },
       {
-        path: "/admin/surat-disposisi",
+        path: "/admin/suratdisposisi/surat-disposisi",
         component: SuratDisposisi,
       },
       {

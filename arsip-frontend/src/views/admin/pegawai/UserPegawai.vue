@@ -43,18 +43,18 @@
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ employee.nip || '-' }}
                                     </td>
-                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                    <!-- <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ employee.id_admin || '-' }}
-                                    </td>
+                                    </td> -->
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ employee.nama || '-' }}
                                     </td>
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ employee.email || '-' }}
                                     </td>
-                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                    <!-- <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ employee.password || '-' }}
-                                    </td>
+                                    </td> -->
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ employee.username || '-' }}
                                     </td>
@@ -64,12 +64,12 @@
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ employee.status || '-' }}
                                     </td>
-                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                    <!-- <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ formatDate(employee.created_at) || '-' }}
                                     </td>
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ formatDate(employee.updated_at) || '-' }}
-                                    </td>
+                                    </td> -->
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         <router-link to="/admin/pegawai/edit-user-pegawai"
                                             class="text-white rounded bg-orange-500 text-xs px-4 py-2 mr-2">
@@ -107,15 +107,15 @@ export default {
             employees: [], // Store API data
             headers: [
                 "NIP",
-                "Id Admin",
+                // "Id Admin",
                 "Nama",
                 "Email",
-                "Password",
+                // "Password",
                 "Username",
                 "Bidang",
                 "Status",
-                "Create At",
-                "Update At",
+                // "Create At",
+                // "Update At",
                 "Aksi",
             ],
         };
@@ -160,15 +160,15 @@ export default {
                 });
         },
 
-        formatDate(dateString) {
-            if (!dateString) return '-';
-            const date = new Date(dateString);
-            return date.toLocaleDateString('id-ID', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-            });
-        }
+        // formatDate(dateString) {
+        //     if (!dateString) return '-';
+        //     const date = new Date(dateString);
+        //     return date.toLocaleDateString('id-ID', {
+        //         year: 'numeric',
+        //         month: 'long',
+        //         day: 'numeric',
+        //     });
+        // }
     },
     props: {
         color: {

@@ -22,17 +22,17 @@
                 hidden: !dropdownPopoverShow,
                 block: dropdownPopoverShow,
             }">
-            <router-link to="/admin/arsip-statis"
+            <router-link to="/admin/arsipstatis/arsip-statis"
                 class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 @click="hideDropdown">
                 Arsip Statis
             </router-link>
-            <router-link to="/admin/arsip-dinamis"
+            <router-link to="/admin/arsipdinamis/arsip-dinamis"
                 class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 @click="hideDropdown">
                 Arsip Dinamis
             </router-link>
-            <router-link to="/admin/surat-disposisi"
+            <router-link to="/admin/suratdisposisi/surat-disposisi"
                 class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 @click="hideDropdown">
                 Surat Disposisi
