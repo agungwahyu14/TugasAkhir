@@ -6,6 +6,7 @@ use Exception;
 use Validator;
 use App\Models\Admin;
 use App\Models\Pegawai;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class PegawaiController extends Controller
@@ -45,9 +46,7 @@ class PegawaiController extends Controller
         }
 
         try {
-            $lastIdAdmin = Admin::max('id_admin');
-            $newIdAdmin = $lastIdAdmin ? $lastIdAdmin + 1 : 1;
-            // Create the new Pegawai
+            $newIdAdmin = (string) Str::uuid();
             $pegawai = Pegawai::create([
                 'nip' => $request->nip,
                 'nama' => $request->nama,
@@ -63,7 +62,7 @@ class PegawaiController extends Controller
             return $this->templateRESPONSEAPI(true, 'Pegawai berhasil ditambahkan.', $pegawai, 201);
         } catch (Exception $e) {
             // Return error response
-            return $this->templateRESPONSEAPI(false, 'Gagal menambahkan Pegawai.', null, 500, true);
+            return $this->templateRESPONSEAPI(false, $e->getMessage(), null, 500, true);
         }
     }
 
@@ -72,10 +71,11 @@ class PegawaiController extends Controller
     {
         // Validate the incoming request
         $validator = Validator::make($request->all(), [
-            'nip' => 'required|integer|unique:pegawai,nip,' . $id,
+            'nip' => 'required|integer|unique:pegawais,nip,' . $id . ',nip',
             'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:pegawais,email,' . $id . '|unique:admins,email',
-            'username' => 'required|string|max:255|unique:pegawai,username,' . $id,
+            'email' => 'required|email|unique:pegawais,email,' . $id . ',nip|unique:admins,email',
+            'username' => 'required|string|max:255|unique:pegawais,username,' . $id . ',nip',
+
             'bidang' => 'required|string|max:255',
             'status' => 'required|in:aktif,tidak aktif',
         ], [
@@ -100,15 +100,13 @@ class PegawaiController extends Controller
 
         try {
             // Find the Pegawai by ID
-            $pegawai = Pegawai::findOrFail($id);
-
+            $pegawai = Pegawai::where('nip', $id)->firstOrFail();
             // Update Pegawai details
             $pegawai->update([
-                'nip' => $request->nip,
                 'nama' => $request->nama,
                 'email' => $request->email,
                 'username' => $request->username,
-                'bidang' => $request->jabatan,
+                'bidang' => $request->bidang,
                 'status' => $request->status,
             ]);
 

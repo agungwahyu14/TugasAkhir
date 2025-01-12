@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pegawais', function (Blueprint $table) {
             $table->integer('nip')->index()->primary();
-            $table->integer('id_admin')->index()->unique();
+            $table->string('id_admin', 36)->index()->unique();
             $table->string('nama')->index();
             $table->string('email')->unique()->index();
             $table->string('password');   

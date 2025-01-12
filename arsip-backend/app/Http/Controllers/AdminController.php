@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Admin;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use Exception;
 
 class AdminController extends Controller
 {
@@ -62,8 +63,7 @@ class AdminController extends Controller
         }
 
         try {
-            $lastIdAdmin = Admin::max('id_admin');
-            $newIdAdmin = $lastIdAdmin ? $lastIdAdmin + 1 : 1;
+            $newIdAdmin = (string) Str::uuid();
 
             $admin = Admin::create([
                 'nip' => $request->nip,
