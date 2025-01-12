@@ -71,7 +71,7 @@
                                         {{ formatDate(employee.updated_at) || '-' }}
                                     </td>
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                                        <router-link to="/admin/pegawai/edit-user-pegawai/' + employee.id"
+                                        <router-link to="/admin/pegawai/edit-user-pegawai"
                                             class="text-white rounded bg-orange-500 text-xs px-4 py-2 mr-2">
                                             Edit
                                         </router-link>
@@ -141,12 +141,8 @@ export default {
                     console.error("Error fetching data:", error.response || error); // Print error detail
                 });
         },
-        editEmployee(id) {
-            console.log("Editing employee with ID:", id);
-            // Add logic for editing employee
-        },
         deleteEmployee(id) {
-            const token = localStorage.getItem('token'); // Ambil token dari localStorage
+            const token = sessionStorage.getItem('token'); // Ambil token dari localStorage
             axios
                 .delete(`http://127.0.0.1:8000/api/pegawai/${id}`, {
                     headers: {
