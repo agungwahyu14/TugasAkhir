@@ -23,8 +23,8 @@ import Auth from "@/layouts/Auth.vue";
 // import Settings from "@/views/admin/Settings.vue";
 // import Tables from "@/views/admin/Tables.vue";
 // import Maps from "@/views/admin/Maps.vue";
-import ArsipStatis from "@/views/admin/arsipstatis/ArsipStatis.vue";
-import ArsipDinamis from "@/views/admin/arsipdinamis/ArsipDinamis.vue";
+// import ArsipStatis from "@/views/admin/arsipstatis/ArsipStatis.vue";
+// import ArsipDinamis from "@/views/admin/arsipdinamis/ArsipDinamis.vue";
 import SuratDisposisi from "@/views/admin/suratdisposisi/SuratDisposisi.vue";
 import NaskahMasuk from "@/views/admin/naskahmasuk/NaskahMasuk.vue";
 import NaskahKeluar from "@/views/admin/naskahkeluar/NaskahKeluar.vue";
@@ -60,14 +60,14 @@ const routes = [
     path: "/admin",
     component: Admin,
     children: [
-      {
-        path: "/admin/arsipstatis/arsip-statis",
-        component: ArsipStatis,
-      },
-      {
-        path: "/admin/arsipdinamis/arsip-dinamis",
-        component: ArsipDinamis,
-      },
+      // {
+      //   path: "/admin/arsipstatis/arsip-statis",
+      //   component: ArsipStatis,
+      // },
+      // {
+      //   path: "/admin/arsipdinamis/arsip-dinamis",
+      //   component: ArsipDinamis,
+      // },
       {
         path: "/admin/suratdisposisi/surat-disposisi",
         component: SuratDisposisi,
@@ -115,9 +115,12 @@ const routes = [
         component: TambahUserPegawai,
       },
       {
-        path: "/admin/pegawai/edit-user-pegawai",
+        path: '/admin/pegawai/edit-user-pegawai/:nip',
+        name: 'EditUserPegawai',
         component: EditUserPegawai,
-      },
+        props: true, // Agar parameter 'nip' diteruskan sebagai props ke komponen
+    }
+    ,
    
 
     ],

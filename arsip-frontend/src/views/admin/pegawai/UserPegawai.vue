@@ -71,14 +71,23 @@
                                         {{ formatDate(employee.updated_at) || '-' }}
                                     </td> -->
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                                        <router-link to="/admin/pegawai/edit-user-pegawai"
+                                        <router-link :to="`/admin/pegawai/edit-user-pegawai/${employee.nip}`"
                                             class="text-white rounded bg-orange-500 text-xs px-4 py-2 mr-2">
                                             Edit
                                         </router-link>
-                                        <button @click="deleteEmployee(employee.id)"
-                                            class="text-white rounded bg-red-500 text-xs px-4 py-2">
+
+                                        <button @click="deleteEmployee(employee.nip)"
+                                            class="text-white rounded bg-red-500 text-xs px-4 py-2 mr-2">
                                             Delete
                                         </button>
+
+                                        <button @click="toggleStatus(employee)"
+                                            :class="employee.status === 'aktif' ? 'bg-red-500' : 'bg-emerald-500'"
+                                            class="text-white rounded text-xs px-4 py-2">
+                                            {{ employee.status === 'aktif' ? 'NonAktifkan' : 'Aktifkan' }}
+                                        </button>
+
+
                                     </td>
                                 </tr>
                             </template>
@@ -141,10 +150,10 @@ export default {
                     console.error("Error fetching data:", error.response || error); // Print error detail
                 });
         },
-        deleteEmployee(id) {
+        deleteEmployee(nip) {
             const token = sessionStorage.getItem('token'); // Ambil token dari localStorage
             axios
-                .delete(`http://127.0.0.1:8000/api/pegawai/${id}`, {
+                .delete(`http://127.0.0.1:8000/api/pegawai/${nip}`, {
                     headers: {
                         Authorization: `Bearer ${token}` // Tambahkan header Bearer Token
                     }
@@ -160,15 +169,39 @@ export default {
                 });
         },
 
-        // formatDate(dateString) {
-        //     if (!dateString) return '-';
-        //     const date = new Date(dateString);
-        //     return date.toLocaleDateString('id-ID', {
-        //         year: 'numeric',
-        //         month: 'long',
-        //         day: 'numeric',
-        //     });
-        // }
+        toggleStatus(employee) {
+            const token = sessionStorage.getItem("token"); // Ambil token dari sessionStorage
+            if (!token) {
+                console.error("Token tidak tersedia. Pastikan Anda sudah login.");
+                return;
+            }
+
+            // Tentukan endpoint berdasarkan status karyawan saat ini
+            const endpoint = `http://127.0.0.1:8000/api/pegawai/${employee.nip}/${employee.status === "aktif" ? "deactivate" : "activate"
+                }`;
+
+            // Kirim permintaan PATCH ke API
+            axios
+                .patch(endpoint, {}, {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Tambahkan header Bearer Token
+                    },
+                })
+                .then(() => {
+                    console.log(
+                        `Status karyawan ${employee.nip} berhasil diubah menjadi ${employee.status === "aktif" ? "non-aktif" : "aktif"
+                        }`
+                    );
+
+                    // Refresh data karyawan setelah berhasil update
+                    this.fetchEmployees();
+                })
+                .catch((error) => {
+                    console.error("Error saat mengubah status karyawan:", error.response || error);
+                    alert("Gagal mengubah status. Silakan coba lagi.");
+                });
+        },
+
     },
     props: {
         color: {

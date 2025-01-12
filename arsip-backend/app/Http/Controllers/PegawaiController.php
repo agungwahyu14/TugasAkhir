@@ -50,7 +50,7 @@ class PegawaiController extends Controller
             $pegawai = Pegawai::create([
                 'nip' => $request->nip,
                 'nama' => $request->nama,
-                'id_admin'=>$newIdAdmin,
+                'id_admin' => $newIdAdmin,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
                 'username' => $request->username,
@@ -138,7 +138,7 @@ class PegawaiController extends Controller
     public function index()
     {
         try {
-            $pegawais = Pegawai::where('status','aktif')->get();
+            $pegawais = Pegawai::all();
             return $this->templateRESPONSEAPI(true, 'Data Pegawai ditemukan.', $pegawais, 200);
         } catch (Exception $e) {
             return $this->templateRESPONSEAPI(false, 'Gagal mengambil data Pegawai.', null, 500, true);
@@ -156,7 +156,7 @@ class PegawaiController extends Controller
         }
     }
 
-        /**
+    /**
      * Menghapus Pegawai (Menonaktifkan Pegawai dengan mengubah status).
      */
     public function deactivate($id)
