@@ -8,10 +8,10 @@
                         <div class="relative w-full px-4 max-w-full flex-grow flex-1 flex items-center justify-between">
                             <h3 class="font-semibold text-lg"
                                 :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
-                                Data Naskah Keluar
+                                Data Admin
                             </h3>
 
-                            <router-link to="/admin/naskahkeluar/tambah-naskah-keluar"
+                            <router-link to="/admin/pegawai/tambah-user-admin"
                                 class="bg-emerald-500 text-white font-bold px-4 py-2 rounded shadow hover:bg-blue-600">
                                 Add Data [+]
                             </router-link>
@@ -35,40 +35,34 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <template v-if="naskahs.length > 0">
-                                <tr v-for="(naskah, index) in naskahs" :key="naskah.id">
+                            <template v-if="employees.length > 0">
+                                <tr v-for="(employee, index) in employees" :key="employee.id">
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ index + 1 }}
                                     </td>
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                                        {{ naskah.no_naskah || '-' }}
+                                        {{ employee.nip || '-' }}
                                     </td>
                                     <!-- <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ employee.id_admin || '-' }}
                                     </td> -->
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                                        {{ naskah.jenis_naskah || '-' }}
+                                        {{ employee.nama || '-' }}
                                     </td>
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                                        {{ naskah.perihal || '-' }}
+                                        {{ employee.email || '-' }}
                                     </td>
                                     <!-- <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ employee.password || '-' }}
                                     </td> -->
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                                        {{ naskah.tujuan || '-' }}
+                                        {{ employee.username || '-' }}
                                     </td>
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                                        {{ naskah.file || '-' }}
+                                        {{ employee.bidang || '-' }}
                                     </td>
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                                        {{ naskah.tgl_naskah || '-' }}
-                                    </td>
-                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                                        {{ naskah.status || '-' }}
-                                    </td>
-                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                                        {{ naskah.id_naskah_keluar || '-' }}
+                                        {{ employee.status || '-' }}
                                     </td>
                                     <!-- <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ formatDate(employee.created_at) || '-' }}
@@ -77,20 +71,20 @@
                                         {{ formatDate(employee.updated_at) || '-' }}
                                     </td> -->
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                                        <router-link
-                                            :to="`/admin/naskahkeluar/edit-naskah-keluar/${naskah.id_naskah_keluar}`"
+                                        <router-link :to="`/admin/pegawai/edit-user-pegawai/${employee.nip}`"
                                             class="text-white rounded bg-orange-500 text-xs px-4 py-2 mr-2">
                                             Edit
                                         </router-link>
 
-                                        <button @click="deleteEmployee(naskah.id_naskah_keluar)"
+                                        <button @click="deleteEmployee(employee.nip)"
                                             class="text-white rounded bg-red-500 text-xs px-4 py-2 mr-2">
                                             Delete
                                         </button>
 
-                                        <button @click="toggleStatus(naskah)"
-                                            class="text-white bg-emerald-500 rounded text-xs px-4 py-2">
-                                            Whatsapp
+                                        <button @click="toggleStatus(employee)"
+                                            :class="employee.status === 'aktif' ? 'bg-red-500' : 'bg-emerald-500'"
+                                            class="text-white rounded text-xs px-4 py-2">
+                                            {{ employee.status === 'aktif' ? 'NonAktifkan' : 'Aktifkan' }}
                                         </button>
 
 
@@ -116,97 +110,97 @@
 import axios from "axios";
 
 export default {
-    name: "DataNaskahkeluar",
+    name: "DataPegawai",
     data() {
         return {
-            naskahs: [], // Store API data
+            employees: [], // Store API data
             headers: [
-                "No Naskah",
+                "NIP",
                 // "Id Admin",
-                "Jenis Naskah",
-                "Perihal",
+                "Nama",
+                "Email",
                 // "Password",
-                "Tujuan",
-                "File",
-                "Tanggal Naskah",
+                "Username",
+                "Bidang",
                 "Status",
-                "Id",
+                // "Create At",
+                // "Update At",
                 "Aksi",
             ],
         };
     },
     mounted() {
-        this.fetchNaskah();
+        this.fetchEmployees();
     },
     methods: {
-        fetchNaskah() {
+        fetchEmployees() {
             const token = sessionStorage.getItem('token'); // Ambil token dari localStorage
             axios
-                .get("http://127.0.0.1:8000/api/naskah-keluars", {
+                .get("http://127.0.0.1:8000/api/admin", {
                     headers: {
                         Authorization: `Bearer ${token}` // Tambahkan header Bearer Token
                     }
                 })
                 .then((response) => {
-                    console.log("Fetch Naskah Response:", response); // Print seluruh response
-                    console.log("Data Naskah:", response.data.data); // Print hanya data pegawai
-                    this.naskahs = response.data.data.data;
+                    console.log("Fetch Employees Response:", response); // Print seluruh response
+                    console.log("Data Admin:", response.data.data); // Print hanya data pegawai
+                    this.employees = response.data.data;
                 })
                 .catch((error) => {
                     console.error("Error fetching data:", error.response || error); // Print error detail
                 });
         },
-        deleteEmployee(id_naskah_keluar) {
+        deleteEmployee(nip) {
             const token = sessionStorage.getItem('token'); // Ambil token dari localStorage
             axios
-                .delete(`http://127.0.0.1:8000/api/naskah-keluars/${id_naskah_keluar}`, {
+                .delete(`http://127.0.0.1:8000/api/admin/${nip}`, {
                     headers: {
                         Authorization: `Bearer ${token}` // Tambahkan header Bearer Token
                     }
                 })
                 .then((response) => {
-                    console.log("Delete Naskah Response:", response); // Print seluruh response
-                    console.log("Naskah Deleted:", response.data); // Print hanya pesan sukses
-                    // Fetch Naskahs again or update state after deletion
-                    this.fetchNaskah();
+                    console.log("Delete Employee Response:", response); // Print seluruh response
+                    console.log("Employee Deleted:", response.data); // Print hanya pesan sukses
+                    // Fetch employees again or update state after deletion
+                    this.fetchEmployees();
                 })
                 .catch((error) => {
-                    console.error("Error deleting Naskah:", error.response || error); // Print error detail
+                    console.error("Error deleting employee:", error.response || error); // Print error detail
                 });
         },
 
-        // toggleStatus(employee) {
-        //   const token = sessionStorage.getItem("token"); // Ambil token dari sessionStorage
-        //   if (!token) {
-        //     console.error("Token tidak tersedia. Pastikan Anda sudah login.");
-        //     return;
-        //   }
+        toggleStatus(employee) {
+            const token = sessionStorage.getItem("token"); // Ambil token dari sessionStorage
+            if (!token) {
+                console.error("Token tidak tersedia. Pastikan Anda sudah login.");
+                return;
+            }
 
-        //   // Tentukan endpoint berdasarkan status karyawan saat ini
-        //   const endpoint = `http://127.0.0.1:8000/api/admin/${employee.nip}/${employee.status === "aktif" ? "deactivate" : "activate"
-        //     }`;
+            // Tentukan endpoint berdasarkan status karyawan saat ini
+            const endpoint = `http://127.0.0.1:8000/api/admin/${employee.nip}/${employee.status === "aktif" ? "deactivate" : "activate"
+                }`;
 
-        //   // Kirim permintaan PATCH ke API
-        //   axios
-        //     .patch(endpoint, {}, {
-        //       headers: {
-        //         Authorization: `Bearer ${token}`, // Tambahkan header Bearer Token
-        //       },
-        //     })
-        //     .then(() => {
-        //       console.log(
-        //         `Status karyawan ${employee.nip} berhasil diubah menjadi ${employee.status === "aktif" ? "non-aktif" : "aktif"
-        //         }`
-        //       );
+            // Kirim permintaan PATCH ke API
+            axios
+                .patch(endpoint, {}, {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Tambahkan header Bearer Token
+                    },
+                })
+                .then(() => {
+                    console.log(
+                        `Status karyawan ${employee.nip} berhasil diubah menjadi ${employee.status === "aktif" ? "non-aktif" : "aktif"
+                        }`
+                    );
 
-        //       // Refresh data karyawan setelah berhasil update
-        //       this.fetchEmployees();
-        //     })
-        //     .catch((error) => {
-        //       console.error("Error saat mengubah status karyawan:", error.response || error);
-        //       alert("Gagal mengubah status. Silakan coba lagi.");
-        //     });
-        // },
+                    // Refresh data karyawan setelah berhasil update
+                    this.fetchEmployees();
+                })
+                .catch((error) => {
+                    console.error("Error saat mengubah status karyawan:", error.response || error);
+                    alert("Gagal mengubah status. Silakan coba lagi.");
+                });
+        },
 
     },
     props: {

@@ -16,72 +16,67 @@
                 <hr class="md:min-w-full" />
                 <div class="block w-full overflow-x-auto">
                     <!-- Form Inputs -->
-                    <form @submit.prevent="submitForm" class="px-4 py-4">
-
+                    <form @submit.prevent="handleAddNaskah" class="px-4 py-4" enctype="multipart/form-data">
                         <div class="grid md:grid-cols-2 md:gap-6">
+                            <!-- No Naskah -->
                             <div class="mb-3 pt-0 mr-2">
-                                <label for="idNaskah" class="text-sm font-semibold">Id Naskah</label>
-                                <input type="text" id="idNaskah" v-model="formData.idNaskah"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required />
-                            </div>
-                            <div class="mb-3 pt-0 ">
-                                <label for="idPengguna" class="text-sm font-semibold">Id Pengguna</label>
-                                <input type="text" id="idPengguna" v-model="formData.idPengguna"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
+                                <label for="no_naskah" class="text-sm font-semibold">No Naskah</label>
+                                <input type="text" id="no_naskah" v-model="no_naskah"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
                                     required />
                             </div>
 
-                            <div class="mb-3 pt-0 mr-2">
-                                <label for="noNaskah" class="text-sm font-semibold">No Naskah</label>
-                                <input type="text" id="noNaskah" v-model="formData.noNaskah"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required />
-                            </div>
+                            <!-- Jenis Naskah -->
                             <div class="mb-3 pt-0">
-                                <label for="jenisNaskah" class="text-sm font-semibold">Jenis Naskah</label>
-                                <input type="text" id="jenisNaskah" v-model="formData.jenisNaskah"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
+                                <label for="jenis_naskah" class="text-sm font-semibold">Jenis Naskah</label>
+                                <input type="text" id="jenis_naskah" v-model="jenis_naskah"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
                                     required />
                             </div>
 
+                            <!-- Perihal -->
                             <div class="mb-3 pt-0 mr-2">
                                 <label for="perihal" class="text-sm font-semibold">Perihal</label>
-                                <input type="text" id="perihal" v-model="formData.perihal"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required />
-                            </div>
-                            <div class="mb-3 pt-0">
-                                <label for="tujuan" class="text-sm font-semibold">Tujuan</label>
-                                <input type="text" id="tujuan" v-model="formData.tujuan"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required />
-                            </div>
-                            <div class="mb-3 pt-0 mr-2">
-                                <label for="file" class="text-sm font-semibold">File</label>
-                                <input type="file" id="file" @change="handleFileChange"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10" />
-                            </div>
-                            <div class="mb-3 pt-0">
-                                <label for="tanggalNaskah" class="text-sm font-semibold">Tanggal Naskah</label>
-                                <input type="date" id="tanggalNaskah" v-model="formData.tanggalNaskah"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
+                                <input type="text" id="perihal" v-model="perihal"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
                                     required />
                             </div>
 
+                            <!-- Tujuan -->
+                            <div class="mb-3 pt-0">
+                                <label for="tujuan" class="text-sm font-semibold">Tujuan</label>
+                                <input type="text" id="tujuan" v-model="tujuan"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
+                                    required />
+                            </div>
+
+                            <!-- File -->
+                            <div class="mb-3 pt-0 mr-2">
+                                <label for="file" class="text-sm font-semibold">File</label>
+                                <input type="file" id="file" @change="handleFileUpload"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
+                                    accept=".doc,.docx,.pdf" required />
+                            </div>
+
+                            <!-- Tanggal Naskah -->
+                            <div class="mb-3 pt-0">
+                                <label for="tgl_naskah" class="text-sm font-semibold">Tanggal Naskah</label>
+                                <input type="date" id="tgl_naskah" v-model="tgl_naskah"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
+                                    required />
+                            </div>
                         </div>
+
                         <div class="mt-6">
-                            <router-link to="/admin/naskah/naskah-masuk"
+                            <router-link to="/admin/naskahmasuk/naskah-masuk"
                                 class="bg-red-500 text-white font-bold px-4 py-2 rounded shadow hover:bg-red-800 mr-2">
                                 Batal
                             </router-link>
-                            <button type="submit"
+                            <button type="submit" :disabled="loading"
                                 class="bg-emerald-500 text-white font-bold px-4 py-2 rounded shadow hover:bg-emerald-600">
-                                Simpan Naskah
+                                Tambah Naskah
                             </button>
                         </div>
-
-
                     </form>
                 </div>
             </div>
@@ -90,31 +85,55 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
-    name: "ArsipDinamis",
+    name: "TambahNaskahMasuk",
     data() {
         return {
-            formData: {
-                idNaskah: '',
-                idPengguna: '',
-                noNaskah: '',
-                jenisNaskah: '',
-                perihal: '',
-                tujuan: '',
-                file: null,
-                tanggalNaskah: ''
-            }
+            no_naskah: '',
+            jenis_naskah: '',
+            perihal: '',
+            tujuan: '',
+            file: null,
+            tgl_naskah: '',
+            loading: false,
         };
     },
     methods: {
-        submitForm() {
-            // Handle form submission
-            console.log("Form data:", this.formData);
-            // Perform the action (e.g., API call)
+        handleFileUpload(event) {
+            this.file = event.target.files[0];
         },
-        handleFileChange(event) {
-            this.formData.file = event.target.files[0];
-        }
+        async handleAddNaskah() {
+            this.loading = true;
+            const token = sessionStorage.getItem('token');
+
+            const formData = new FormData();
+            formData.append('no_naskah', this.no_naskah);
+            formData.append('jenis_naskah', this.jenis_naskah);
+            formData.append('perihal', this.perihal);
+            formData.append('tujuan', this.tujuan);
+            formData.append('file', this.file);
+            formData.append('tgl_naskah', this.tgl_naskah);
+
+            try {
+                const response = await axios.post('http://127.0.0.1:8000/api/naskah-masuks', formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+
+                console.log(response.data);
+                alert('Naskah berhasil ditambahkan!');
+                this.$router.push('/admin/naskahmasuk/naskah-masuk');
+            } catch (error) {
+                console.error(error);
+                alert('Terjadi kesalahan saat menambahkan naskah.');
+            } finally {
+                this.loading = false;
+            }
+        },
     },
     props: {
         color: {

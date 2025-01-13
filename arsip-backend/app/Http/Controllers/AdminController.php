@@ -17,7 +17,7 @@ class AdminController extends Controller
     public function index()
     {
         try {
-            $admins = Admin::where('status','aktif')->get();
+            $admins = Admin::all();
             return $this->templateRESPONSEAPI(true, 'Data Admin berhasil ditemukan.', $admins, 200);
         } catch (Exception $e) {
             return $this->templateRESPONSEAPI(false, 'Gagal mengambil data Admin.', null, 500, true);

@@ -30,12 +30,15 @@ import NaskahMasuk from "@/views/admin/naskahmasuk/NaskahMasuk.vue";
 import NaskahKeluar from "@/views/admin/naskahkeluar/NaskahKeluar.vue";
 import UserJabatan from "@/views/admin/jabatan/UserJabatan.vue";
 import UserPegawai from "@/views/admin/pegawai/UserPegawai.vue";
+import UserAdmin from "@/views/admin/pegawai/UserAdmin.vue";
 import TambahNaskahMasuk from "@/views/admin/naskahmasuk/TambahNaskahMasuk.vue";
 import EditNaskahMasuk from "@/views/admin/naskahmasuk/EditNaskahMasuk.vue";
 import TambahNaskahKeluar from "@/views/admin/naskahkeluar/TambahNaskahKeluar.vue";
 import EditNaskahKeluar from "@/views/admin/naskahkeluar/EditNaskahKeluar.vue";
 import TambahUserPegawai from "@/views/admin/pegawai/TambahUserPegawai.vue";
 import EditUserPegawai from "@/views/admin/pegawai/EditUserPegawai.vue";
+import TambahUserAdmin from "@/views/admin/pegawai/TambahUserAdmin.vue";
+import EditUserAdmin from "@/views/admin/pegawai/EditUserAdmin.vue";
 
 
 // views for Auth layout
@@ -73,11 +76,11 @@ const routes = [
         component: SuratDisposisi,
       },
       {
-        path: "/admin/naskah/naskah-masuk",
+        path: "/admin/naskahmasuk/naskah-masuk",
         component: NaskahMasuk,
       },
       {
-        path: "/admin/naskah/naskah-keluar",
+        path: "/admin/naskahkelaur/naskah-keluar",
         component: NaskahKeluar,
       },
       // Pegawai
@@ -89,29 +92,33 @@ const routes = [
         path: "/admin/pegawai/user-pegawai",
         component: UserPegawai,
       },
+      {
+        path: "/admin/pegawai/user-admin",
+        component: UserAdmin,
+      },
       // Crud Naskah Masuk
       {
-        path: "/admin/naskah/tambah-naskah-masuk",
+        path: "/admin/naskahmasuk/tambah-naskah-masuk",
         component: TambahNaskahMasuk,
       },
       {
-        path: "/admin/naskah/edit-naskah-masuk",
+        path: "/admin/naskahmasuk/edit-naskah-masuk/:id_naskah_masuk",
         component: EditNaskahMasuk,
       },
    
        // Crud Naskah Keluar
        {
-        path: "/admin/naskah/tambah-naskah-keluar",
+        path: "/admin/naskahkeluar/tambah-naskah-keluar",
         component: TambahNaskahKeluar,
       },
       {
-        path: "/admin/naskah/edit-naskah-keluar",
+        path: "/admin/naskahkelaur/edit-naskah-keluar",
         component: EditNaskahKeluar,
       },
 
       // Crud Pegawai
       {
-        path: "/admin/pegawai/tambah-user-pegawai",
+        path: "/admin/pegawai/tambah-user-pegawai/:id_naskah_keluar",
         component: TambahUserPegawai,
       },
       {
@@ -119,9 +126,19 @@ const routes = [
         name: 'EditUserPegawai',
         component: EditUserPegawai,
         props: true, // Agar parameter 'nip' diteruskan sebagai props ke komponen
+    },
+
+    // Crud Admin
+    {
+      path: "/admin/pegawai/tambah-user-admin",
+      component: TambahUserAdmin,
+    },
+    {
+      path: '/admin/pegawai/edit-user-admin/:nip',
+      name: 'EditUserAdmin',
+      component: EditUserAdmin,
+      props: true, // Agar parameter 'nip' diteruskan sebagai props ke komponen
     }
-    ,
-   
 
     ],
   },

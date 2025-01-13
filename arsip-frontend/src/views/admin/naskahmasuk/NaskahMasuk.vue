@@ -1,21 +1,19 @@
-<!-- ArsipDinamis.vue -->
 <template>
   <div class="flex flex-wrap mt-4">
     <div class="w-full mb-12 px-4">
       <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded"
         :class="[color === 'light' ? 'bg-white' : 'bg-emerald-900 text-white']">
         <div class="rounded-t mb-0 px-4 py-3 border-0">
-          <div class="flex flex-wrap items-center ">
+          <div class="flex flex-wrap items-center">
             <div class="relative w-full px-4 max-w-full flex-grow flex-1 flex items-center justify-between">
               <h3 class="font-semibold text-lg" :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
-                Naskah Masuk
+                Data Naskah Masuk
               </h3>
 
-              <router-link to="/admin/naskah/tambah-naskah-masuk"
+              <router-link to="/admin/naskahmasuk/tambah-naskah-masuk"
                 class="bg-emerald-500 text-white font-bold px-4 py-2 rounded shadow hover:bg-blue-600">
                 Add Data [+]
               </router-link>
-
             </div>
           </div>
         </div>
@@ -26,147 +24,188 @@
               <tr>
                 <th
                   class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                  :class="[
-                    color === 'light'
-                      ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                      : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-                  ]">
+                  :class="[color === 'light' ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100' : 'bg-emerald-800 text-emerald-300 border-emerald-700']">
                   #
                 </th>
-                <th
+                <th v-for="header in headers" :key="header"
                   class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                  :class="[
-                    color === 'light'
-                      ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                      : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-                  ]">
-                  Id Naskah
-                </th>
-                <th
-                  class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                  :class="[
-                    color === 'light'
-                      ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                      : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-                  ]">
-                  Id pengguna
-                </th>
-                <th
-                  class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                  :class="[
-                    color === 'light'
-                      ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                      : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-                  ]">
-                  No Naskah
-                </th>
-                <th
-                  class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                  :class="[
-                    color === 'light'
-                      ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                      : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-                  ]">
-                  Jenis Naskah
-                </th>
-                <th
-                  class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                  :class="[
-                    color === 'light'
-                      ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                      : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-                  ]">
-                  Perihal
-                </th>
-                <th
-                  class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                  :class="[
-                    color === 'light'
-                      ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                      : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-                  ]">
-                  Tujuan
-                </th>
-
-                <th
-                  class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                  :class="[
-                    color === 'light'
-                      ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                      : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-                  ]">
-                  File
-                </th>
-
-                <th
-                  class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                  :class="[
-                    color === 'light'
-                      ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                      : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-                  ]">
-                  Tanggal Naskah
-                </th>
-
-                <th
-                  class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                  :class="[
-                    color === 'light'
-                      ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                      : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-                  ]">
-                  Aksi
+                  :class="[color === 'light' ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100' : 'bg-emerald-800 text-emerald-300 border-emerald-700']">
+                  {{ header }}
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">1
-                </td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                  NK001</td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                  PG001</td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                  12345</td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                  Surat</td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                  Pengajuan Cuti</td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                  Manager</td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                  file.pdf</td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                  2025-01-12</td>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                  <router-link to="/admin/naskah/edit-naskah-masuk"
-                    class="text-white rounded bg-orange-500 text-xs px-4 py-2 mr-2">
-                    Edit
-                  </router-link>
+              <template v-if="naskahs.length > 0">
+                <tr v-for="(naskah, index) in naskahs" :key="naskah.id">
+                  <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                    {{ index + 1 }}
+                  </td>
+                  <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                    {{ naskah.no_naskah || '-' }}
+                  </td>
+                  <!-- <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                      {{ employee.id_admin || '-' }}
+                                  </td> -->
+                  <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                    {{ naskah.jenis_naskah || '-' }}
+                  </td>
+                  <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                    {{ naskah.perihal || '-' }}
+                  </td>
+                  <!-- <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                      {{ employee.password || '-' }}
+                                  </td> -->
+                  <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                    {{ naskah.tujuan || '-' }}
+                  </td>
+                  <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                    {{ naskah.file || '-' }}
+                  </td>
+                  <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                    {{ naskah.tgl_naskah || '-' }}
+                  </td>
+                  <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                    {{ naskah.status || '-' }}
+                  </td>
+                  <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                    {{ naskah.id_naskah_masuk || '-' }}
+                  </td>
+                  <!-- <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                      {{ formatDate(employee.created_at) || '-' }}
+                                  </td>
+                                  <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                      {{ formatDate(employee.updated_at) || '-' }}
+                                  </td> -->
+                  <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                    <router-link :to="`/admin/naskahmasuk/edit-naskah-masuk/${naskah.id_naskah_masuk}`"
+                      class="text-white rounded bg-orange-500 text-xs px-4 py-2 mr-2">
+                      Edit
+                    </router-link>
 
-                  <button class="text-white rounded bg-red-500 text-xs px-4 py-2">Hapus</button>
-                </td>
+                    <button @click="deleteEmployee(naskah.id_naskah_masuk)"
+                      class="text-white rounded bg-red-500 text-xs px-4 py-2 mr-2">
+                      Delete
+                    </button>
 
-              </tr>
+                    <button @click="toggleStatus(naskah)" class="text-white bg-emerald-500 rounded text-xs px-4 py-2">
+                      Whatsapp
+                    </button>
+
+
+                  </td>
+                </tr>
+              </template>
+              <template v-else>
+                <tr>
+                  <td colspan="13" class="text-center py-4 text-sm text-gray-500">
+                    Tidak ada data tersedia.
+                  </td>
+                </tr>
+              </template>
             </tbody>
           </table>
         </div>
 
       </div>
     </div>
-
-
   </div>
 </template>
-
 <script>
-// import CardTableArsip from "@/components/Cards/CardTableArsip.vue";
+import axios from "axios";
 
 export default {
-  name: "NaskahKeluar",
-  components: {
-    // CardTableArsip,
+  name: "DataNaskahMasuk",
+  data() {
+    return {
+      naskahs: [], // Store API data
+      headers: [
+        "No Naskah",
+        // "Id Admin",
+        "Jenis Naskah",
+        "Perihal",
+        // "Password",
+        "Tujuan",
+        "File",
+        "Tanggal Naskah",
+        "Status",
+        "Id",
+        "Aksi",
+      ],
+    };
+  },
+  mounted() {
+    this.fetchNaskah();
+  },
+  methods: {
+    fetchNaskah() {
+      const token = sessionStorage.getItem('token'); // Ambil token dari localStorage
+      axios
+        .get("http://127.0.0.1:8000/api/naskah-masuks", {
+          headers: {
+            Authorization: `Bearer ${token}` // Tambahkan header Bearer Token
+          }
+        })
+        .then((response) => {
+          console.log("Fetch Naskah Response:", response); // Print seluruh response
+          console.log("Data Naskah:", response.data.data); // Print hanya data pegawai
+          this.naskahs = response.data.data.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error.response || error); // Print error detail
+        });
+    },
+    deleteEmployee(id_naskah_masuk) {
+      const token = sessionStorage.getItem('token'); // Ambil token dari localStorage
+      axios
+        .delete(`http://127.0.0.1:8000/api/naskah-masuks/${id_naskah_masuk}`, {
+          headers: {
+            Authorization: `Bearer ${token}` // Tambahkan header Bearer Token
+          }
+        })
+        .then((response) => {
+          console.log("Delete Naskah Response:", response); // Print seluruh response
+          console.log("Naskah Deleted:", response.data); // Print hanya pesan sukses
+          // Fetch Naskahs again or update state after deletion
+          this.fetchNaskah();
+        })
+        .catch((error) => {
+          console.error("Error deleting Naskah:", error.response || error); // Print error detail
+        });
+    },
+
+    // toggleStatus(employee) {
+    //   const token = sessionStorage.getItem("token"); // Ambil token dari sessionStorage
+    //   if (!token) {
+    //     console.error("Token tidak tersedia. Pastikan Anda sudah login.");
+    //     return;
+    //   }
+
+    //   // Tentukan endpoint berdasarkan status karyawan saat ini
+    //   const endpoint = `http://127.0.0.1:8000/api/admin/${employee.nip}/${employee.status === "aktif" ? "deactivate" : "activate"
+    //     }`;
+
+    //   // Kirim permintaan PATCH ke API
+    //   axios
+    //     .patch(endpoint, {}, {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`, // Tambahkan header Bearer Token
+    //       },
+    //     })
+    //     .then(() => {
+    //       console.log(
+    //         `Status karyawan ${employee.nip} berhasil diubah menjadi ${employee.status === "aktif" ? "non-aktif" : "aktif"
+    //         }`
+    //       );
+
+    //       // Refresh data karyawan setelah berhasil update
+    //       this.fetchEmployees();
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error saat mengubah status karyawan:", error.response || error);
+    //       alert("Gagal mengubah status. Silakan coba lagi.");
+    //     });
+    // },
+
   },
   props: {
     color: {

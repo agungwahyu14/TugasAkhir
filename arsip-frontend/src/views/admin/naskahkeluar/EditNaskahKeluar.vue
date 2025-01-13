@@ -16,74 +16,67 @@
                 <hr class="md:min-w-full" />
                 <div class="block w-full overflow-x-auto">
                     <!-- Form Inputs -->
-                    <form @submit.prevent="submitForm" class="px-4 py-4">
+                    <form @submit.prevent="updateNaskah" class="px-4 py-4">
 
                         <div class="grid md:grid-cols-2 md:gap-6">
                             <div class="mb-3 pt-0 mr-2">
-                                <label for="idNaskah" class="text-sm font-semibold">Id Naskah</label>
-                                <input type="text" id="idNaskah" v-model="formData.idNaskah"
+                                <label for="jenis_naskah" class="text-sm font-semibold">Jenis Naskah</label>
+                                <input type="text" id="jenis_naskah" v-model="formData.jenis_naskah"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required />
+                                    required maxlength="255" />
                             </div>
-                            <div class="mb-3 pt-0 ">
-                                <label for="idPengguna" class="text-sm font-semibold">Id Pengguna</label>
-                                <input type="text" id="idPengguna" v-model="formData.idPengguna"
+
+                            <div class="mb-3 pt-0">
+                                <label for="perihal" class="text-sm font-semibold">Perihal</label>
+                                <input type="text" id="perihal" v-model="formData.perihal"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
+                                    required maxlength="255" />
+                            </div>
+
+                            <div class="mb-3 pt-0 mr-2">
+                                <label for="tujuan" class="text-sm font-semibold">Tujuan</label>
+                                <input type="text" id="tujuan" v-model="formData.tujuan"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
+                                    required maxlength="255" />
+                            </div>
+
+                            <div class="mb-3 pt-0">
+                                <label for="tgl_naskah" class="text-sm font-semibold">Tanggal Naskah</label>
+                                <input type="date" id="tgl_naskah" v-model="formData.tgl_naskah"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
                                     required />
                             </div>
 
                             <div class="mb-3 pt-0 mr-2">
-                                <label for="noNaskah" class="text-sm font-semibold">No Naskah</label>
-                                <input type="text" id="noNaskah" v-model="formData.noNaskah"
+                                <label for="status" class="text-sm font-semibold">Status</label>
+                                <select id="status" v-model="formData.status"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required />
-                            </div>
-                            <div class="mb-3 pt-0">
-                                <label for="jenisNaskah" class="text-sm font-semibold">Jenis Naskah</label>
-                                <input type="text" id="jenisNaskah" v-model="formData.jenisNaskah"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required />
+                                    required>
+                                    <option value="Menunggu Validasi">Menunggu Validasi</option>
+                                    <option value="Diterima">Diterima</option>
+                                    <option value="Ditolak">Ditolak</option>
+                                    <option value="Diproses">Diproses</option>
+                                </select>
                             </div>
 
-                            <div class="mb-3 pt-0 mr-2 ">
-                                <label for="perihal" class="text-sm font-semibold">Perihal</label>
-                                <input type="text" id="perihal" v-model="formData.perihal"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required />
-                            </div>
-                            <div class="mb-3 pt-0">
-                                <label for="perihal" class="text-sm font-semibold">Asal Naskah</label>
-                                <input type="text" id="perihal" v-model="formData.perihal"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required />
-                            </div>
-                            <div class="mb-3 pt-0 mr-2 ">
-                                <label for="tujuan" class="text-sm font-semibold">Tujuan</label>
-                                <input type="text" id="tujuan" v-model="formData.tujuan"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required />
-                            </div>
-                            <div class="mb-3 pt-0">
-                                <label for="file" class="text-sm font-semibold">File</label>
-                                <input type="file" id="file" @change="handleFileChange"
+                            <div class="mb-3 pt-0 mr-2">
+                                <label for="status" class="text-sm font-semibold">File</label>
+                                <input type="file" id="file" v-on:change="handleFileChange" name="file"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10" />
-                            </div>
-                            <div class="mb-3 pt-0">
-                                <label for="tanggalNaskah" class="text-sm font-semibold">Tanggal Naskah</label>
-                                <input type="date" id="tanggalNaskah" v-model="formData.tanggalNaskah"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required />
+                                <p v-if="formData.file" class="mt-2 text-sm text-blueGray-600 font-bold">
+                                    File sebelum: {{ formData.file }}
+                                </p>
                             </div>
 
                         </div>
                         <div class="mt-6">
-                            <router-link to="/admin/naskah/naskah-keluar"
+                            <router-link to="/admin/naskahmasuk/naskah-masuk"
                                 class="bg-red-500 text-white font-bold px-4 py-2 rounded shadow hover:bg-red-800 mr-2">
                                 Batal
                             </router-link>
                             <button type="submit"
                                 class="bg-emerald-500 text-white font-bold px-4 py-2 rounded shadow hover:bg-emerald-600">
-                                Simpan Naskah
+                                Update Naskah
                             </button>
                         </div>
 
@@ -96,31 +89,83 @@
 </template>
 
 <script>
+
+import axios from "axios";
+
 export default {
-    name: "ArsipDinamis",
+    name: "EditNaskahMasuk",
     data() {
         return {
             formData: {
-                idNaskah: '',
-                idPengguna: '',
-                noNaskah: '',
-                jenisNaskah: '',
+                jenis_naskah: '',
                 perihal: '',
                 tujuan: '',
-                file: null,
-                tanggalNaskah: ''
+                tgl_naskah: '',
+                status: 'Menunggu Validasi',
+                file: '',
             }
         };
     },
+    mounted() {
+        const naskahID = this.$route.params.id_naskah_masuk;
+        this.fetchNaskah(naskahID);
+        console.log("apa ini");
+        console.log(naskahID);
+    },
     methods: {
-        submitForm() {
-            // Handle form submission
-            console.log("Form data:", this.formData);
-            // Perform the action (e.g., API call)
+        fetchNaskah(id_naskah_masuk) {
+            const token = sessionStorage.getItem('token'); // Ambil token dari localStorage
+            axios
+                .get(`http://127.0.0.1:8000/api/naskah-masuks/${id_naskah_masuk}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}` // Tambahkan header Bearer Token
+                    }
+                })
+                .then((response) => {
+                    console.log("Fetch Naskah Response:", response); // Print seluruh response
+                    console.log("Data Naskah:", response.data.data); // Print hanya data pegawai
+                    this.formData = response.data.data;
+                })
+                .catch((error) => {
+                    console.error("Error fetching data:", error.response || error); // Print error detail
+                });
         },
         handleFileChange(event) {
             this.formData.file = event.target.files[0];
+        },
+        updateNaskah() {
+            const token = sessionStorage.getItem('token');
+            const naskahID = this.$route.params.id_naskah_masuk;
+
+            // Membuat instance FormData untuk mengirim file dan data lainnya
+            const formData = new FormData();
+            formData.append('jenis_naskah', this.formData.jenis_naskah);
+            formData.append('perihal', this.formData.perihal);
+            formData.append('tujuan', this.formData.tujuan);
+            formData.append('tgl_naskah', this.formData.tgl_naskah);
+            formData.append('status', this.formData.status);
+
+            // Jika file ada, tambahkan file ke FormData
+            if (this.formData.file) {
+                formData.append('file', this.formData.file);
+            }
+
+            axios
+                .put(`http://127.0.0.1:8000/api/naskah-masuks/${naskahID}`, formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'multipart/form-data', // Pastikan header ini ada saat mengirim file
+                    },
+                })
+                .then((response) => {
+                    console.log("Naskah updated:", response.data);
+                    this.$router.push('/admin/naskahmasuk/naskah-masuk'); // Redirect to list page
+                })
+                .catch((error) => {
+                    console.error("Error updating naskah:", error);
+                });
         }
+
     },
     props: {
         color: {

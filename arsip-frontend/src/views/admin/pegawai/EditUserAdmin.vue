@@ -8,7 +8,7 @@
                         <div class="relative w-full px-4 max-w-full flex-grow flex-1">
                             <h3 class="font-semibold text-lg"
                                 :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
-                                Edit User Pegawai
+                                Edit User Admin
                             </h3>
                         </div>
                     </div>
