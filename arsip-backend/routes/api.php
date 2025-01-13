@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\DisposisiController;
 use App\Http\Controllers\NaskahMasukController;
 use App\Http\Controllers\NaskahKeluarController;
 
@@ -51,6 +52,14 @@ Route::middleware(['verify-token'])->group(function () {
         Route::get('{id}/download', [NaskahKeluarController::class, 'downloadFile']); 
     });
     
+
+    Route::prefix('disposisis')->group(function () {
+        Route::get('/', [DisposisiController::class, 'index'])->name('disposisi.index'); // Menampilkan semua data disposisi
+        Route::post('/', [DisposisiController::class, 'store'])->name('disposisi.store'); // Menyimpan data disposisi baru
+        Route::get('{id}', [DisposisiController::class, 'show'])->name('disposisi.show'); // Menampilkan detail disposisi berdasarkan ID
+        Route::put('{id}', [DisposisiController::class, 'update'])->name('disposisi.update'); // Memperbarui data disposisi berdasarkan ID
+        Route::delete('{id}', [DisposisiController::class, 'destroy'])->name('disposisi.destroy'); // Menghapus data disposisi berdasarkan ID
+    });
 });
 
 

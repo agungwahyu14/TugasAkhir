@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('disposisis', function (Blueprint $table) {
-            $table->integer('id_disposisi')->unique()->index()->primary();
-            $table->integer('id_pengguna')->index();
+            $table->id('id_disposisi');
+            $table->integer('id_pengguna')->index()->nullable();
             $table->string('jenis_disposisi')->index();
             $table->string('isi_disposisi')->index();
             $table->string('perihal')->index();
