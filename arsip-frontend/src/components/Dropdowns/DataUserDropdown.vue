@@ -16,17 +16,12 @@
             </i>
         </a>
 
-
         <div ref="popoverDropdownRef"
             class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48" v-bind:class="{
                 hidden: !dropdownPopoverShow,
                 block: dropdownPopoverShow,
             }">
-            <router-link to="/admin/user-jabatan"
-                class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-                @click="hideDropdown">
-                Data Jabatan
-            </router-link>
+
             <router-link to="/admin/pegawai/user-pegawai"
                 class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 @click="hideDropdown">

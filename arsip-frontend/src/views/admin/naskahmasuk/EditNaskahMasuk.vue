@@ -18,29 +18,41 @@
                     <!-- Form Inputs -->
                     <form @submit.prevent="updateNaskah" class="px-4 py-4">
 
+
+
                         <div class="grid md:grid-cols-2 md:gap-6">
+
+
                             <div class="mb-3 pt-0 mr-2">
                                 <label for="jenis_naskah" class="text-sm font-semibold">Jenis Naskah</label>
-                                <input type="text" id="jenis_naskah" v-model="formData.jenis_naskah"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required maxlength="255" />
+                                <select id="jenis_naskah" v-model="formData.jenis_naskah" name="jenis_naskah"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
+                                    <option value="Instruksi Bupati">Instruksi Bupati</option>
+                                    <option value="Surat Edaran">Surat Edaran</option>
+                                    <option value="Surat Perintah">Surat Perintah</option>
+                                    <option value="Surat Perjanjian">Surat Perjanjian</option>
+                                    <option value="Pengumuman">Pengumuman</option>
+
+
+                                </select>
                             </div>
 
-                            <div class="mb-3 pt-0">
-                                <label for="perihal" class="text-sm font-semibold">Perihal</label>
-                                <input type="text" id="perihal" v-model="formData.perihal"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required maxlength="255" />
-                            </div>
+
 
                             <div class="mb-3 pt-0 mr-2">
                                 <label for="tujuan" class="text-sm font-semibold">Tujuan</label>
-                                <input type="text" id="tujuan" v-model="formData.tujuan"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required maxlength="255" />
+                                <select id="tujuan" name="tujuan" v-model="formData.tujuan"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
+                                    <option value="kadis">Kepala Dinas</option>
+                                    <option value="sekdis">Sekretaris Dinas</option>
+                                    <option value="kabag">Kepala Bagian</option>
+
+
+
+                                </select>
                             </div>
 
-                            <div class="mb-3 pt-0">
+                            <div class="mb-3 pt-0 mr-2">
                                 <label for="tgl_naskah" class="text-sm font-semibold">Tanggal Naskah</label>
                                 <input type="date" id="tgl_naskah" v-model="formData.tgl_naskah"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
@@ -66,6 +78,13 @@
                                 <p v-if="formData.file" class="mt-2 text-sm text-blueGray-600 font-bold">
                                     File sebelum: {{ formData.file }}
                                 </p>
+                            </div>
+
+                            <div class="mb-3 pt-0 mr-2">
+                                <label for="perihal" class="text-sm font-semibold">Perihal</label>
+                                <textarea type="text" id="perihal" v-model="formData.perihal"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
+                                    required maxlength="255" />
                             </div>
 
                         </div>
@@ -101,7 +120,7 @@ export default {
                 perihal: '',
                 tujuan: '',
                 tgl_naskah: '',
-                status: 'Menunggu Validasi',
+                status: '',
                 file: '',
             }
         };

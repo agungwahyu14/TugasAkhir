@@ -3,18 +3,30 @@
         <div class="w-full mb-12 px-4">
             <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded"
                 :class="[color === 'light' ? 'bg-white' : 'bg-emerald-900 text-white']">
-                <div class="rounded-t mb-0 px-4 py-3 border-0">
+                <div class="rounded-t mb-0 px-4 py-4 border-0">
                     <div class="flex flex-wrap items-center">
-                        <div class="relative w-full px-4 max-w-full flex-grow flex-1 flex items-center justify-between">
-                            <h3 class="font-semibold text-lg"
-                                :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
-                                Data Naskah Keluar
-                            </h3>
+                        <div class="relative w-full px-4 max-w-full flex-grow flex-1">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-semibold text-lg"
+                                    :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
+                                    Data Naskah Keluar
+                                </h3>
 
-                            <router-link to="/admin/naskahkeluar/tambah-naskah-keluar"
-                                class="bg-emerald-500 text-white font-bold px-4 py-2 rounded shadow hover:bg-blue-600">
-                                Add Data [+]
-                            </router-link>
+                            </div>
+
+
+                        </div>
+                        <router-link to="/admin/naskahkeluar/tambah-naskah-keluar"
+                            class="bg-emerald-500 text-white font-bold px-4 py-3 mr-2 rounded shadow hover:bg-blue-600">
+                            <i class="fas fa-plus text-sm mr-2 ml-2 "> </i>
+                        </router-link>
+                        <div class="relative flex flex-wrap items-stretch">
+                            <span
+                                class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <input type="text" placeholder="Search here..."
+                                class="border-0 px-4 py-2 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded shadow outline-none focus:outline-none focus:ring  pl-10" />
                         </div>
                     </div>
                 </div>
@@ -40,11 +52,9 @@
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ index + 1 }}
                                     </td>
-                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                                        {{ naskah.no_naskah || '-' }}
-                                    </td>
+
                                     <!-- <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                                        {{ employee.id_admin || '-' }}
+                                        {{ naskah.no_naskah || '-' }}
                                     </td> -->
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ naskah.jenis_naskah || '-' }}
@@ -52,24 +62,22 @@
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ naskah.perihal || '-' }}
                                     </td>
-                                    <!-- <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                                        {{ employee.password || '-' }}
-                                    </td> -->
+                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                        {{ naskah.asal_naskah || '-' }}
+                                    </td>
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ naskah.tujuan || '-' }}
                                     </td>
-                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                    <!-- <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ naskah.file || '-' }}
-                                    </td>
+                                    </td> -->
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ naskah.tgl_naskah || '-' }}
                                     </td>
                                     <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ naskah.status || '-' }}
                                     </td>
-                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                                        {{ naskah.id_naskah_keluar || '-' }}
-                                    </td>
+
                                     <!-- <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                                         {{ formatDate(employee.created_at) || '-' }}
                                     </td>
@@ -89,9 +97,15 @@
                                         </button>
 
                                         <button @click="toggleStatus(naskah)"
-                                            class="text-white bg-emerald-500 rounded text-xs px-4 py-2">
+                                            class="text-white bg-emerald-500 rounded text-xs px-4 py-2 mr-2">
                                             Whatsapp
                                         </button>
+
+                                        <router-link
+                                            :to="`/admin/naskahmasuk/detail-naskah-keluar/${naskah.id_naskah_keluar}`"
+                                            class="text-white rounded bg-orange-500 text-xs px-4 py-2 mr-2">
+                                            <i class="fas fa-info-circle text-sm "></i>
+                                        </router-link>
 
 
                                     </td>
@@ -121,16 +135,15 @@ export default {
         return {
             naskahs: [], // Store API data
             headers: [
-                "No Naskah",
+                // "No Naskah",
                 // "Id Admin",
                 "Jenis Naskah",
                 "Perihal",
-                // "Password",
+                "Asal Naskah",
                 "Tujuan",
-                "File",
+                // "File",
                 "Tanggal Naskah",
                 "Status",
-                "Id",
                 "Aksi",
             ],
         };

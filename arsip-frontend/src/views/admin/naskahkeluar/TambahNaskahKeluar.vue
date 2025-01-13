@@ -8,7 +8,7 @@
                         <div class="relative w-full px-4 max-w-full flex-grow flex-1">
                             <h3 class="font-semibold text-lg"
                                 :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
-                                Tambah Naskah Keluar
+                                Tambah Naskah Masuk
                             </h3>
                         </div>
                     </div>
@@ -27,35 +27,51 @@
                             </div>
 
                             <!-- Jenis Naskah -->
+
+
                             <div class="mb-3 pt-0">
                                 <label for="jenis_naskah" class="text-sm font-semibold">Jenis Naskah</label>
-                                <input type="text" id="jenis_naskah" v-model="jenis_naskah"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required />
+                                <select id="jenis_naskah" v-model="jenis_naskah"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
+                                    <option value="Instruksi Bupati">Instruksi Bupati</option>
+                                    <option value="Surat Edaran">Surat Edaran</option>
+                                    <option value="Surat Perintah">Surat Perintah</option>
+                                    <option value="Surat Perjanjian">Surat Perjanjian</option>
+                                    <option value="Pengumuman">Pengumuman</option>
+
+
+                                </select>
                             </div>
 
                             <!-- Perihal -->
+
                             <div class="mb-3 pt-0 mr-2">
-                                <label for="perihal" class="text-sm font-semibold">Perihal</label>
-                                <input type="text" id="perihal" v-model="perihal"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required />
+                                <label for="tujuan" class="text-sm font-semibold">Tujuan</label>
+                                <select id="tujuan" name="tujuan" v-model="tujuan"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
+                                    <option value="kadis">Kepala Dinas</option>
+                                    <option value="sekdis">Sekretaris Dinas</option>
+                                    <option value="kabag">Kepala Bagian</option>
+
+
+
+                                </select>
                             </div>
 
-                            <!-- Tujuan -->
-                            <div class="mb-3 pt-0">
-                                <label for="tujuan" class="text-sm font-semibold">Tujuan</label>
-                                <input type="text" id="tujuan" v-model="tujuan"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required />
-                            </div>
+
 
                             <!-- File -->
-                            <div class="mb-3 pt-0 mr-2">
+                            <div class="mb-3 pt-0 ">
                                 <label for="file" class="text-sm font-semibold">File</label>
                                 <input type="file" id="file" @change="handleFileUpload"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
                                     accept=".doc,.docx,.pdf" required />
+                            </div>
+                            <div class="mb-3 pt-0 mr-2">
+                                <label for="perihal" class="text-sm font-semibold">Perihal</label>
+                                <textarea type="text" id="perihal" v-model="perihal"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
+                                    required />
                             </div>
 
                             <!-- Tanggal Naskah -->
@@ -65,6 +81,8 @@
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
                                     required />
                             </div>
+
+
                         </div>
 
                         <div class="mt-6">

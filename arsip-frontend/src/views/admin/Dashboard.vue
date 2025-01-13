@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="flex flex-wrap" style="height: 100vh;">
-      
+    <div class="flex flex-wrap">
+
     </div>
   </div>
 </template>

@@ -1,16 +1,16 @@
 <template>
-  <div>
+  <div class="flex flex-col min-h-screen">
     <sidebar />
-    <div class="relative md:ml-64 bg-blueGray-100" style="height: 100vh;">
+    <div class="relative flex-1 md:ml-64 bg-blueGray-100">
       <admin-navbar />
-      <!-- <header-stats /> -->
       <div class="px-4 md:px-20 mx-auto w-full -m-24">
         <router-view />
-        <footer-admin />
       </div>
     </div>
+    <footer-admin />
   </div>
 </template>
+
 <script>
 import AdminNavbar from "@/components/Navbars/AdminNavbar.vue";
 import Sidebar from "@/components/Sidebar/Sidebar.vue";

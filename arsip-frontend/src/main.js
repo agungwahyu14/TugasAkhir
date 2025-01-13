@@ -28,18 +28,17 @@ import Auth from "@/layouts/Auth.vue";
 import SuratDisposisi from "@/views/admin/suratdisposisi/SuratDisposisi.vue";
 import NaskahMasuk from "@/views/admin/naskahmasuk/NaskahMasuk.vue";
 import NaskahKeluar from "@/views/admin/naskahkeluar/NaskahKeluar.vue";
-import UserJabatan from "@/views/admin/jabatan/UserJabatan.vue";
 import UserPegawai from "@/views/admin/pegawai/UserPegawai.vue";
 import UserAdmin from "@/views/admin/pegawai/UserAdmin.vue";
 import TambahNaskahMasuk from "@/views/admin/naskahmasuk/TambahNaskahMasuk.vue";
 import EditNaskahMasuk from "@/views/admin/naskahmasuk/EditNaskahMasuk.vue";
+import DetailNaskahMasuk from "@/views/admin/naskahmasuk/DetailNaskahMasuk.vue";
 import TambahNaskahKeluar from "@/views/admin/naskahkeluar/TambahNaskahKeluar.vue";
 import EditNaskahKeluar from "@/views/admin/naskahkeluar/EditNaskahKeluar.vue";
 import TambahUserPegawai from "@/views/admin/pegawai/TambahUserPegawai.vue";
 import EditUserPegawai from "@/views/admin/pegawai/EditUserPegawai.vue";
 import TambahUserAdmin from "@/views/admin/pegawai/TambahUserAdmin.vue";
 import EditUserAdmin from "@/views/admin/pegawai/EditUserAdmin.vue";
-
 
 // views for Auth layout
 
@@ -85,10 +84,6 @@ const routes = [
       },
       // Pegawai
       {
-        path: "/admin/user-jabatan",
-        component: UserJabatan,
-      },
-      {
         path: "/admin/pegawai/user-pegawai",
         component: UserPegawai,
       },
@@ -105,14 +100,18 @@ const routes = [
         path: "/admin/naskahmasuk/edit-naskah-masuk/:id_naskah_masuk",
         component: EditNaskahMasuk,
       },
-   
+
+      {
+        path: "/admin/naskahmasuk/detail-naskah-masuk/:id_naskah_keluar",
+        component: DetailNaskahMasuk,
+      },
        // Crud Naskah Keluar
        {
         path: "/admin/naskahkeluar/tambah-naskah-keluar",
         component: TambahNaskahKeluar,
       },
       {
-        path: "/admin/naskahkelaur/edit-naskah-keluar",
+        path: "/admin/naskahkelaur/edit-naskah-keluar/:id_naskah_kelaur",
         component: EditNaskahKeluar,
       },
 
