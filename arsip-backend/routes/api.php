@@ -2,8 +2,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\FolderController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\DisposisiController;
+use App\Http\Controllers\PathArsipController;
 use App\Http\Controllers\NaskahMasukController;
 use App\Http\Controllers\NaskahKeluarController;
 
@@ -60,6 +62,55 @@ Route::middleware(['verify-token'])->group(function () {
         Route::put('{id}', [DisposisiController::class, 'update'])->name('disposisi.update'); // Memperbarui data disposisi berdasarkan ID
         Route::delete('{id}', [DisposisiController::class, 'destroy'])->name('disposisi.destroy'); // Menghapus data disposisi berdasarkan ID
     });
+
+    Route::prefix('path-arsips')->group(function () {
+
+        // Menampilkan semua arsip
+        Route::get('/', [PathArsipController::class, 'index'])->name('path-arsips.index');
+        
+        // Menampilkan arsip berdasarkan ID
+        Route::get('{id}', [PathArsipController::class, 'show'])->name('path-arsips.show');
+        
+        // Membuat arsip baru
+        Route::post('/store', [PathArsipController::class, 'store'])->name('path-arsips.store');
+        
+        // Mengupdate arsip berdasarkan ID
+        Route::put('{id}', [PathArsipController::class, 'update'])->name('path-arsips.update');
+        
+        // Menghapus arsip berdasarkan ID
+        Route::delete('{id}', [PathArsipController::class, 'destroy'])->name('path-arsips.destroy');
+    });
+    
+    // Routes untuk Folder
+    Route::prefix('folders')->group(function () {
+
+        // Menampilkan semua folder dan subfolder (folder root saja)
+        Route::get('/', [FolderController::class, 'index']);
+        
+        // Menampilkan isi folder tertentu (folder dan arsip/file di dalamnya)
+        Route::get('{id}', [FolderController::class, 'show']);
+        
+        // Membuat folder baru dan mengaitkannya dengan arsip
+        Route::post('/', [FolderController::class, 'store']);
+        
+        // Mengupload file ke folder tertentu
+        Route::post('{folderId}/upload', [FolderController::class, 'uploadFile']);
+        
+        // Menghapus folder berdasarkan ID
+        Route::delete('{id}', [FolderController::class, 'destroy']);
+        
+        // Menghapus file berdasarkan ID file (arsip) dari folder
+        Route::delete('{folderId}/file/{fileId}', [FolderController::class, 'destroyFile']);
+        
+        // Menghapus folder dan file terkait (tidak hanya soft delete)
+        Route::delete('{id}/force', [FolderController::class, 'forceDelete']);
+         // Menghubungkan Folder dengan PathArsip
+        Route::post('{folderId}/attach-arsip/{pathArsipId}', [FolderController::class, 'attachArsipToFolder']);
+
+        // Menghapus hubungan Folder dengan PathArsip
+        Route::post('{folderId}/detach-arsip/{pathArsipId}', [FolderController::class, 'detachArsipFromFolder']);
+    });
+
 });
 
 
