@@ -8,7 +8,7 @@
                         <div class="relative w-full px-4 max-w-full flex-grow flex-1">
                             <h3 class="font-semibold text-lg"
                                 :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
-                                Tambah Naskah Masuk
+                                Tambah Surat Disposisi
                             </h3>
                         </div>
                     </div>
@@ -16,22 +16,29 @@
                 <hr class="md:min-w-full" />
                 <div class="block w-full overflow-x-auto">
                     <!-- Form Inputs -->
-                    <form @submit.prevent="handleAddNaskah" class="px-4 py-4" enctype="multipart/form-data">
+                    <form @submit.prevent="handleAddDisposi" class="px-4 py-4" enctype="multipart/form-data">
                         <div class="grid md:grid-cols-2 md:gap-6">
                             <!-- No Naskah -->
                             <div class="mb-3 pt-0 mr-2">
-                                <label for="no_naskah" class="text-sm font-semibold">No Naskah</label>
-                                <input type="number" id="no_naskah" v-model="no_naskah"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required />
+                                <label for="jenis_disposisi" class="text-sm font-semibold">Jenis Disposisi</label>
+                                <select id="jenis_disposisi" v-model="jenis_disposisi" name="jenis_disposisi"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
+                                    <option value="Instruksi Bupati">Instruksi Bupati</option>
+                                    <option value="Surat Edaran">Surat Edaran</option>
+                                    <option value="Surat Perintah">Surat Perintah</option>
+                                    <option value="Surat Perjanjian">Surat Perjanjian</option>
+                                    <option value="Pengumuman">Pengumuman</option>
+
+
+                                </select>
                             </div>
 
                             <!-- Jenis Naskah -->
 
 
                             <div class="mb-3 pt-0">
-                                <label for="jenis_naskah" class="text-sm font-semibold">Jenis Naskah</label>
-                                <select id="jenis_naskah" v-model="jenis_naskah"
+                                <label for="isi_disposisi" class="text-sm font-semibold">Isi Disposisi</label>
+                                <select id="isi_disposisi" v-model="isi_disposisi"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
                                     <option value="Instruksi Bupati">Instruksi Bupati</option>
                                     <option value="Surat Edaran">Surat Edaran</option>
@@ -76,8 +83,8 @@
 
                             <!-- Tanggal Naskah -->
                             <div class="mb-3 pt-0">
-                                <label for="tgl_naskah" class="text-sm font-semibold">Tanggal Naskah</label>
-                                <input type="date" id="tgl_naskah" v-model="tgl_naskah"
+                                <label for="tgl_waktu" class="text-sm font-semibold">Tanggal Disposisi</label>
+                                <input type="date" id="tgl_waktu" v-model="tgl_waktu"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
                                     required />
                             </div>
@@ -86,13 +93,13 @@
                         </div>
 
                         <div class="mt-6">
-                            <router-link to="/admin/naskahmasuk/naskah-masuk"
+                            <router-link to="/admin/suratdisposisi/surat-disposisi"
                                 class="bg-red-500 text-white font-bold px-4 py-2 rounded shadow hover:bg-red-800 mr-2">
                                 Batal
                             </router-link>
                             <button type="submit" :disabled="loading"
                                 class="bg-emerald-500 text-white font-bold px-4 py-2 rounded shadow hover:bg-emerald-600">
-                                Tambah Naskah
+                                Tambah Surat Disposisi
                             </button>
                         </div>
                     </form>
@@ -106,15 +113,15 @@
 import axios from 'axios';
 
 export default {
-    name: "TambahNaskahMasuk",
+    name: "TambahSuratDisposisi",
     data() {
         return {
-            no_naskah: '',
-            jenis_naskah: '',
+            jenis_disposisi: '',
+            isi_disposisi: '',
             perihal: '',
             tujuan: '',
             file: null,
-            tgl_naskah: '',
+            tgl_waktu: '',
             loading: false,
         };
     },
@@ -122,20 +129,20 @@ export default {
         handleFileUpload(event) {
             this.file = event.target.files[0];
         },
-        async handleAddNaskah() {
+        async handleAddDisposi() {
             this.loading = true;
             const token = sessionStorage.getItem('token');
 
             const formData = new FormData();
-            formData.append('no_naskah', this.no_naskah);
-            formData.append('jenis_naskah', this.jenis_naskah);
+            formData.append('jenis_disposisi', this.jenis_disposisi);
+            formData.append('isi_disposisi', this.isi_disposisi);
             formData.append('perihal', this.perihal);
             formData.append('tujuan', this.tujuan);
             formData.append('file', this.file);
-            formData.append('tgl_naskah', this.tgl_naskah);
+            formData.append('tgl_waktu', this.tgl_waktu);
 
             try {
-                const response = await axios.post('http://127.0.0.1:8000/api/naskah-masuks', formData, {
+                const response = await axios.post('http://127.0.0.1:8000/api/disposisis', formData, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         'Content-Type': 'multipart/form-data',
@@ -143,8 +150,8 @@ export default {
                 });
 
                 console.log(response.data);
-                alert('Naskah berhasil ditambahkan!');
-                this.$router.push('/admin/naskahmasuk/naskah-masuk');
+                alert('Disposisi berhasil ditambahkan!');
+                this.$router.push('/admin/suratdisposisi/surat-disposisi');
             } catch (error) {
                 console.error(error);
                 alert('Terjadi kesalahan saat menambahkan naskah.');

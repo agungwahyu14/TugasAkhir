@@ -15,7 +15,7 @@
 
 
             </div>
-            <router-link to="/admin/naskahmasuk/tambah-naskah-masuk"
+            <router-link to="/admin/suratdisposisi/tambah-surat-disposisi"
               class="bg-emerald-500 text-white font-bold px-4 py-3 mr-2 rounded shadow hover:bg-blue-600">
               <i class="fas fa-plus text-sm mr-2 ml-2 "> </i>
             </router-link>
@@ -47,49 +47,41 @@
               </tr>
             </thead>
             <tbody>
-              <template v-if="naskahs.length > 0">
-                <tr v-for="(naskah, index) in filteredNaskahs" :key="naskah.id">
+              <template v-if="disposisis.length > 0">
+                <tr v-for="(disposisi, index) in filteredDisposisis" :key="disposisi.id">
                   <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
                     {{ index + 1 }}
                   </td>
                   <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                    {{ naskah.no_naskah || '-' }}
-                  </td>
-
-                  <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                    {{ naskah.jenis_naskah || '-' }}
+                    {{ disposisi.jenis_disposisi || '-' }}
                   </td>
                   <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                    {{ naskah.perihal || '-' }}
+                    {{ disposisi.isi_disposisi || '-' }}
                   </td>
-
                   <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                    {{ naskah.tujuan == 'kadis' ? 'Kepala Dinas' : naskah.tujuan == 'sekdis' ? 'Sekretasris Dinas' :
+                    {{ disposisi.perihal || '-' }}
+                  </td>
+                  <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                    {{ disposisi.tujuan == 'kadis' ? 'Kepala Dinas' : disposisi.tujuan == 'sekdis' ? 'Sekretasris Dinas'
+                      :
                       'Kepala Bagian' }}
                   </td>
                   <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                    {{ naskah.tgl_naskah || '-' }}
-                  </td>
-                  <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                    {{ naskah.status || '-' }}
+                    {{ disposisi.tgl_waktu || '-' }}
                   </td>
 
                   <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
-                    <router-link :to="`/admin/naskahmasuk/edit-naskah-masuk/${naskah.id_disposisis}`"
+                    <router-link :to="`/admin/disposisimasuk/edit-disposisi-masuk/${disposisi.id_disposisi}`"
                       class="text-white rounded bg-orange-500 text-xs px-4 py-2 mr-2">
                       <i class="fas fa-edit text-sm "></i>
                     </router-link>
 
-                    <button @click="deleteEmployee(naskah.id_disposisis)"
+                    <button @click="disposisiEmployee(disposisi.id_disposisi)"
                       class="text-white rounded bg-red-500 text-xs px-4 py-2 mr-2">
                       <i class="fas fa-trash text-sm "></i>
                     </button>
 
-                    <button class="text-white bg-emerald-500 rounded text-xs px-4 py-2 mr-2">
-                      <i class="fab fa-whatsapp text-sm "></i>
-                    </button>
-
-                    <router-link :to="`/admin/naskahmasuk/detail-naskah-masuk/${naskah.id_disposisis}`"
+                    <router-link :to="`/admin/disposisimasuk/detail-disposisi-masuk/${disposisi.id_disposisis}`"
                       class="text-white rounded bg-orange-500 text-xs px-4 py-2 mr-2">
                       <i class="fas fa-info-circle text-sm "></i>
                     </router-link>
@@ -159,7 +151,7 @@ export default {
   name: "DataSuratDisposisi",
   data() {
     return {
-      naskahs: [],
+      disposisis: [],
       searchQuery: "",
       headers: [
         "Jenis Disposisi",
@@ -174,17 +166,18 @@ export default {
     };
   },
   computed: {
-    filteredNaskahs() {
-      // Filter naskahs berdasarkan searchQuery
-      return this.naskahs.filter(naskah => {
+    filteredDisposisis() {
+      // Filter disposisis berdasarkan searchQuery
+      return this.disposisis.filter(disposisi => {
         return (
-          String(naskah.no_naskah ?? "").includes(this.searchQuery)
-          ||
-          naskah.jenis_naskah.includes(this.searchQuery) ||
-          naskah.perihal.includes(this.searchQuery) ||
-          naskah.tujuan.includes(this.searchQuery) ||
-          naskah.tgl_naskah.includes(this.searchQuery) ||
-          naskah.status.includes(this.searchQuery)
+          // String(disposisi.no_disposisi ?? "").includes(this.searchQuery)
+          // ||
+          disposisi.jenis_disposisi.includes(this.searchQuery) ||
+          disposisi.isi.includes(this.searchQuery) ||
+          disposisi.perihal.includes(this.searchQuery) ||
+          disposisi.tujuan.includes(this.searchQuery) ||
+          disposisi.tgl_waktu.includes(this.searchQuery)
+
         );
       });
     }
@@ -205,14 +198,15 @@ export default {
       if (this.searchQuery.length > 0) {
         this.debouncedSearch(); // Menjalankan fungsi pencarian dengan debounce
       } else {
-        this.disposisi = []; // Kosongkan hasil pencarian jika searchQuery kosong
+        this.disposisis = []; // Kosongkan hasil pencarian jika searchQuery kosong
       }
     },
     fetchPagination(page = 1) {
-      const token = sessionStorage.getItem('token');
+      const token = sessionStorage.getItem("token");
       if (!token) {
-        alert("Anda harus login terlebih dahulu!");
+        alert("You must log in first!");
         this.$router.push("/login");
+        return;
       }
 
       axios
@@ -222,8 +216,8 @@ export default {
           },
         })
         .then((response) => {
-          console.log("Fetch Naskah Response:", response);
-          this.disposisi = response.data.data.data;
+          console.log("Fetch Disposisi Response:", response);
+          this.disposisis = response.data.data.data;
           this.totalPages = response.data.data.last_page;
           this.currentPage = response.data.data.current_page;
         })
@@ -247,7 +241,7 @@ export default {
     goToLastPage() {
       this.fetchPagination(this.totalPages);
     },
-    deleteEmployee(id_disposisis) {
+    disposisiEmployee(id_disposisis) {
       const token = sessionStorage.getItem('token');
       axios
         .delete(`http://127.0.0.1:8000/api/disposisis/${id_disposisis}`, {
@@ -256,11 +250,11 @@ export default {
           }
         })
         .then((response) => {
-          console.log("Delete Naskah Response:", response);
+          console.log("Delete disposisi Response:", response);
           this.fetchPagination(this.currentPage); // Refresh data setelah menghapus
         })
         .catch((error) => {
-          console.error("Error deleting Naskah:", error.response || error);
+          console.error("Error deleting disposisi:", error.response || error);
         });
     },
   },

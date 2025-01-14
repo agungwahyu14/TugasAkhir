@@ -74,7 +74,7 @@
                     {{ naskah.status || '-' }}
                   </td>
 
-                  <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                  <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap text-center">
                     <router-link :to="`/admin/naskahmasuk/edit-naskah-masuk/${naskah.id_naskah_masuk}`"
                       class="text-white rounded bg-orange-500 text-xs px-4 py-2 mr-2">
                       <i class="fas fa-edit text-sm "></i>
@@ -83,10 +83,6 @@
                     <button @click="deleteEmployee(naskah.id_naskah_masuk)"
                       class="text-white rounded bg-red-500 text-xs px-4 py-2 mr-2">
                       <i class="fas fa-trash text-sm "></i>
-                    </button>
-
-                    <button class="text-white bg-emerald-500 rounded text-xs px-4 py-2 mr-2">
-                      <i class="fab fa-whatsapp text-sm "></i>
                     </button>
 
                     <router-link :to="`/admin/naskahmasuk/detail-naskah-masuk/${naskah.id_naskah_masuk}`"
@@ -154,6 +150,7 @@
 <script>
 import axios from "axios";
 import { debounce } from 'lodash';
+import Swal from 'sweetalert2'
 
 export default {
   name: "DataNaskahMasuk",
@@ -249,21 +246,52 @@ export default {
       this.fetchPagination(this.totalPages);
     },
     deleteEmployee(id_naskah_masuk) {
-      const token = sessionStorage.getItem('token');
-      axios
-        .delete(`http://127.0.0.1:8000/api/naskah-masuks/${id_naskah_masuk}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          }
-        })
-        .then((response) => {
-          console.log("Delete Naskah Response:", response);
-          this.fetchPagination(this.currentPage); // Refresh data setelah menghapus
-        })
-        .catch((error) => {
-          console.error("Error deleting Naskah:", error.response || error);
-        });
-    },
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const token = sessionStorage.getItem('token');
+
+          // Proses penghapusan hanya terjadi jika dikonfirmasi
+          axios
+            .delete(`http://127.0.0.1:8000/api/naskah-masuks/${id_naskah_masuk}`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              }
+            })
+            .then((response) => {
+              console.log("Delete Naskah Response:", response);
+
+              // Tampilkan notifikasi sukses setelah penghapusan berhasil
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success"
+              });
+
+              // Refresh data setelah menghapus
+              this.fetchPagination(this.currentPage);
+            })
+            .catch((error) => {
+              console.error("Error deleting Naskah:", error.response || error);
+
+              // Tampilkan notifikasi error jika penghapusan gagal
+              Swal.fire({
+                title: "Error!",
+                text: "There was an error deleting the file.",
+                icon: "error"
+              });
+            });
+        }
+      });
+    }
+
   },
   props: {
     color: {

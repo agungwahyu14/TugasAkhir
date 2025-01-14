@@ -8,7 +8,7 @@
                         <div class="relative w-full px-4 max-w-full flex-grow flex-1">
                             <h3 class="font-semibold text-lg"
                                 :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
-                                Edit Naskah Masuk
+                                Edit Surat Disposisi
                             </h3>
                         </div>
                     </div>
@@ -16,7 +16,7 @@
                 <hr class="md:min-w-full" />
                 <div class="block w-full overflow-x-auto">
                     <!-- Form Inputs -->
-                    <form @submit.prevent="updateNaskah" class="px-4 py-4">
+                    <form @submit.prevent="updateDisposisi" class="px-4 py-4">
 
 
 
@@ -24,24 +24,31 @@
 
 
                             <div class="mb-3 pt-0 mr-2">
-                                <label for="jenis_naskah" class="text-sm font-semibold">Jenis Naskah</label>
-                                <select id="jenis_naskah" v-model="formData.jenis_naskah" name="jenis_naskah"
+                                <label for="jenis_disposisi" class="text-sm font-semibold">Jenis Disposisi</label>
+                                <select id="jenis_disposisi" v-model="suratDisposisi.jenis_disposisi"
+                                    name="jenis_disposisi"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
                                     <option value="Instruksi Bupati">Instruksi Bupati</option>
                                     <option value="Surat Edaran">Surat Edaran</option>
                                     <option value="Surat Perintah">Surat Perintah</option>
                                     <option value="Surat Perjanjian">Surat Perjanjian</option>
                                     <option value="Pengumuman">Pengumuman</option>
-                                    
+
 
                                 </select>
                             </div>
 
 
+                            <div class="mb-3 pt-0 mr-2">
+                                <label for="isi_disposisi" class="text-sm font-semibold">Isi Disposisi</label>
+                                <input type="text" id="isi_disposisi" v-model="suratDisposisi.isi_disposisi"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
+                                    required />
+                            </div>
 
                             <div class="mb-3 pt-0 mr-2">
                                 <label for="tujuan" class="text-sm font-semibold">Tujuan</label>
-                                <select id="tujuan" name="tujuan" v-model="formData.tujuan"
+                                <select id="tujuan" name="tujuan" v-model="suratDisposisi.tujuan"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
                                     <option value="kadis">Kepala Dinas</option>
                                     <option value="sekdis">Sekretaris Dinas</option>
@@ -50,49 +57,39 @@
                             </div>
 
                             <div class="mb-3 pt-0 mr-2">
-                                <label for="tgl_naskah" class="text-sm font-semibold">Tanggal Naskah</label>
-                                <input type="date" id="tgl_naskah" v-model="formData.tgl_naskah"
+                                <label for="tgl_waktu" class="text-sm font-semibold">Tanggal Disposisi</label>
+                                <input type="date" id="tgl_waktu" v-model="suratDisposisi.tgl_waktu"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
                                     required />
                             </div>
 
-                            <div class="mb-3 pt-0 mr-2">
-                                <label for="status" class="text-sm font-semibold">Status</label>
-                                <select id="status" v-model="formData.status"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required>
-                                    <option value="Menunggu Validasi">Menunggu Validasi</option>
-                                    <option value="Diterima">Diterima</option>
-                                    <option value="Ditolak">Ditolak</option>
-                                    <option value="Diproses">Diproses</option>
-                                </select>
-                            </div>
+
 
                             <div class="mb-3 pt-0 mr-2">
                                 <label for="status" class="text-sm font-semibold">File</label>
                                 <input type="file" id="file" v-on:change="handleFileChange" name="file"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10" />
-                                <p v-if="formData.file" class="mt-2 text-sm text-blueGray-600 font-bold">
-                                    File sebelum: {{ formData.file }}
+                                <p v-if="suratDisposisi.file" class="mt-2 text-sm text-blueGray-600 font-bold">
+                                    File sebelum: {{ suratDisposisi.file }}
                                 </p>
                             </div>
 
                             <div class="mb-3 pt-0 mr-2">
                                 <label for="perihal" class="text-sm font-semibold">Perihal</label>
-                                <textarea type="text" id="perihal" v-model="formData.perihal"
+                                <textarea type="text" id="perihal" v-model="suratDisposisi.perihal"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
                                     required maxlength="255" />
                             </div>
 
                         </div>
                         <div class="mt-6">
-                            <router-link to="/admin/naskahmasuk/naskah-masuk"
+                            <router-link to="/admin/suratdisposisi/surat-disposisi"
                                 class="bg-red-500 text-white font-bold px-4 py-2 rounded shadow hover:bg-red-800 mr-2">
                                 Batal
                             </router-link>
                             <button type="submit"
                                 class="bg-emerald-500 text-white font-bold px-4 py-2 rounded shadow hover:bg-emerald-600">
-                                Update Naskah
+                                Update Disposisi
                             </button>
                         </div>
 
@@ -107,78 +104,85 @@
 <script>
 
 import axios from "axios";
+import Swal from 'sweetalert2'
 
 export default {
-    name: "EditNaskahMasuk",
+    name: "EditSuratDisposisi",
     data() {
         return {
-            formData: {
-                jenis_naskah: '',
+            suratDisposisi: {
+                jenis_disposisi: '',
+                isi_disposisi: '',
                 perihal: '',
                 tujuan: '',
-                tgl_naskah: '',
-                status: '',
                 file: '',
+                tgl_waktu: ''
             }
         };
     },
     mounted() {
-        const naskahID = this.$route.params.id_naskah_masuk;
-        this.fetchNaskah(naskahID);
+        const disposisiID = this.$route.params.id_disposisi;
+        this.fetchDisposisi(disposisiID);
         console.log("apa ini");
-        console.log(naskahID);
+        console.log(disposisiID);
     },
     methods: {
-        fetchNaskah(id_naskah_masuk) {
+        fetchDisposisi(id_disposisi) {
             const token = sessionStorage.getItem('token'); // Ambil token dari localStorage
             axios
-                .get(`http://127.0.0.1:8000/api/naskah-masuks/${id_naskah_masuk}`, {
+                .get(`http://127.0.0.1:8000/api/disposisis/${id_disposisi}`, {
                     headers: {
                         Authorization: `Bearer ${token}` // Tambahkan header Bearer Token
                     }
                 })
                 .then((response) => {
-                    console.log("Fetch Naskah Response:", response); // Print seluruh response
-                    console.log("Data Naskah:", response.data.data); // Print hanya data pegawai
-                    this.formData = response.data.data;
+                    console.log("Fetch Disposisi Response:", response); // Print seluruh response
+                    console.log("Data Disposisi:", response.data.data); // Print hanya data pegawai
+                    this.suratDisposisi = response.data.data;
                 })
                 .catch((error) => {
                     console.error("Error fetching data:", error.response || error); // Print error detail
                 });
         },
+
         handleFileChange(event) {
-            this.formData.file = event.target.files[0];
+            this.suratDisposisi.file = event.target.files[0];
         },
-        updateNaskah() {
+        updateDisposisi() {
             const token = sessionStorage.getItem('token');
-            const naskahID = this.$route.params.id_naskah_masuk;
-
-            // Membuat instance FormData untuk mengirim file dan data lainnya
-            const formData = new FormData();
-            formData.append('jenis_naskah', this.formData.jenis_naskah);
-            formData.append('perihal', this.formData.perihal);
-            formData.append('tujuan', this.formData.tujuan);
-            formData.append('tgl_naskah', this.formData.tgl_naskah);
-            formData.append('status', this.formData.status);
-
-            // Jika file ada, tambahkan file ke FormData
-            if (this.formData.file) {
-                formData.append('file', this.formData.file);
-            }
+            const disposisiID = this.$route.params.id_disposisi;
 
             axios
-                .put(`http://127.0.0.1:8000/api/naskah-masuks/${naskahID}`, formData, {
+                .put(`http://127.0.0.1:8000/api/disposisis/${disposisiID}`, this.suratDisposisi, {
                     headers: {
                         Authorization: `Bearer ${token}`,
-                        'Content-Type': 'multipart/form-data', // Pastikan header ini ada saat mengirim file
+
                     },
                 })
                 .then((response) => {
-                    console.log("Naskah updated:", response.data);
-                    this.$router.push('/admin/naskahmasuk/naskah-masuk'); // Redirect to list page
+                    console.log("Disposisi updated:", response.data);
+
+                    // Tampilkan notifikasi sukses dengan SweetAlert2
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Your work has been saved",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    }).then(() => {
+                        // Redirect ke halaman daftar setelah notifikasi selesai
+                        this.$router.push('/admin/suratdisposisi/surat-disposisi');
+                    });
                 })
                 .catch((error) => {
-                    console.error("Error updating naskah:", error);
+                    console.error("Error updating disposisi:", error);
+
+                    // Tampilkan notifikasi error dengan SweetAlert2
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Something went wrong while updating the disposisi!",
+                    });
                 });
         }
 

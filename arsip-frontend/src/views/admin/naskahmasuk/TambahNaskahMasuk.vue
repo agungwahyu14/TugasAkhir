@@ -104,6 +104,7 @@
 
 <script>
 import axios from 'axios';
+import Swal from 'sweetalert2'
 
 export default {
     name: "TambahNaskahMasuk",
@@ -143,11 +144,20 @@ export default {
                 });
 
                 console.log(response.data);
-                alert('Naskah berhasil ditambahkan!');
+                Swal.fire({
+                    title: 'Success',
+                    text: 'Berhasil Menambahkan Data',
+                    icon: 'success',
+                })
                 this.$router.push('/admin/naskahmasuk/naskah-masuk');
             } catch (error) {
                 console.error(error);
-                alert('Terjadi kesalahan saat menambahkan naskah.');
+                Swal.fire({
+                    title: 'Gagal',
+                    text: 'Gagal Menambahkan Data',
+                    icon: 'error',
+                })
+
             } finally {
                 this.loading = false;
             }

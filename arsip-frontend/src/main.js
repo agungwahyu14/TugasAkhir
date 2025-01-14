@@ -25,18 +25,29 @@ import Auth from "@/layouts/Auth.vue";
 // import Maps from "@/views/admin/Maps.vue";
 // import ArsipStatis from "@/views/admin/arsipstatis/ArsipStatis.vue";
 // import ArsipDinamis from "@/views/admin/arsipdinamis/ArsipDinamis.vue";
+// Disposisi
 import SuratDisposisi from "@/views/admin/suratdisposisi/SuratDisposisi.vue";
+import TambahSuratDisposisi from "@/views/admin/suratdisposisi/TambahSuratDisposisi.vue";
+import EditSuratDisposisi from "@/views/admin/suratdisposisi/EditSuratDisposisi.vue";
+import DetailSuratDisposisi from "@/views/admin/suratdisposisi/DetailSuratDisposisi.vue";
+
+// Naskah Masuk
 import NaskahMasuk from "@/views/admin/naskahmasuk/NaskahMasuk.vue";
-import NaskahKeluar from "@/views/admin/naskahkeluar/NaskahKeluar.vue";
-import UserPegawai from "@/views/admin/pegawai/UserPegawai.vue";
-import UserAdmin from "@/views/admin/pegawai/UserAdmin.vue";
 import TambahNaskahMasuk from "@/views/admin/naskahmasuk/TambahNaskahMasuk.vue";
 import EditNaskahMasuk from "@/views/admin/naskahmasuk/EditNaskahMasuk.vue";
 import DetailNaskahMasuk from "@/views/admin/naskahmasuk/DetailNaskahMasuk.vue";
+// Naskah Keluar
+import NaskahKeluar from "@/views/admin/naskahkeluar/NaskahKeluar.vue";
+import DetailNaskahKeluar from "@/views/admin/naskahkeluar/DetailNaskahKeluar.vue";
 import TambahNaskahKeluar from "@/views/admin/naskahkeluar/TambahNaskahKeluar.vue";
 import EditNaskahKeluar from "@/views/admin/naskahkeluar/EditNaskahKeluar.vue";
+// Pegawai
+import UserPegawai from "@/views/admin/pegawai/UserPegawai.vue";
 import TambahUserPegawai from "@/views/admin/pegawai/TambahUserPegawai.vue";
 import EditUserPegawai from "@/views/admin/pegawai/EditUserPegawai.vue";
+
+// Admin
+import UserAdmin from "@/views/admin/pegawai/UserAdmin.vue";
 import TambahUserAdmin from "@/views/admin/pegawai/TambahUserAdmin.vue";
 import EditUserAdmin from "@/views/admin/pegawai/EditUserAdmin.vue";
 
@@ -70,10 +81,24 @@ const routes = [
       //   path: "/admin/arsipdinamis/arsip-dinamis",
       //   component: ArsipDinamis,
       // },
+      // Disposisi
       {
         path: "/admin/suratdisposisi/surat-disposisi",
         component: SuratDisposisi,
       },
+      {
+        path: "/admin/suratdisposisi/tambah-surat-disposisi",
+        component: TambahSuratDisposisi,
+      },
+      {
+        path: "/admin/disposisimasuk/edit-disposisi-masuk/:id_disposisi",
+        component: EditSuratDisposisi,
+      },
+      {
+        path: "/admin/disposisimasuk/detail-disposisi-masuk/:id_disposisi",
+        component: DetailSuratDisposisi,
+      },
+
      
      
       // Pegawai
@@ -101,7 +126,7 @@ const routes = [
       },
 
       {
-        path: "/admin/naskahmasuk/detail-naskah-masuk/:id_naskah_keluar",
+        path: "/admin/naskahmasuk/detail-naskah-masuk",
         component: DetailNaskahMasuk,
       },
        // Crud Naskah Keluar
@@ -116,6 +141,11 @@ const routes = [
       {
         path: "/admin/naskahkeluar/edit-naskah-keluar/:id_naskah_keluar",
         component: EditNaskahKeluar,
+      },
+
+      {
+        path: "/admin/naskahmasuk/detail-naskah-masuk",
+        component: DetailNaskahKeluar,
       },
 
       // Crud Pegawai

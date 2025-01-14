@@ -80,7 +80,7 @@
                                         {{ naskah.status || '-' }}
                                     </td>
 
-                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap">
+                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap text-center">
                                         <router-link
                                             :to="`/admin/naskahkeluar/edit-naskah-keluar/${naskah.id_naskah_keluar}`"
                                             class="text-white rounded bg-orange-500 text-xs px-4 py-2 mr-2">
@@ -90,10 +90,6 @@
                                         <button @click="deleteEmployee(naskah.id_naskah_keluar)"
                                             class="text-white rounded bg-red-500 text-xs px-4 py-2 mr-2">
                                             <i class="fas fa-trash text-sm "></i>
-                                        </button>
-
-                                        <button class="text-white bg-emerald-500 rounded text-xs px-4 py-2 mr-2">
-                                            <i class="fab fa-whatsapp text-sm "></i>
                                         </button>
 
                                         <router-link
