@@ -157,12 +157,12 @@ class NaskahKeluarController extends Controller
         try {
             // Validasi input dari request
             $validatedData = $request->validate([
-                'jenis_naskah' => 'required|string|max:255',
-                'perihal' => 'required|string|max:255',
-                'asal_naskah' => 'required|string|max:255', // Menambahkan asal naskah
-                'tujuan' => 'required|string|max:255',
-                'tgl_naskah' => 'required|date',
-                'status' => 'required|in:Menunggu Validasi,Diterima,Ditolak,Diproses',
+                'jenis_naskah' => 'sometimes|string|max:255',
+                'perihal' => 'sometimes|string|max:255',
+                'asal_naskah' => 'sometimes|string|max:255', // Menambahkan asal naskah
+                'tujuan' => 'sometimes|string|max:255',
+                'tgl_naskah' => 'sometimes|date',
+                'status' => 'sometimes|in:Menunggu Validasi,Diterima,Ditolak,Diproses',
                 'file' => 'nullable|mimes:doc,docx,pdf|max:2048',
             ], [
                 'jenis_naskah.required' => 'Jenis naskah wajib diisi.',

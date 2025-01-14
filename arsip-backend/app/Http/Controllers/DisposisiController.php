@@ -189,12 +189,12 @@ class DisposisiController extends Controller
 {
     $validator = Validator::make($request->all(), [
         'id_pengguna' => 'nullable|integer',
-        'jenis_disposisi' => 'required|string|max:100',
-        'isi_disposisi' => 'required|string',
-        'perihal' => 'required|string|max:150',
-        'tujuan' => 'required|string|max:150',
+        'jenis_disposisi' => 'sometimes|string|max:100',
+        'isi_disposisi' => 'sometimes|string',
+        'perihal' => 'sometimes|string|max:150',
+        'tujuan' => 'sometimes|string|max:150',
         'file' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
-        'tgl_waktu' => 'required|date',
+        'tgl_waktu' => 'sometimes|date',
     ], [
         'required' => ':attribute wajib diisi.',
         'integer' => ':attribute harus berupa angka.',
