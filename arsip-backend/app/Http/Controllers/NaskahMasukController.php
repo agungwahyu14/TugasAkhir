@@ -9,29 +9,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-
 class NaskahMasukController extends Controller
 {
 
     public function index(Request $request)
     {
         try {
-            $perPage = $request->query('per_page', 10);
-            $search = $request->query('search', '');
-            $filter = $request->query('filter', '');
-            $tglNaskah = $request->query('tgl_naskah', '');
+            $perPage = $request->query('per_page', 10); 
+            $search = $request->query('search', ''); 
+            $filter = $request->query('filter', '');  
+            $tglNaskah = $request->query('tgl_naskah', ''); 
             $query = NaskahMasuk::orderBy('tgl_naskah', 'desc');
-
+            
             if ($search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('no_naskah', 'like', "%{$search}%")
-                        ->orWhere('jenis_naskah', 'like', "%{$search}%")
-                        ->orWhere('perihal', 'like', "%{$search}%");
+                      ->orWhere('jenis_naskah', 'like', "%{$search}%")
+                      ->orWhere('perihal', 'like', "%{$search}%");
                 });
             }
-
+    
             if ($filter) {
                 $query->where('status', $filter);
             }
@@ -79,20 +77,20 @@ class NaskahMasukController extends Controller
                 'messages' => $validator->errors()
             ], 400);
         }
-
+        
         try {
             $file = $request->file('file');
-            $fileName = $request->no_naskah . '-' . str_replace(' ', '_', strtolower($request->perihal)) . '.' . $file->getClientOriginalExtension();
+            $fileName = $request->no_naskah . '-' . str_replace(' ', '_', strtolower($request->perihal)) . '.' . $file->getClientOriginalExtension(); 
             $path = 'naskah_masuk/' . $request->jenis_naskah . '/' . now()->year . '/' . now()->month . '/' . now()->day;
             $filePath = $file->storeAs($path, $fileName, 'public');
             $idPengguna = null;
             if (auth()->user() instanceof Admin) {
-                $idPengguna = auth()->user()->nip;
+                $idPengguna = auth()->user()->nip; 
             } elseif (auth()->user() instanceof Pegawai) {
-                $idPengguna = auth()->user()->nip;
+                $idPengguna = auth()->user()->nip; 
             }
-
-            if ($request->tujuan == 'kadis') {
+            
+            if($request->tujuan=='kadis'){
                 $naskahMasuk = NaskahMasuk::create([
                     'id_pengguna'   => $idPengguna,
                     'no_naskah'     => $request->no_naskah,
@@ -106,7 +104,7 @@ class NaskahMasukController extends Controller
                     'catatan'       => null,
                     'updated_by'    => null,
                 ]);
-            } else {
+            }else{
                 $naskahMasuk = NaskahMasuk::create([
                     'id_pengguna'   => $idPengguna,
                     'no_naskah'     => $request->no_naskah,
@@ -179,11 +177,6 @@ class NaskahMasukController extends Controller
             }
             $naskahMasuk->update($validatedData);
 
-
-
-            $naskahMasuk->update($validatedData);
-            Log::info('Updated data: ', $naskahMasuk->toArray());
-
             return response()->json([
                 'message' => 'Data naskah masuk berhasil diperbarui.',
                 'data' => $naskahMasuk,
@@ -199,12 +192,12 @@ class NaskahMasukController extends Controller
             ], 500);
         }
     }
-
+    
     public function sendMessage(Request $request)
     {
         try {
             $naskahMasuk = NaskahMasuk::where('id_naskah_masuk', $request->id_naskah_masuk)->firstOrFail();
-            if ($request->is_valid || $request->is_valid == 'true') {
+            if ($request->is_valid||$request->is_valid=='true') {
                 $naskahMasuk->update([
                     "is_valid" => true,
                     "catatan" => $request->catatan,
@@ -212,27 +205,26 @@ class NaskahMasukController extends Controller
                     "status" => "Diproses"
                 ]);
 
-                $phoneNumber = env('WHATSAPP_PHONE_NUMBER');
+                $phoneNumber = env('WHATSAPP_PHONE_NUMBER'); 
                 $message = urlencode(
-                    "*Naskah Masuk:* #{$naskahMasuk->no_naskah}\n" .
-                        "*Status:* {$naskahMasuk->status}\n" .
-                        "*Catatan:* {$naskahMasuk->catatan}"
+                    "*Naskah Masuk:* #{$naskahMasuk->no_naskah}\n" .  
+                    "*Status:* {$naskahMasuk->status}\n" .              
+                    "*Catatan:* {$naskahMasuk->catatan}"            
                 );
                 $whatsappUrl = "https://wa.me/{$phoneNumber}?text={$message}";
-            }
-            if (!$request->is_valid || $request->is_valid == 'false') {
+            } if(!$request->is_valid||$request->is_valid=='false') {
                 $naskahMasuk->update([
                     "is_valid" => false,
                     "catatan" => $request->catatan,
                     "updated_by" => $request->user->nip,
                     "status" => "Ditolak"
                 ]);
-
-                $phoneNumber = env('WHATSAPP_PHONE_NUMBER');
+    
+                $phoneNumber = env('WHATSAPP_PHONE_NUMBER'); 
                 $message = urlencode(
-                    "*Naskah Masuk:* #{$naskahMasuk->no_naskah}\n" .
-                        "*Status:* {$naskahMasuk->status}\n" .
-                        "*Catatan:* {$naskahMasuk->catatan}"
+                    "*Naskah Masuk:* #{$naskahMasuk->no_naskah}\n" .  
+                    "*Status:* {$naskahMasuk->status}\n" .              
+                    "*Catatan:* {$naskahMasuk->catatan}"            
                 );
                 $whatsappUrl = "https://wa.me/{$phoneNumber}?text={$message}";
             }
@@ -250,14 +242,13 @@ class NaskahMasukController extends Controller
             ], 500);
         }
     }
-
-    public function accepet(Request $request)
-    {
+    
+    public function accepet(Request $request){
         try {
             $naskahMasuk = NaskahMasuk::where('id_naskah_masuk', $request->id_naskah_masuk)->firstOrFail();
-            if ($naskahMasuk->status == 'Diproses') {
+            if($naskahMasuk->status=='Diproses'){
                 $naskahMasuk->update([
-                    "status" => "Diterima"
+                    "status"=>"Diterima"
                 ]);
             }
             return response()->json([
@@ -283,7 +274,7 @@ class NaskahMasukController extends Controller
                 Storage::disk('public')->delete($naskahMasuk->file);
             }
             $naskahMasuk->delete();
-
+    
             return response()->json([
                 'message' => 'Data naskah masuk berhasil dihapus.',
                 'status_code' => 200,
@@ -305,18 +296,19 @@ class NaskahMasukController extends Controller
             ], 500);
         }
     }
-
+    
     public function show($id)
     {
         try {
             $naskahMasuk = NaskahMasuk::findOrFail($id);
-
+    
             return response()->json([
                 'message' => 'Data naskah masuk berhasil ditemukan.',
                 'data' => $naskahMasuk,
                 'status_code' => 200,
                 'status' => 'sukses'
             ], 200);
+    
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'message' => 'Data naskah masuk tidak ditemukan.',
@@ -333,7 +325,7 @@ class NaskahMasukController extends Controller
             ], 500);
         }
     }
-
+       
 
 
     public function downloadFile($id)
@@ -353,6 +345,7 @@ class NaskahMasukController extends Controller
 
             // Download the file
             return Storage::disk('public')->download($naskahMasuk->file);
+
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'message' => 'Data naskah masuk tidak ditemukan.',
@@ -369,4 +362,5 @@ class NaskahMasukController extends Controller
             ], 500);
         }
     }
+
 }
