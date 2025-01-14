@@ -74,14 +74,8 @@ const routes = [
         path: "/admin/suratdisposisi/surat-disposisi",
         component: SuratDisposisi,
       },
-      {
-        path: "/admin/naskahmasuk/naskah-masuk",
-        component: NaskahMasuk,
-      },
-      {
-        path: "/admin/naskahkelaur/naskah-keluar",
-        component: NaskahKeluar,
-      },
+     
+     
       // Pegawai
       {
         path: "/admin/pegawai/user-pegawai",
@@ -93,6 +87,11 @@ const routes = [
       },
       // Crud Naskah Masuk
       {
+        path: "/admin/naskahmasuk/naskah-masuk",
+        component: NaskahMasuk,
+      },
+      {
+        
         path: "/admin/naskahmasuk/tambah-naskah-masuk",
         component: TambahNaskahMasuk,
       },
@@ -107,17 +106,21 @@ const routes = [
       },
        // Crud Naskah Keluar
        {
+        path: "/admin/naskahkelaur/naskah-keluar",
+        component: NaskahKeluar,
+      },
+       {
         path: "/admin/naskahkeluar/tambah-naskah-keluar",
         component: TambahNaskahKeluar,
       },
       {
-        path: "/admin/naskahkelaur/edit-naskah-keluar/:id_naskah_kelaur",
+        path: "/admin/naskahkeluar/edit-naskah-keluar/:id_naskah_keluar",
         component: EditNaskahKeluar,
       },
 
       // Crud Pegawai
       {
-        path: "/admin/pegawai/tambah-user-pegawai/:id_naskah_keluar",
+        path: "/admin/pegawai/tambah-user-pegawai",
         component: TambahUserPegawai,
       },
       {

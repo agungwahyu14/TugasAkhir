@@ -122,13 +122,14 @@
                         </tbody>
                     </table>
                 </div>
-
+                
             </div>
         </div>
     </div>
 </template>
 <script>
 import axios from "axios";
+
 
 export default {
     name: "DataPegawai",
@@ -150,6 +151,7 @@ export default {
             ],
         };
     },
+    
     mounted() {
         this.fetchEmployees();
     },

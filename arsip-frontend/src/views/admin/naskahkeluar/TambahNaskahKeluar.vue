@@ -8,7 +8,7 @@
                         <div class="relative w-full px-4 max-w-full flex-grow flex-1">
                             <h3 class="font-semibold text-lg"
                                 :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
-                                Tambah Naskah Masuk
+                                Tambah Naskah Keluar
                             </h3>
                         </div>
                     </div>
@@ -21,7 +21,7 @@
                             <!-- No Naskah -->
                             <div class="mb-3 pt-0 mr-2">
                                 <label for="no_naskah" class="text-sm font-semibold">No Naskah</label>
-                                <input type="text" id="no_naskah" v-model="no_naskah"
+                                <input type="number" id="no_naskah" v-model="no_naskah"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
                                     required />
                             </div>
@@ -43,9 +43,22 @@
                                 </select>
                             </div>
 
-                            <!-- Perihal -->
 
                             <div class="mb-3 pt-0 mr-2">
+                                <label for="asal_naskah" class="text-sm font-semibold">Asal Naskah</label>
+                                <select id="asal_naskah" v-model="asal_naskah"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
+                                    <option value="Instruksi Bupati">Pemerintah</option>
+                                    <option value="Surat Edaran">Bupati</option>
+                                    <option value="Surat Perintah">Keuangan</option>
+
+
+                                </select>
+                            </div>
+
+                            <!-- Perihal -->
+
+                            <div class="mb-3 pt-0">
                                 <label for="tujuan" class="text-sm font-semibold">Tujuan</label>
                                 <select id="tujuan" name="tujuan" v-model="tujuan"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
@@ -61,12 +74,19 @@
 
 
                             <!-- File -->
-                            <div class="mb-3 pt-0 ">
+                            <div class="mb-3 pt-0 mr-2 ">
                                 <label for="file" class="text-sm font-semibold">File</label>
                                 <input type="file" id="file" @change="handleFileUpload"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
                                     accept=".doc,.docx,.pdf" required />
                             </div>
+                            <div class="mb-3 pt-0">
+                                <label for="tgl_naskah" class="text-sm font-semibold">Tanggal Naskah</label>
+                                <input type="date" id="tgl_naskah" v-model="tgl_naskah"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
+                                    required />
+                            </div>
+
                             <div class="mb-3 pt-0 mr-2">
                                 <label for="perihal" class="text-sm font-semibold">Perihal</label>
                                 <textarea type="text" id="perihal" v-model="perihal"
@@ -75,18 +95,13 @@
                             </div>
 
                             <!-- Tanggal Naskah -->
-                            <div class="mb-3 pt-0">
-                                <label for="tgl_naskah" class="text-sm font-semibold">Tanggal Naskah</label>
-                                <input type="date" id="tgl_naskah" v-model="tgl_naskah"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required />
-                            </div>
+
 
 
                         </div>
 
                         <div class="mt-6">
-                            <router-link to="/admin/naskahmasuk/naskah-masuk"
+                            <router-link to="/admin/naskahkelaur/naskah-keluar"
                                 class="bg-red-500 text-white font-bold px-4 py-2 rounded shadow hover:bg-red-800 mr-2">
                                 Batal
                             </router-link>
@@ -106,12 +121,13 @@
 import axios from 'axios';
 
 export default {
-    name: "TambahNaskahMasuk",
+    name: "TambahNaskahkeluar",
     data() {
         return {
             no_naskah: '',
             jenis_naskah: '',
             perihal: '',
+            asal_naskah: '',
             tujuan: '',
             file: null,
             tgl_naskah: '',
@@ -130,12 +146,13 @@ export default {
             formData.append('no_naskah', this.no_naskah);
             formData.append('jenis_naskah', this.jenis_naskah);
             formData.append('perihal', this.perihal);
+            formData.append('asal_naskah', this.asal_naskah);
             formData.append('tujuan', this.tujuan);
             formData.append('file', this.file);
             formData.append('tgl_naskah', this.tgl_naskah);
 
             try {
-                const response = await axios.post('http://127.0.0.1:8000/api/naskah-masuks', formData, {
+                const response = await axios.post('http://127.0.0.1:8000/api/naskah-keluars', formData, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         'Content-Type': 'multipart/form-data',
@@ -144,7 +161,7 @@ export default {
 
                 console.log(response.data);
                 alert('Naskah berhasil ditambahkan!');
-                this.$router.push('/admin/naskahmasuk/naskah-masuk');
+                this.$router.push('/admin/naskahkelaur/naskah-keluar');
             } catch (error) {
                 console.error(error);
                 alert('Terjadi kesalahan saat menambahkan naskah.');

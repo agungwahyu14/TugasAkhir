@@ -21,7 +21,7 @@
                             <!-- NIP -->
                             <div class="mb-3 pt-0 mr-2">
                                 <label for="nip" class="text-sm font-semibold">NIP</label>
-                                <input type="text" id="nip" v-model="nip"
+                                <input type="number" id="nip" v-model="nip"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
                                     required />
                             </div>

@@ -121,6 +121,18 @@
                     </table>
                 </div>
 
+                <div class="flex justify-between items-center px-4 py-3">
+                    <button @click="fetchNaskah(currentPage - 1)" :disabled="currentPage === 1"
+                        class="px-3 py-2 bg-blue-500 text-white rounded disabled:opacity-50">
+                        Previous
+                    </button>
+                    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+                    <button @click="fetchNaskah(currentPage + 1)" :disabled="currentPage === totalPages"
+                        class="px-3 py-2 bg-blue-500 text-white rounded disabled:opacity-50">
+                        Next
+                    </button>
+                </div>
+
             </div>
         </div>
     </div>
