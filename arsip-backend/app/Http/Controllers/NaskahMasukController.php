@@ -160,7 +160,6 @@ class NaskahMasukController extends Controller
 
             ]);
 
-            Log::info('Data before update: ', $request->toArray());
 
             $naskahMasuk = NaskahMasuk::where('id_naskah_masuk', $id)->firstOrFail();
             if ($request->hasFile('file')) {
