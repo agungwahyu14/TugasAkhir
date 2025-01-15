@@ -101,7 +101,7 @@
 
 <script>
 import axios from 'axios';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 export default {
     name: "TambahNaskahMasuk",

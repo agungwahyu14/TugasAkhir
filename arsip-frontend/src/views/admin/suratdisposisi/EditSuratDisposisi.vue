@@ -38,14 +38,6 @@
                                 </select>
                             </div>
 
-
-                            <div class="mb-3 pt-0 mr-2">
-                                <label for="isi_disposisi" class="text-sm font-semibold">Isi Disposisi</label>
-                                <input type="text" id="isi_disposisi" v-model="suratDisposisi.isi_disposisi"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required />
-                            </div>
-
                             <div class="mb-3 pt-0 mr-2">
                                 <label for="tujuan" class="text-sm font-semibold">Tujuan</label>
                                 <select id="tujuan" name="tujuan" v-model="suratDisposisi.tujuan"
@@ -57,7 +49,24 @@
                             </div>
 
                             <div class="mb-3 pt-0 mr-2">
-                                <label for="tgl_waktu" class="text-sm font-semibold">Tanggal Disposisi</label>
+                                <label for="isi_disposisi" class="text-sm font-semibold">Isi Disposisi</label>
+                                <textarea type="text" id="isi_disposisi" v-model="suratDisposisi.isi_disposisi"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
+                                    required maxlength="255" />
+                            </div>
+
+                            <div class="mb-3 pt-0 mr-2">
+                                <label for="perihal" class="text-sm font-semibold">Perihal</label>
+                                <textarea type="text" id="perihal" v-model="suratDisposisi.perihal"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
+                                    required maxlength="255" />
+                            </div>
+
+
+
+
+                            <div class="mb-3 pt-0 mr-2">
+                                <label for="tgl_waktu" class="text-sm font-semibold">Tanggal Waktu</label>
                                 <input type="date" id="tgl_waktu" v-model="suratDisposisi.tgl_waktu"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
                                     required />
@@ -74,12 +83,7 @@
                                 </p>
                             </div>
 
-                            <div class="mb-3 pt-0 mr-2">
-                                <label for="perihal" class="text-sm font-semibold">Perihal</label>
-                                <textarea type="text" id="perihal" v-model="suratDisposisi.perihal"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required maxlength="255" />
-                            </div>
+
 
                         </div>
                         <div class="mt-6">
@@ -89,7 +93,7 @@
                             </router-link>
                             <button type="submit"
                                 class="bg-emerald-500 text-white font-bold px-4 py-2 rounded shadow hover:bg-emerald-600">
-                                Update Disposisi
+                                Update Naskah
                             </button>
                         </div>
 
@@ -104,10 +108,10 @@
 <script>
 
 import axios from "axios";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 export default {
-    name: "EditSuratDisposisi",
+    name: "EditsuratDisposisi",
     data() {
         return {
             suratDisposisi: {
@@ -116,51 +120,50 @@ export default {
                 perihal: '',
                 tujuan: '',
                 file: '',
-                tgl_waktu: ''
+                tgl_waktu: '',
             }
         };
     },
     mounted() {
-        const disposisiID = this.$route.params.id_disposisi;
-        this.fetchDisposisi(disposisiID);
+        const naskahID = this.$route.params.id_disposisi;
+        this.fetchNaskah(naskahID);
         console.log("apa ini");
-        console.log(disposisiID);
+        console.log(naskahID);
     },
     methods: {
-        fetchDisposisi(id_disposisi) {
+        fetchNaskah(id_disposisi) {
             const token = sessionStorage.getItem('token'); // Ambil token dari localStorage
             axios
-                .get(`http://127.0.0.1:8000/api/disposisis/${id_disposisi}`, {
+                .get(`http://127.0.0.1:8000/api/disposisi/${id_disposisi}`, {
                     headers: {
                         Authorization: `Bearer ${token}` // Tambahkan header Bearer Token
                     }
                 })
                 .then((response) => {
-                    console.log("Fetch Disposisi Response:", response); // Print seluruh response
-                    console.log("Data Disposisi:", response.data.data); // Print hanya data pegawai
+                    console.log("Fetch Naskah Response:", response); // Print seluruh response
+                    console.log("Data Naskah:", response.data.data); // Print hanya data pegawai
                     this.suratDisposisi = response.data.data;
                 })
                 .catch((error) => {
                     console.error("Error fetching data:", error.response || error); // Print error detail
                 });
         },
-
         handleFileChange(event) {
             this.suratDisposisi.file = event.target.files[0];
         },
-        updateDisposisi() {
+        updateNaskah() {
             const token = sessionStorage.getItem('token');
-            const disposisiID = this.$route.params.id_disposisi;
+            const naskahID = this.$route.params.id_disposisi;
 
             axios
-                .put(`http://127.0.0.1:8000/api/disposisis/${disposisiID}`, this.suratDisposisi, {
+                .put(`http://127.0.0.1:8000/api/disposisi/${naskahID}`, this.suratDisposisi, {
                     headers: {
                         Authorization: `Bearer ${token}`,
 
                     },
                 })
                 .then((response) => {
-                    console.log("Disposisi updated:", response.data);
+                    console.log("Naskah updated:", response.data);
 
                     // Tampilkan notifikasi sukses dengan SweetAlert2
                     Swal.fire({
@@ -171,21 +174,20 @@ export default {
                         timer: 1500,
                     }).then(() => {
                         // Redirect ke halaman daftar setelah notifikasi selesai
-                        this.$router.push('/admin/suratdisposisi/surat-disposisi');
+                        this.$router.push('/admin/suratDisposisi/naskah-masuk');
                     });
                 })
                 .catch((error) => {
-                    console.error("Error updating disposisi:", error);
+                    console.error("Error updating naskah:", error);
 
                     // Tampilkan notifikasi error dengan SweetAlert2
                     Swal.fire({
                         icon: "error",
                         title: "Oops...",
-                        text: "Something went wrong while updating the disposisi!",
+                        text: "Something went wrong while updating the naskah!",
                     });
                 });
         }
-
     },
     props: {
         color: {

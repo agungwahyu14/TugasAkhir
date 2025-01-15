@@ -42,7 +42,7 @@
                 @click="hideDropdown">
                 Naskah Masuk
             </router-link>
-            <router-link to="/admin/naskahkelaur/naskah-keluar"
+            <router-link to="/admin/naskahkeluar/naskah-keluar"
                 class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 @click="hideDropdown">
                 Naskah Keluar

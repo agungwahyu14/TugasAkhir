@@ -19,9 +19,9 @@
                     <form @submit.prevent="updateNaskah" class="px-4 py-4">
 
                         <div class="grid md:grid-cols-2 md:gap-6">
-                            <div class="mb-3 pt-0">
+                            <div class="mb-3 pt-0 mr-2">
                                 <label for="jenis_naskah" class="text-sm font-semibold">Jenis Naskah</label>
-                                <select id="jenis_naskah" v-model="jenis_naskah"
+                                <select id="jenis_naskah" v-model="formData.jenis_naskah"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
                                     <option value="Instruksi Bupati">Instruksi Bupati</option>
                                     <option value="Surat Edaran">Surat Edaran</option>
@@ -40,28 +40,28 @@
                                     required maxlength="255" />
                             </div>
 
-                            <div class="mb-3 pt-0">
+                            <div class="mb-3 pt-0 mr-2">
                                 <label for="asal_naskah" class="text-sm font-semibold">Asal Naskah</label>
                                 <input type="text" id="asal_naskah" v-model="formData.asal_naskah"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
                                     required maxlength="255" />
                             </div>
 
-                            <div class="mb-3 pt-0 mr-2">
+                            <div class="mb-3 pt-0">
                                 <label for="tujuan" class="text-sm font-semibold">Tujuan</label>
                                 <input type="text" id="tujuan" v-model="formData.tujuan"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
                                     required maxlength="255" />
                             </div>
 
-                            <div class="mb-3 pt-0">
+                            <div class="mb-3 pt-0 mr-2">
                                 <label for="tgl_naskah" class="text-sm font-semibold">Tanggal Naskah</label>
                                 <input type="date" id="tgl_naskah" v-model="formData.tgl_naskah"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
                                     required />
                             </div>
 
-                            <div class="mb-3 pt-0 mr-2">
+                            <div class="mb-3 pt-0">
                                 <label for="status" class="text-sm font-semibold">Status</label>
                                 <select id="status" v-model="formData.status"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
@@ -84,7 +84,7 @@
 
                         </div>
                         <div class="mt-6">
-                            <router-link to="/admin/naskahmasuk/naskah-masuk"
+                            <router-link to="/admin/naskahkeluar/naskah-keluar"
                                 class="bg-red-500 text-white font-bold px-4 py-2 rounded shadow hover:bg-red-800 mr-2">
                                 Batal
                             </router-link>
@@ -107,7 +107,7 @@
 import axios from "axios";
 
 export default {
-    name: "EditNaskahMasuk",
+    name: "EditNaskahkeluar",
     data() {
         return {
             formData: {
@@ -166,7 +166,7 @@ export default {
             }
 
             axios
-                .put(`http://127.0.0.1:8000/api/naskah-masuks/${naskahID}`, formData, {
+                .put(`http://127.0.0.1:8000/api/naskah-keluars/${naskahID}`, formData, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         'Content-Type': 'multipart/form-data', // Pastikan header ini ada saat mengirim file
@@ -174,7 +174,7 @@ export default {
                 })
                 .then((response) => {
                     console.log("Naskah updated:", response.data);
-                    this.$router.push('/admin/naskahmasuk/naskah-masuk'); // Redirect to list page
+                    this.$router.push('/admin/naskahkeluar/naskah-keluar'); // Redirect to list page
                 })
                 .catch((error) => {
                     console.error("Error updating naskah:", error);

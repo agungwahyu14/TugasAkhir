@@ -36,7 +36,7 @@
               <tr>
                 <th
                   class=" px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center"
-                  :class="[color === 'light' ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100' : 'bg-emerald-800 text-emerald-300 border-emerald-700'] ">
+                  :class="[color === 'light' ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100' : 'bg-emerald-800 text-emerald-300 border-emerald-700']">
                   #
                 </th>
                 <th v-for="header in headers" :key="header"
@@ -67,7 +67,7 @@
                     {{ berkasarsip.jml_item || '-' }}
                   </td>
                   <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap  text-center">
-                    {{ calculateYearsRemaining( berkasarsip.retensi_waktu) || '-' }}
+                    {{ calculateYearsRemaining(berkasarsip.retensi_waktu) || '-' }}
                   </td>
 
                   <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap text-center">
@@ -108,10 +108,10 @@
 </template>
 <script>
 import axios from "axios";
-import Swal from 'sweetalert2'
-  export default{
-    name:"BerkasArsip",
-    data() {
+import Swal from 'sweetalert2';
+export default {
+  name: "BerkasArsip",
+  data() {
     return {
       berkasarsip: [],
       searchQuery: "",
@@ -155,8 +155,8 @@ import Swal from 'sweetalert2'
     }
     this.fetchData();
   },
-  methods:{
-    fetchData(){
+  methods: {
+    fetchData() {
       const token = sessionStorage.getItem('token');
       if (!token) {
         alert("Anda harus login terlebih dahulu!");
@@ -225,5 +225,5 @@ import Swal from 'sweetalert2'
       });
     }
   }
-  }
+}
 </script>

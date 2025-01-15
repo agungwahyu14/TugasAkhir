@@ -46,11 +46,7 @@
           </div>
         </div>
         <div class="flex justify-center mt-6 relative">
-          <div class="text-center">
-            <router-link to="/auth/register" class="text-blueGray-200">
-              <small>Create new account</small>
-            </router-link>
-          </div>
+
         </div>
 
       </div>
@@ -60,6 +56,7 @@
 
 <script>
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default {
   data() {
@@ -71,8 +68,11 @@ export default {
   },
   methods: {
     async handleLogin() {
+      // Set status loading
       this.loading = true;
+
       try {
+        // Kirim permintaan login ke API
         const response = await axios.post('http://127.0.0.1:8000/api/login', {
           email: this.email,
           password: this.password,
@@ -81,22 +81,41 @@ export default {
         const data = response.data;
         console.log('Login berhasil:', data);
 
+        // Simpan token dan detail pengguna di sessionStorage
         sessionStorage.setItem('token', data.token);
-
-        // Simpan detail pengguna ke sessionStorage
         sessionStorage.setItem('user', JSON.stringify(data.user));
+        sessionStorage.setItem('nip', data.user.nip);
+        sessionStorage.setItem('bidang', data.user.bidang);
 
-        // // Tampilkan pesan sukses (opsional)
-        // alert(data.message);
+        // Tampilkan notifikasi berhasil login
+        Swal.fire({
+          icon: 'success',
+          title: 'Login berhasil',
+          text: 'Selamat datang di Admin Dashboard!',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+          },
+        });
 
-        // Optionally, store token or redirect
-        // Example: localStorage.setItem('token', response.data.token);
-        this.$router.push('/admindashboard'); // Redirect to a dashboard or home page
+        // Redirect ke halaman dashboard admin
+        this.$router.push('/admindashboard');
       } catch (error) {
-        // Handle login error
-        console.error('Login failed:', error.response ? error.response.data : error.message);
-        alert('Login failed. Please check your credentials.');
+        // Tangani kesalahan login
+        console.error('Login gagal:', error.response ? error.response.data : error.message);
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Login gagal',
+          text: error.response?.data?.message || 'Silakan periksa email dan password Anda.',
+        });
       } finally {
+        // Hentikan status loading
         this.loading = false;
       }
     },

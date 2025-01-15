@@ -136,7 +136,7 @@ const routes = [
       },
        // Crud Naskah Keluar
        {
-        path: "/admin/naskahkelaur/naskah-keluar",
+        path: "/admin/naskahkeluar/naskah-keluar",
         component: NaskahKeluar,
       },
        {
@@ -149,7 +149,7 @@ const routes = [
       },
 
       {
-        path: "/admin/naskahmasuk/detail-naskah-masuk",
+        path: "/admin/naskahkeluar/detail-naskah-keluar/:id_naskah_keluar",
         component: DetailNaskahKeluar,
       },
 

@@ -33,26 +33,7 @@
                                 </select>
                             </div>
 
-                            <!-- Jenis Naskah -->
-
-
-                            <div class="mb-3 pt-0">
-                                <label for="isi_disposisi" class="text-sm font-semibold">Isi Disposisi</label>
-                                <select id="isi_disposisi" v-model="isi_disposisi"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
-                                    <option value="Instruksi Bupati">Instruksi Bupati</option>
-                                    <option value="Surat Edaran">Surat Edaran</option>
-                                    <option value="Surat Perintah">Surat Perintah</option>
-                                    <option value="Surat Perjanjian">Surat Perjanjian</option>
-                                    <option value="Pengumuman">Pengumuman</option>
-
-
-                                </select>
-                            </div>
-
-                            <!-- Perihal -->
-
-                            <div class="mb-3 pt-0 mr-2">
+                            <div class="mb-3 pt-0 ">
                                 <label for="tujuan" class="text-sm font-semibold">Tujuan</label>
                                 <select id="tujuan" name="tujuan" v-model="tujuan"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
@@ -65,21 +46,37 @@
                                 </select>
                             </div>
 
+                            <!-- Jenis Naskah -->
 
 
-                            <!-- File -->
-                            <div class="mb-3 pt-0 ">
-                                <label for="file" class="text-sm font-semibold">File</label>
-                                <input type="file" id="file" @change="handleFileUpload"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    accept=".doc,.docx,.pdf" required />
-                            </div>
                             <div class="mb-3 pt-0 mr-2">
+                                <label for="isi_disposisi" class="text-sm font-semibold">Isi Disposisi</label>
+                                <textarea type="text" id="isi_disposisi" v-model="isi_disposisi"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
+                                    required />
+                            </div>
+
+
+                            <div class="mb-3 pt-0 ">
                                 <label for="perihal" class="text-sm font-semibold">Perihal</label>
                                 <textarea type="text" id="perihal" v-model="perihal"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
                                     required />
                             </div>
+                            <!-- isi_disposisi -->
+
+
+
+
+
+                            <!-- File -->
+                            <div class="mb-3 pt-0 mr-2 ">
+                                <label for="file" class="text-sm font-semibold">File</label>
+                                <input type="file" id="file" @change="handleFileUpload"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
+                                    accept=".doc,.docx,.pdf" required />
+                            </div>
+
 
                             <!-- Tanggal Naskah -->
                             <div class="mb-3 pt-0">
@@ -111,6 +108,7 @@
 
 <script>
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default {
     name: "TambahSuratDisposisi",
@@ -150,11 +148,19 @@ export default {
                 });
 
                 console.log(response.data);
-                alert('Disposisi berhasil ditambahkan!');
+                Swal.fire({
+                    title: 'Success',
+                    text: 'Berhasil Menambahkan Data',
+                    icon: 'success',
+                })
                 this.$router.push('/admin/suratdisposisi/surat-disposisi');
             } catch (error) {
                 console.error(error);
-                alert('Terjadi kesalahan saat menambahkan naskah.');
+                Swal.fire({
+                    title: 'Gagal',
+                    text: 'Gagal Menambahkan Data',
+                    icon: 'error',
+                })
             } finally {
                 this.loading = false;
             }

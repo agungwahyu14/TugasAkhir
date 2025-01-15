@@ -46,14 +46,9 @@
 
                             <div class="mb-3 pt-0 mr-2">
                                 <label for="asal_naskah" class="text-sm font-semibold">Asal Naskah</label>
-                                <select id="asal_naskah" v-model="asal_naskah"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
-                                    <option value="Instruksi Bupati">Pemerintah</option>
-                                    <option value="Surat Edaran">Bupati</option>
-                                    <option value="Surat Perintah">Keuangan</option>
-
-
-                                </select>
+                                <input type="text" id="asal_naskah" v-model="asal_naskah"
+                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
+                                    required />
                             </div>
 
                             <!-- Perihal -->
@@ -101,7 +96,7 @@
                         </div>
 
                         <div class="mt-6">
-                            <router-link to="/admin/naskahkelaur/naskah-keluar"
+                            <router-link to="/admin/naskahkeluar/naskah-keluar"
                                 class="bg-red-500 text-white font-bold px-4 py-2 rounded shadow hover:bg-red-800 mr-2">
                                 Batal
                             </router-link>
@@ -119,6 +114,7 @@
 
 <script>
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default {
     name: "TambahNaskahkeluar",
@@ -160,11 +156,19 @@ export default {
                 });
 
                 console.log(response.data);
-                alert('Naskah berhasil ditambahkan!');
-                this.$router.push('/admin/naskahkelaur/naskah-keluar');
+                Swal.fire({
+                    title: 'Success',
+                    text: 'Berhasil Menambahkan Data',
+                    icon: 'success',
+                })
+                this.$router.push('/admin/naskahkeluar/naskah-keluar');
             } catch (error) {
                 console.error(error);
-                alert('Terjadi kesalahan saat menambahkan naskah.');
+                Swal.fire({
+                    title: 'Gagal',
+                    text: 'Gagal Menambahkan Data',
+                    icon: 'error',
+                })
             } finally {
                 this.loading = false;
             }
