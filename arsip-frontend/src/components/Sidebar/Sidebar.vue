@@ -10,11 +10,11 @@
         <i class="fas fa-bars"></i>
       </button>
       <!-- Brand -->
-      <router-link
-        class="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-        to="/">
+      <h3
+        class="md:block text-center md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-xl uppercase font-bold p-2 mt-2 px-0">
         DISPUSAR
-      </router-link>
+      </h3>
+
       <!-- User -->
       <ul class="md:hidden items-center flex flex-wrap list-none">
         <li class="inline-block relative">
@@ -32,11 +32,7 @@
         <div class="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-blueGray-200">
           <div class="flex flex-wrap">
             <div class="w-6/12">
-              <router-link
-                class="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-                to="/">
-                DISPUSAR
-              </router-link>
+
             </div>
             <div class="w-6/12 flex justify-end">
               <button type="button"
