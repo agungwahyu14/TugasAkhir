@@ -17,16 +17,38 @@ class FolderController extends Controller
      */
     public function index()
     {
-        $folders = Folder::with('children')->get();
-        return response()->json($folders);
+        // Retrieve all folders
+        $folders = Folder::all();
+    
+        // Create an associative array with the parent_id as key
+        $grouped = $folders->groupBy('parent_id');
+    
+        // Now we want to form the tree structure, starting with top-level folders
+        $foldersTree = $this->buildFolderTree($grouped, null);
+    
+        return response()->json($foldersTree);
     }
+    
+    private function buildFolderTree($grouped, $parentId)
+    {
+        $folders = isset($grouped[$parentId]) ? $grouped[$parentId] : [];
+    
+        foreach ($folders as &$folder) {
+            // Recursively build the tree for children
+            $folder->children = $this->buildFolderTree($grouped, $folder->id);
+        }
+    
+        return $folders;
+    }
+    
+    
 
     /**
      * Tampilkan isi folder tertentu (subfolder dan arsip).
      */
     public function show($id)
     {
-        $folder = Folder::with(['children', 'pathArsips', 'files'])->findOrFail($id);
+        $folder = Folder::with(['children', 'arsips', 'files'])->findOrFail($id);
         return response()->json($folder);
     }
 
@@ -200,22 +222,33 @@ class FolderController extends Controller
     public function attachArsipToFolder($folderId, $pathArsipId)
     {
         try {
+            // Fetch the folder and PathArsip from the database
             $folder = Folder::findOrFail($folderId);
             $pathArsip = PathArsip::findOrFail($pathArsipId);
-
-            // Menghubungkan Folder dengan PathArsip
-            $folder->arsips()->attach($pathArsip->id);
-
+            if ($folder->parent_id) {
+                // If the folder has a parent, find the parent folder and attach PathArsip to the parent folder only
+                $parentFolder = Folder::findOrFail($folder->parent_id);
+                $parentFolder->arsips()->attach($pathArsip->id);
+            } else {
+                // If there's no parent folder, attach PathArsip to the current folder
+                $folder->arsips()->attach($pathArsip->id);
+            }
+    
+            // Return success response
             return response()->json([
                 'message' => 'Folder berhasil dihubungkan dengan PathArsip',
             ]);
         } catch (\Exception $e) {
+            // Return error response if something goes wrong
             return response()->json([
                 'message' => 'Gagal menghubungkan Folder dengan PathArsip',
                 'error' => $e->getMessage(),
             ], 500);
         }
     }
+    
+    
+    
 
     /**
      * Menghapus hubungan Folder dengan PathArsip
