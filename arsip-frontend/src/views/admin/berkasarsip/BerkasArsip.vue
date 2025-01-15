@@ -81,7 +81,7 @@
                       <i class="fas fa-trash text-sm "></i>
                     </button>
 
-                    <router-link :to="`/admin/naskahmasuk/detail-naskah-masuk/${berkasarsip.id}`"
+                    <router-link :to="`/admin/berkas-arsip/detail-berkas-arsip/${berkasarsip.id}`"
                       class="text-white rounded bg-emerald-400 text-xs px-4 py-2 mr-2">
                       <i class="fas fa-folder text-sm "></i>
                     </router-link>

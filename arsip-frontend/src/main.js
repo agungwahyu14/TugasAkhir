@@ -61,6 +61,7 @@ import Register from "@/views/auth/Register.vue";
 import BerkasArsip from "@/views/admin/berkasarsip/BerkasArsip.vue"
 import TambahBerkasArsip from "@/views/admin/berkasarsip/TambahBerkasArsip.vue"
 import EditBerkasArsip from "@/views/admin/berkasarsip/EditBerkasArsip.vue"
+import DetailBerkasArsip from "./views/admin/berkasarsip/DetailBerkasArsip.vue";
 // views without layouts
 
 // import Landing from "@/views/Landing.vue";
@@ -191,6 +192,10 @@ const routes = [
         component:EditBerkasArsip,
         props: true,
         name:'EditBerkasArsip'
+      },
+      {
+        path: "/admin/berkas-arsip/detail-berkas-arsip/:id",
+        component: DetailBerkasArsip,
       },
     ],
   },
