@@ -75,12 +75,13 @@
                   </td>
 
                   <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap text-center">
-                    <router-link :to="`/admin/naskahmasuk/edit-naskah-masuk/${naskah.id_naskah_masuk}`"
+                    <router-link v-if="naskah.status !== 'Diterima'"
+                      :to="`/admin/naskahmasuk/edit-naskah-masuk/${naskah.id_naskah_masuk}`"
                       class="text-white rounded bg-orange-500 text-xs px-4 py-2 mr-2">
                       <i class="fas fa-edit text-sm "></i>
                     </router-link>
 
-                    <button @click="deleteEmployee(naskah.id_naskah_masuk)"
+                    <button v-if="naskah.status !== 'Diterima'" @click=" deleteEmployee(naskah.id_naskah_masuk)"
                       class="text-white rounded bg-red-500 text-xs px-4 py-2 mr-2">
                       <i class="fas fa-trash text-sm "></i>
                     </button>
@@ -89,6 +90,7 @@
                       class="text-white rounded bg-orange-500 text-xs px-4 py-2 mr-2">
                       <i class="fas fa-info-circle text-sm "></i>
                     </router-link>
+
 
 
 

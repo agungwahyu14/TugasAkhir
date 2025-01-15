@@ -52,9 +52,6 @@
                                     <option value="kadis">Kepala Dinas</option>
                                     <option value="sekdis">Sekretaris Dinas</option>
                                     <option value="kabag">Kepala Bagian</option>
-
-
-
                                 </select>
                             </div>
 
