@@ -52,72 +52,39 @@
                     />
                   </div>
                 </div>
-                <div
-                  class="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center"
-                >
-                  <div class="py-6 px-3 mt-32 sm:mt-0">
-                    <button
-                      class="bg-emerald-500 active:bg-emerald-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
-                      type="button"
-                    >
-                      Connect
-                    </button>
-                  </div>
-                </div>
-                <div class="w-full lg:w-4/12 px-4 lg:order-1">
-                  <div class="flex justify-center py-4 lg:pt-4 pt-8">
-                    <div class="mr-4 p-3 text-center">
-                      <span
-                        class="text-xl font-bold block uppercase tracking-wide text-blueGray-600"
-                      >
-                        22
-                      </span>
-                      <span class="text-sm text-blueGray-400">Friends</span>
-                    </div>
-                    <div class="mr-4 p-3 text-center">
-                      <span
-                        class="text-xl font-bold block uppercase tracking-wide text-blueGray-600"
-                      >
-                        10
-                      </span>
-                      <span class="text-sm text-blueGray-400">Photos</span>
-                    </div>
-                    <div class="lg:mr-4 p-3 text-center">
-                      <span
-                        class="text-xl font-bold block uppercase tracking-wide text-blueGray-600"
-                      >
-                        89
-                      </span>
-                      <span class="text-sm text-blueGray-400">Comments</span>
-                    </div>
-                  </div>
-                </div>
+
               </div>
-              <div class="text-center mt-12">
+              <div class="text-center mt-32">
                 <h3
                   class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2"
                 >
-                  Jenna Stones
+                {{ userData ? userData.nama : 'User Name' }}
                 </h3>
-                <div
-                  class="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase"
-                >
-                  <i
-                    class="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"
-                  ></i>
-                  Los Angeles, California
-                </div>
                 <div class="mb-2 text-blueGray-600 mt-10">
                   <i
-                    class="fas fa-briefcase mr-2 text-lg text-blueGray-400"
+                    class="fas fa-lock mr-2 text-lg text-blueGray-400"
                   ></i>
-                  Solution Manager - Creative Tim Officer
+                  {{ userData ? userData.nip : '-' }}
                 </div>
-                <div class="mb-2 text-blueGray-600">
+                <div class="mb-2 text-blueGray-600 mt-3">
                   <i
-                    class="fas fa-university mr-2 text-lg text-blueGray-400"
+                    class="fas fa-user-tie mr-2 text-lg text-blueGray-400"
                   ></i>
-                  University of Computer Science
+                  {{ bidangLabel }}
+                </div>
+                <div class="mb-2 text-blueGray-600 mt-3">
+                  <i
+                    class="fas fa-envelope mr-2 text-lg text-blueGray-400"
+                  ></i>
+                  {{ userData ? userData.email : '-' }}
+                </div>
+                <div class="mb-2 text-blueGray-600 mt-5">
+                  <span :class="{
+                      'bg-emerald-600': userData && userData.status === 'aktif',
+                      'bg-red-500': userData && userData.status === 'tidak aktif'
+                    }" class="text-white px-3 py-1 rounded">
+                    {{ userData ? userData.status : '-' }}
+                  </span>
                 </div>
               </div>
               <div class="mt-10 py-10 border-t border-blueGray-200 text-center">
@@ -130,12 +97,6 @@
                       warm, intimate feel with a solid groove structure. An
                       artist of considerable range.
                     </p>
-                    <a
-                      href="javascript:void(0)"
-                      class="font-normal text-emerald-500"
-                    >
-                      Show more
-                    </a>
                   </div>
                 </div>
               </div>
@@ -144,24 +105,63 @@
         </div>
       </section>
     </main>
-    <footer-component />
+    <footer-admin />
   </div>
 </template>
 <script>
 import Navbar from "@/components/Navbars/AuthNavbar.vue";
-import FooterComponent from "@/components/Footers/Footer.vue";
+import FooterAdmin from "@/components/Footers/FooterAdmin.vue";
 
-import team2 from "@/assets/img/team-2-800x800.jpg";
+import team2 from "@/assets/img/user.png";
 
 export default {
   data() {
     return {
       team2,
+      userData: null,
     };
   },
   components: {
     Navbar,
-    FooterComponent,
+    FooterAdmin,
+  },
+  computed: {
+    bidangLabel() {
+      if (this.userData) {
+        switch (this.userData.bidang) {
+          case 'kadis':
+            return 'Kepala Dinas';
+          case 'sekdis':
+            return 'Sekretaris Dinas';
+          case 'kabag':
+            return 'Kepala Bagian';
+          case 'staff':
+            return 'Staff';
+          default:
+            return '-';
+        }
+      }
+      return '-'; // Default jika userData atau bidang tidak ada
+    },
+  },
+  mounted() {
+    this.userData = this.getDataFromSessionStorage();
+  },
+  methods: {
+    getDataFromSessionStorage() {
+      const data = sessionStorage.getItem('user');
+      if (data) {
+        try {
+          return JSON.parse(data);
+        } catch (error) {
+          console.error('Error parsing sessionStorage data:', error);
+          return null;
+        }
+      } else {
+        console.log(`No data found for ke}`);
+        return null;
+      }
+    },
   },
 };
 </script>

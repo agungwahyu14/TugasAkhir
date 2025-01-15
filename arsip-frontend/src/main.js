@@ -65,7 +65,7 @@ import DetailBerkasArsip from "./views/admin/berkasarsip/DetailBerkasArsip.vue";
 // views without layouts
 
 // import Landing from "@/views/Landing.vue";
-// import Profile from "@/views/Profile.vue";
+import Profile from "@/views/Profile.vue";
 // import Index from "@/views/Index.vue";
 
 // routes
@@ -79,6 +79,11 @@ const routes = [
     path: "/admin",
     component: Admin,
     children: [
+      {
+        path:'/admin/profile',
+        component: Profile
+      },
+
       // {
       //   path: "/admin/arsipstatis/arsip-statis",
       //   component: ArsipStatis,

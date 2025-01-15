@@ -12,14 +12,12 @@
         hidden: !dropdownPopoverShow,
         block: dropdownPopoverShow,
       }">
-      <a href="javascript:void(0);"
-        class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
+      <router-link
+        to="/admin/profile"
+        class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+      >
         Profile
-      </a>
-      <a href="javascript:void(0);"
-        class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
-        Settings
-      </a>
+      </router-link>
       <a href="javascript:void(0);" @click="logout"
         class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
         Logout
@@ -33,7 +31,7 @@
 import { createPopper } from "@popperjs/core";
 import Swal from 'sweetalert2';
 
-import image from "@/assets/img/team-1-800x800.jpg";
+import image from "@/assets/img/user.png";
 
 export default {
   data() {
