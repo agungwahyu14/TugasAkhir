@@ -126,7 +126,7 @@ const routes = [
       },
 
       {
-        path: "/admin/naskahmasuk/detail-naskah-masuk",
+        path: "/admin/naskahmasuk/detail-naskah-masuk/:id_naskah_masuk",
         component: DetailNaskahMasuk,
       },
        // Crud Naskah Keluar

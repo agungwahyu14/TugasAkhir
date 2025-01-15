@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col min-h-screen">
+  <div class="flex flex-col min-h-screen bg-blueGray-100">
     <sidebar />
     <div class="relative flex-1 md:ml-64 bg-blueGray-100">
       <admin-navbar />

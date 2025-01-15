@@ -1,87 +1,127 @@
 <template>
     <div class="flex flex-wrap mt-4">
         <div class="w-full mb-12 px-4">
+
             <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded"
                 :class="[color === 'light' ? 'bg-white' : 'bg-emerald-900 text-white']">
                 <div class="rounded-t mb-0 px-4 py-3 border-0">
                     <div class="flex flex-wrap items-center">
-                        <div class="relative w-full px-4 max-w-full flex-grow flex-1">
-                            <h3 class="font-semibold text-lg"
-                                :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']">
+                        <div
+                            class="relative w-full px-4 max-w-full flex-grow flex-1 flex items-center justify-between mb-2">
+                            <h3 class="font-semibold text-lg text-blueGray">
                                 Detail Naskah Masuk
                             </h3>
+
+                            <router-link to="/admin/naskahmasuk/naskah-masuk"
+                                class="bg-red-500 text-white font-bold px-4 py-3 mr-2 rounded shadow hover:bg-blue-600">
+                                Kemabali
+                            </router-link>
                         </div>
                     </div>
                 </div>
                 <hr class="md:min-w-full" />
-                <div class="block w-full overflow-x-auto">
+
+                <div class="block w-full h-48 overflow-y-auto border border-gray-300">
                     <!-- Form Inputs -->
-                    <form @submit.prevent="updateNaskah" class="px-4 py-4">
+
+
+                    <div class="px-4 py-4">
+                        <!-- Judul -->
+                        <h5 class="text-lg font-semibold mb-4">Naskah Masuk Dari :</h5>
+
+                        <!-- Gambar dan Nama -->
+                        <a class="text-blueGray-500 block py-4" href="#pablo" ref="btnDropdownRef"
+                            v-on:click="toggleDropdown($event)">
+                            <div class="flex items-center mb-4">
+                                <!-- Gambar -->
+                                <span
+                                    class="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full mr-3">
+                                    <img alt="..." class="w-full rounded-full align-middle border-none shadow-lg"
+                                        :src="image" />
+                                </span>
+                                <!-- Nama -->
+                                <h3 class="text-base font-medium">Nama</h3>
+                            </div>
+                        </a>
+
+                        <!-- Informasi Naskah -->
 
                         <div class="grid md:grid-cols-2 md:gap-6">
-
-                            <div class="mb-3 pt-0 mr-2">
-                                <label for="jenis_naskah" class="text-sm font-semibold">No Naskah</label>
-                                <input type="text" id="jenis_naskah" v-model="formData.no_naskah"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required maxlength="255" />
-                            </div>
-
-                            <div class="mb-3 pt-0">
-                                <label for="jenis_naskah" class="text-sm font-semibold">Jenis Naskah</label>
-                                <input type="text" id="jenis_naskah" v-model="formData.jenis_naskah"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required maxlength="255" />
-                            </div>
-
-
-
-                            <div class="mb-3 pt-0 mr-2">
-                                <label for="tujuan" class="text-sm font-semibold">Tujuan</label>
-                                <input type="text" id="tujuan" v-model="formData.tujuan"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required maxlength="255" />
-                            </div>
-
-
-                            <div class="mb-3 pt-0">
-                                <label for="tgl_naskah" class="text-sm font-semibold">Tanggal Naskah</label>
-                                <input type="date" id="tgl_naskah" v-model="formData.tgl_naskah"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required />
-                            </div>
-
-                            <div class="mb-3 pt-0 mr-2">
-                                <label for="status" class="text-sm font-semibold">Status</label>
-                                <input type="text" id="status" v-model="formData.status"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required />
-                            </div>
-
-                            <div class="mb-3 pt-0">
-                                <label for="status" class="text-sm font-semibold">File</label>
-                                <input type="text" id="file" v-model="formData.file" name="file"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10" />
-                            </div>
-
-                            <div class="mb-3 pt-0 mr-2">
-                                <label for="perihal" class="text-sm font-semibold">Perihal</label>
-                                <textarea type="text" id="perihal" v-model="formData.perihal"
-                                    class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                    required maxlength="255" />
-                            </div>
-
-                        </div>
-                        <div class="mt-6">
-                            <router-link to="/admin/naskahmasuk/naskah-masuk"
-                                class="bg-red-500 text-white font-bold px-4 py-2 rounded shadow hover:bg-red-800 mr-2">
-                                Kembali
-                            </router-link>
+                            <div class="bg-blue-200  ">Nomor Refrensi</div>
+                            <div class="bg-blue-300 ">Nomor Naskah</div>
+                            <div class="bg-blue-400 ">Tanggal Naskah</div>
+                            <div class="bg-blue-500 ">Hal</div>
+                            <div class="bg-blue-600 ">Isi Ringkasan</div>
                         </div>
 
 
-                    </form>
+
+                        <div class="mb-4 pt-0 mr-2">
+
+                            <select id="jenis_naskah" name="jenis_naskah"
+                                class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
+                                <option value="" class="text-sm font-semibold">Detail Naskah Dinas</option>
+
+                            </select>
+                        </div>
+
+                        <div class="mb-4 pt-0 mr-2">
+
+                            <select id="jenis_naskah" name="jenis_naskah"
+                                class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
+                                <option value="" class="text-sm font-semibold">Penerima</option>
+
+
+                            </select>
+                        </div>
+
+
+                        <div class="mb-4 pt-0 mr-2">
+                            <div
+                                class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
+                                <iframe src="NGROK.pdf" class="relative w-full rounded h-600-px"
+                                    frameborder="0"></iframe>
+
+                                <hr class="md:min-w-full mt-3" />
+
+
+                                <h5 class="text-lg font-semibold m-3"> 0 Lampiran</h5>
+
+                            </div>
+
+                        </div>
+
+
+
+
+                        <div class="mb-4 pt-0 mr-2 mt-4">
+
+                            <select id="jenis_naskah" name="jenis_naskah"
+                                class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
+                                <option value="" class="text-sm font-semibold">Whatsapp</option>
+
+
+                            </select>
+                        </div>
+
+                        <div class="mb-4 pt-0 mr-2">
+
+                            <select id="jenis_naskah" name="jenis_naskah"
+                                class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
+                                <option value="" class="text-sm font-semibold">History Naskah</option>
+
+
+                            </select>
+                        </div>
+
+
+
+                    </div>
+
                 </div>
+
+
+
             </div>
         </div>
     </div>
