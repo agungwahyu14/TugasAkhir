@@ -39,13 +39,13 @@
               <span class="mt-2 text-sm font-medium">{{ folder.name }}</span>
               <!-- Folder Actions -->
               <div class="flex mt-3">
-                <button @click.stop="deleteFolder(folder.id)" class="bg-red-500 p-2 text-white rounded-full text-xs mr-3">
+                <button @click.stop="deleteFolder(folder.id)" class="bg-red-500 py-2 px-3 text-white rounded text-xs mr-3">
                   <i class="fas fa-trash"></i>
                 </button>
-                <button  @click.stop="addSubFolder(folder.id,id_path)" class="bg-emerald-500 p-2 text-white rounded-full text-xs mr-3">
+                <button  @click.stop="addSubFolder(folder.id,id_path)" class="bg-emerald-500 py-2 px-3 text-white rounded text-xs mr-3">
                     <i class="fas fa-folder-plus"></i>
                 </button>
-                <button  @click.stop="addFile(folder.id,id_path)" class="bg-emerald-800 p-2 text-white rounded-full text-xs mr-3">
+                <button  @click.stop="addFile(folder.id,id_path)" class="bg-emerald-800 py-2 px-3 text-white rounded text-xs mr-3">
                     <i class="fas fa-file-export"></i>
                 </button>
               </div>
@@ -67,19 +67,19 @@
             <span class="mt-2 text-sm font-medium">{{ content.name }}</span>
             <!-- File Actions -->
             <div class="flex mt-3">
-              <button v-if="content.type === 'file'" @click.stop="viewFile(content.id, content.path, content.extension)" class="bg-orange-500 p-2 text-white rounded-full text-xs mr-3">
+              <button v-if="content.type === 'file'" @click.stop="viewFile(content.id, content.path, content.extension)" class="bg-orange-500 py-2 px-3 text-white rounded text-xs mr-3">
                 <i class="fas fa-eye"></i>
               </button>
-              <button v-if="content.type === 'file'" @click.stop="deleteFile(content.id)" class="bg-red-500 p-2 text-white rounded-full text-xs mr-3">
+              <button v-if="content.type === 'file'" @click.stop="deleteFile(content.id)" class="bg-red-500 py-2 px-3 text-white rounded text-xs mr-3">
                 <i class="fas fa-trash"></i>
               </button>
-              <button v-if="content.type==='folder'" @click.stop="deleteFolder(content.id)" class="bg-red-500 p-2 text-white rounded-full text-xs mr-3">
+              <button v-if="content.type==='folder'" @click.stop="deleteFolder(content.id)" class="bg-red-500 py-2 px-3 text-white rounded text-xs mr-3">
                 <i class="fas fa-trash"></i>
               </button>
-              <button v-if="content.type==='folder'" @click.stop="addSubFolder(content.id, id_path)" class="bg-emerald-500 p-2 text-white rounded-full text-xs mr-3">
+              <button v-if="content.type==='folder'" @click.stop="addSubFolder(content.id, id_path)" class="bg-emerald-500 py-2 px-3 text-white rounded text-xs mr-3">
                 <i class="fas fa-folder-plus"></i>
               </button>
-              <button  v-if="content.type==='folder'" @click.stop="addFile(content.id,id_path)" class="bg-emerald-800 p-2 text-white rounded-full text-xs mr-3">
+              <button  v-if="content.type==='folder'" @click.stop="addFile(content.id,id_path)" class="bg-emerald-800 py-2 px-3 text-white rounded text-xs mr-3">
                     <i class="fas fa-file-export"></i>
                 </button>
             </div>
