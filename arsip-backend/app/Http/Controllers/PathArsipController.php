@@ -26,7 +26,12 @@ class PathArsipController extends Controller
         // Ambil data arsip
         $arsips = $query->get();
 
-        return response()->json($arsips);
+        return response()->json([
+            'status_code'=>200,
+            'status_text'=>'Success',
+            'messages'=>"Berhasil Mendapatkan data berkas arsip",
+            'data'=>$arsips
+        ]);
     }
 
     /**
@@ -156,7 +161,12 @@ class PathArsipController extends Controller
             // Mengambil arsip dengan folder dan file yang terkait
             $arsip = PathArsip::with('folders.files')->findOrFail($id);
             
-            return response()->json($arsip);
+            return response()->json([
+                'status_code'=>200,
+                'status_text'=>'Success',
+                'messages'=>"Berhasil Mendapatkan data berkas arsip",
+                'data'=>$arsip
+            ]);
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'message' => 'Arsip tidak ditemukan.',

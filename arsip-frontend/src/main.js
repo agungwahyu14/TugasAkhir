@@ -56,6 +56,11 @@ import EditUserAdmin from "@/views/admin/pegawai/EditUserAdmin.vue";
 import Login from "@/views/auth/Login.vue";
 import Register from "@/views/auth/Register.vue";
 
+
+// views for Berkas Arsip
+import BerkasArsip from "@/views/admin/berkasarsip/BerkasArsip.vue"
+import TambahBerkasArsip from "@/views/admin/berkasarsip/TambahBerkasArsip.vue"
+import EditBerkasArsip from "@/views/admin/berkasarsip/EditBerkasArsip.vue"
 // views without layouts
 
 // import Landing from "@/views/Landing.vue";
@@ -170,8 +175,23 @@ const routes = [
       name: 'EditUserAdmin',
       component: EditUserAdmin,
       props: true, // Agar parameter 'nip' diteruskan sebagai props ke komponen
-    }
+    },
 
+    // Berkas Arsip
+      {
+        path:'/admin/berkas-arsip',
+        component:BerkasArsip
+      },
+      {
+        path:'/admin/berkas-arsip/tambah-berkas-arsip',
+        component:TambahBerkasArsip
+      },
+      {
+        path:'/admin/berkas-arsip/edit-berkas-arsip/:id',
+        component:EditBerkasArsip,
+        props: true,
+        name:'EditBerkasArsip'
+      },
     ],
   },
   {
