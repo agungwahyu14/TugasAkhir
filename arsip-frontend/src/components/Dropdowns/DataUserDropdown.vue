@@ -28,11 +28,13 @@
                 Data Pegawai
             </router-link>
 
-            <router-link to="/admin/pegawai/user-admin"
+            <router-link v-if="isAdminAvailable" to="/admin/pegawai/user-admin"
                 class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
                 @click="hideDropdown">
                 Data Admin
             </router-link>
+
+
 
 
         </div>
@@ -47,6 +49,14 @@ export default {
             dropdownPopoverShow: false,
             isActive: false,
         };
+    },
+    computed: {
+        isAdminAvailable() {
+            // Ambil nilai bidang dari sessionStorage
+            const bidang = sessionStorage.getItem('bidang');
+            // Return true jika bidang adalah salah satu dari nilai yang diinginkan
+            return ['kadis', 'sekdis', 'kabag'].includes(bidang);
+        }
     },
     methods: {
         toggleDropdown: function (event) {
@@ -80,6 +90,7 @@ export default {
             this.isActive = false;
             document.removeEventListener("click", this.handleOutsideClick);
         },
+
     },
 };
 </script>

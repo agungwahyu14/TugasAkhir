@@ -152,7 +152,7 @@
 <script>
 import axios from "axios";
 import { debounce } from 'lodash';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 export default {
   name: "DataNaskahMasuk",

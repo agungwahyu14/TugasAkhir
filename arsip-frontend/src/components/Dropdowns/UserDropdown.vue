@@ -31,6 +31,7 @@
 
 <script>
 import { createPopper } from "@popperjs/core";
+import Swal from 'sweetalert2';
 
 import image from "@/assets/img/team-1-800x800.jpg";
 
@@ -67,21 +68,46 @@ export default {
       }
     },
     logout() {
-      // Tampilkan dialog konfirmasi
-      if (confirm("Apakah Anda yakin ingin logout?")) {
-        // Hapus data dari localStorage
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+      // Tampilkan dialog konfirmasi menggunakan SweetAlert2
+      Swal.fire({
+        title: "Apakah Anda yakin ingin logout?",
+        text: "Anda akan keluar dari akun Anda.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Ya, logout",
+        cancelButtonText: "Batal",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Jika pengguna mengonfirmasi logout
+          // Hapus data dari localStorage
+          sessionStorage.clear();
 
-        // Redirect ke halaman login
-        this.$router.push('/auth/login');
+          // Tampilkan notifikasi berhasil logout
+          Swal.fire({
+            icon: "success",
+            title: "Logout berhasil",
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+            },
+          });
 
-
-      } else {
-        // Tampilkan pesan pembatalan (opsional)
-        console.log("Logout dibatalkan");
-      }
+          // Redirect ke halaman login
+          this.$router.push("/auth/login");
+        } else {
+          // Opsional: Jika logout dibatalkan
+          console.log("Logout dibatalkan");
+        }
+      });
     },
+
 
   },
 };

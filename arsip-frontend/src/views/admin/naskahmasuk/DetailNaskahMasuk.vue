@@ -1,7 +1,6 @@
 <template>
     <div class="flex flex-wrap mt-4">
         <div class="w-full mb-12 px-4">
-
             <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded"
                 :class="[color === 'light' ? 'bg-white' : 'bg-emerald-900 text-white']">
                 <div class="rounded-t mb-0 px-4 py-3 border-0">
@@ -28,15 +27,15 @@
                         <!-- Informasi Naskah -->
 
                         <div class="grid md:grid-cols-2 md:gap-6">
-                            <div class="bg-blue-300 ">
+                            <div class="bg-blue-300">
                                 <h3>Nomor Naskah</h3>
                                 <p>{{ naskahMasuk.no_naskah }}</p>
                             </div>
-                            <div class="bg-blue-400 ">
+                            <div class="bg-blue-400">
                                 <h3>Tanggal Naskah</h3>
                                 <p>{{ naskahMasuk.tgl_naskah }}</p>
                             </div>
-                            <div class="bg-blue-500 mt-3 ">
+                            <div class="bg-blue-500 mt-3">
                                 <h3>Perihal</h3>
                                 <p>{{ naskahMasuk.perihal }}</p>
                             </div>
@@ -45,16 +44,24 @@
                         <!-- Select Dropdowns -->
 
                         <div class="mb-4 pt-0 mr-2 mt-4">
-                            <select id="jenis_naskah" name="jenis_naskah"
+                            <select id="jenis_naskah" name="jenis_naskah" disabled
                                 class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
-                                <option value="" class="text-sm font-semibold">{{ naskahMasuk.jenis_naskah }}</option>
+                                <option value="" class="text-sm font-semibold">
+                                    {{ naskahMasuk.jenis_naskah }}
+                                </option>
                             </select>
                         </div>
 
+
+
                         <div class="mb-4 pt-0 mr-2 mt-4">
-                            <select id="tujuan" name="tujuan"
+                            <select id="tujuan" name="tujuan" disabled
                                 class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10">
-                                <option value="" class="text-sm font-semibold">{{ naskahMasuk.tujuan }}</option>
+                                <option value="" class="text-sm font-semibold">
+                                    {{ naskahMasuk.tujuan == 'kadis' ? 'Kepala Dinas' : naskahMasuk.tujuan == 'sekdis' ?
+                                        'Sekretasris Dinas' :
+                                        'Kepala Bagian' }}
+                                </option>
                             </select>
                         </div>
 
@@ -66,12 +73,11 @@
                                 <iframe :src="`http://127.0.0.1:8000/storage/${naskahMasuk.file}`"
                                     class="relative w-full rounded h-600-px" frameborder="0"></iframe>
                                 <hr class="md:min-w-full mt-3" />
-
                             </div>
                         </div>
 
                         <div class="mb-4 pt-0 mr-2 mt-4" v-if="naskahMasuk.tujuan === 'kadis'">
-                            <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"
+                            <button @click="openWhatsApp"
                                 class="text-white rounded bg-emerald-500 text-xs px-4 py-3 relative w-full pr-10">
                                 <i class="fab fa-whatsapp text-sm"></i> Whatsapp
                             </button>
@@ -88,79 +94,12 @@
                 </div>
             </div>
         </div>
-        <div id="authentication-modal" tabindex="-1" aria-hidden="true"
-            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-            <div class="relative p-4 w-full max-w-md max-h-full">
-                <!-- Modal content -->
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    <!-- Modal header -->
-                    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                            Sign in to our platform
-                        </h3>
-                        <button type="button"
-                            class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                            data-modal-hide="authentication-modal">
-                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 14 14">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                            </svg>
-                            <span class="sr-only">Close modal</span>
-                        </button>
-                    </div>
-                    <!-- Modal body -->
-                    <div class="p-4 md:p-5">
-                        <form class="space-y-4" action="#">
-                            <div>
-                                <label for="email"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
-                                    email</label>
-                                <input type="email" name="email" id="email"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                    placeholder="name@company.com" required />
-                            </div>
-                            <div>
-                                <label for="password"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
-                                    password</label>
-                                <input type="password" name="password" id="password" placeholder="••••••••"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                    required />
-                            </div>
-                            <div class="flex justify-between">
-                                <div class="flex items-start">
-                                    <div class="flex items-center h-5">
-                                        <input id="remember" type="checkbox" value=""
-                                            class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                                            required />
-                                    </div>
-                                    <label for="remember"
-                                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember
-                                        me</label>
-                                </div>
-                                <a href="#" class="text-sm text-blue-700 hover:underline dark:text-blue-500">Lost
-                                    Password?</a>
-                            </div>
-                            <button type="submit"
-                                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login
-                                to your account</button>
-                            <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-                                Not registered? <a href="#"
-                                    class="text-blue-700 hover:underline dark:text-blue-500">Create account</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-
-
 </template>
 
 <script>
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default {
     name: "EditNaskahMasuk",
@@ -194,30 +133,136 @@ export default {
                     }
                 );
                 console.log("Fetch Detail Naskah Masuk Response:", response); // Print seluruh response
-                console.log("Data Detail Naskah Masuk:", response.data.data); // 
+                console.log("Data Detail Naskah Masuk:", response.data.data); //
                 this.naskahMasuk = response.data.data;
             } catch (error) {
                 console.error("Error fetching data:", error.response || error);
             }
         },
 
-
         async openWhatsApp() {
+            const naskahID = this.$route.params.id_naskah_masuk;
+            const nip = sessionStorage.getItem("nip");
+
             try {
-                const token = sessionStorage.getItem("token");
-                const response = await axios.post(
-                    `http://127.0.0.1:8000/api/naskah-masuks/sendWA`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
+                const { value: formValues } = await Swal.fire({
+                    title: "Document Details",
+                    html: `
+      <style>
+        .swal2-input {
+          width: 100%;
+          padding: 10px;
+          margin: 5px 0;
+          border-radius: 5px;
+          border: 1px solid #ccc;
+          font-size: 14px;
+        }
+
+        /* Custom Style for Select */
+        #swal-input2 {
+          background-color: #f7f7f7;
+          border-color: #ddd;
+          font-weight: bold;
+        }
+
+        #swal-input2:focus {
+          border-color: #5cb85c;
+          box-shadow: 0 0 5px rgba(92, 184, 92, 0.5);
+        }
+
+        /* Style for Textarea */
+        #swal-input3 {
+          height: 100px;
+          resize: vertical;
+        }
+
+        /* Left-align the label */
+        label {
+          font-size: 16px;
+          font-weight: bold;
+          color: #333;
+          display: block;
+          margin-bottom: 5px;
+          text-align: left; /* Ensures label is aligned to the left */
+        }
+      </style>
+
+      <label for="swal-input1">ID Naskah Masuk</label>
+      <input id="swal-input1" class="swal2-input" value="${naskahID}" placeholder="Enter ID Naskah Masuk" disabled>
+      
+      <label for="swal-input2">Validasi</label>
+      <select id="swal-input2" class="swal2-input">
+        <option value="true">Benar</option>
+        <option value="false">Salah</option>
+      </select>
+      
+      <label for="swal-input3">Catatan</label>
+      <textarea id="swal-input3" class="swal2-input" placeholder="Enter Catatan"></textarea>
+      
+      <label for="swal-input4">User NIP</label>
+      <input id="swal-input4" value="${nip}" class="swal2-input" placeholder="Enter NIP" disabled>
+    `,
+                    focusConfirm: false,
+                    preConfirm: () => {
+                        return {
+                            id_naskah_masuk: document.getElementById("swal-input1").value,
+                            is_valid: document.getElementById("swal-input2").value,
+                            catatan: document.getElementById("swal-input3").value,
+                            nip: document.getElementById("swal-input4").value
+                        };
+                    },
+                    confirmButtonText: "Send",  // Customize the button text
+                });
+
+                if (formValues) {
+                    // Handle the form values here
+                    console.log("Form Values:", formValues);
+
+                    // Send the form data to the API
+                    const token = sessionStorage.getItem("token");
+                    const response = await axios.post(
+                        `http://127.0.0.1:8000/api/naskah-masuks/sendWA`,
+                        {
+                            id_naskah_masuk: formValues.id_naskah_masuk,
+                            is_valid: formValues.is_valid,
+                            catatan: formValues.catatan,
+                            nip: formValues.nip
                         },
-                    }
-                );
-                console.log("Fetch Detail Naskah Masuk Response:", response); // Print seluruh response
-                console.log("Data Detail Naskah Masuk:", response.data.data); // 
-                this.naskahMasuk = response.data.data;
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        }
+                    );
+
+                    console.log("Fetch Detail Naskah Masuk Response:", response); // Print the whole response
+                    console.log("Data Detail Naskah Masuk:", response.data);
+
+                    const whatsappLink = response.data.whatsapp_url;
+
+                    console.log("apa isis dalamnya: ", whatsappLink);
+                    // Print the response data
+
+                    // Optionally update the `naskahMasuk` property if needed
+                    // this.naskahMasuk = response.data.data;
+
+                    Swal.fire({
+                        title: 'Success',
+                        text: 'Berhasil Mengirim',
+                        icon: 'success',
+                        showCancelButton: true,  // Show cancel button if needed
+                        cancelButtonText: 'Close',  // Customize cancel button text
+                        confirmButtonText: 'Open WhatsApp',  // Custom button to open WhatsApp link
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Redirect to the WhatsApp link
+                            window.open(whatsappLink, '_blank');
+                        }
+                    });
+                }
             } catch (error) {
-                console.error("Error fetching data:", error.response || error);
+                console.error("Error sending data:", error.response || error);
+                Swal.fire("Error sending data. Please try again.");
             }
         },
 
@@ -227,7 +272,7 @@ export default {
                 const token = sessionStorage.getItem("token");
                 const naskahID = this.$route.params.id_naskah_masuk;
                 const response = await axios.post(
-                    'http://127.0.0.1:8000/api/naskah-masuks/accepet',
+                    "http://127.0.0.1:8000/api/naskah-masuks/accepet",
                     { id_naskah_masuk: naskahID }, // Pass the naskahID as part of the data payload
                     {
                         headers: {
@@ -238,12 +283,11 @@ export default {
                 console.log("Fetch Detail Naskah Masuk Response:", response); // Print the whole response
                 console.log("Data Detail Naskah Masuk:", response.data.data); // Log the specific data
                 this.naskahMasuk = response.data.data;
-                this.$router.push('/admin/naskahmasuk/naskah-masuk');
+                this.$router.push("/admin/naskahmasuk/naskah-masuk");
             } catch (error) {
                 console.error("Error fetching data:", error.response || error);
             }
-        }
-
+        },
     },
     props: {
         color: {

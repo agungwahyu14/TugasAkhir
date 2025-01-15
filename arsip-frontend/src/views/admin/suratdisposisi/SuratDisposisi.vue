@@ -146,6 +146,7 @@
 <script>
 import axios from "axios";
 import { debounce } from 'lodash';
+import Swal from 'sweetalert2';
 
 export default {
   name: "DataSuratDisposisi",
@@ -242,20 +243,50 @@ export default {
       this.fetchPagination(this.totalPages);
     },
     disposisiEmployee(id_disposisis) {
-      const token = sessionStorage.getItem('token');
-      axios
-        .delete(`http://127.0.0.1:8000/api/disposisis/${id_disposisis}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          }
-        })
-        .then((response) => {
-          console.log("Delete disposisi Response:", response);
-          this.fetchPagination(this.currentPage); // Refresh data setelah menghapus
-        })
-        .catch((error) => {
-          console.error("Error deleting disposisi:", error.response || error);
-        });
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const token = sessionStorage.getItem('token');
+
+          // Proses penghapusan hanya terjadi jika dikonfirmasi
+          axios
+            .delete(`http://127.0.0.1:8000/api/disposisis/${id_disposisis}`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              }
+            })
+            .then((response) => {
+              console.log("Delete Naskah Response:", response);
+
+              // Tampilkan notifikasi sukses setelah penghapusan berhasil
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success"
+              });
+
+              // Refresh data setelah menghapus
+              this.fetchPagination(this.currentPage);
+            })
+            .catch((error) => {
+              console.error("Error deleting Naskah:", error.response || error);
+
+              // Tampilkan notifikasi error jika penghapusan gagal
+              Swal.fire({
+                title: "Error!",
+                text: "There was an error deleting the file.",
+                icon: "error"
+              });
+            });
+        }
+      });
     },
   },
   props: {

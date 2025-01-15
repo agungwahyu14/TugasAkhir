@@ -80,14 +80,16 @@
                                         {{ naskah.status || '-' }}
                                     </td>
 
-                                    <td class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap text-center">
-                                        <router-link
+                                    <td
+                                        class="px-6 align-middle border border-solid py-3 text-xs whitespace-nowrap text-center">
+                                        <router-link v-if="naskah.status !== 'Diterima'"
                                             :to="`/admin/naskahkeluar/edit-naskah-keluar/${naskah.id_naskah_keluar}`"
                                             class="text-white rounded bg-orange-500 text-xs px-4 py-2 mr-2">
                                             <i class="fas fa-edit text-sm "></i>
                                         </router-link>
 
                                         <button @click="deleteEmployee(naskah.id_naskah_keluar)"
+                                            v-if="naskah.status !== 'Diterima'"
                                             class="text-white rounded bg-red-500 text-xs px-4 py-2 mr-2">
                                             <i class="fas fa-trash text-sm "></i>
                                         </button>
@@ -158,6 +160,7 @@
 <script>
 import axios from "axios";
 import { debounce } from 'lodash';
+import Swal from 'sweetalert2';
 
 export default {
     name: "DataNaskahkeluar",
@@ -169,6 +172,7 @@ export default {
                 "No Naskah",
                 "Jenis Naskah",
                 "Perihal",
+                "Asal Naskah",
                 "Tujuan",
                 "Tanggal Naskah",
                 "Status",
@@ -252,22 +256,52 @@ export default {
         goToLastPage() {
             this.fetchPagination(this.totalPages);
         },
-        deleteEmployee(id_naskah_keluar) {
-            const token = sessionStorage.getItem('token');
-            axios
-                .delete(`http://127.0.0.1:8000/api/naskah-keluars/${id_naskah_keluar}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    }
-                })
-                .then((response) => {
-                    console.log("Delete Naskah Response:", response);
-                    this.fetchPagination(this.currentPage); // Refresh data setelah menghapus
-                })
-                .catch((error) => {
-                    console.error("Error deleting Naskah:", error.response || error);
-                });
-        },
+        deleteEmployee(id_naskah_masuk) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const token = sessionStorage.getItem('token');
+
+                    // Proses penghapusan hanya terjadi jika dikonfirmasi
+                    axios
+                        .delete(`http://127.0.0.1:8000/api/naskah-keluars/${id_naskah_masuk}`, {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            }
+                        })
+                        .then((response) => {
+                            console.log("Delete Naskah Response:", response);
+
+                            // Tampilkan notifikasi sukses setelah penghapusan berhasil
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                            });
+
+                            // Refresh data setelah menghapus
+                            this.fetchPagination(this.currentPage);
+                        })
+                        .catch((error) => {
+                            console.error("Error deleting Naskah:", error.response || error);
+
+                            // Tampilkan notifikasi error jika penghapusan gagal
+                            Swal.fire({
+                                title: "Error!",
+                                text: "There was an error deleting the file.",
+                                icon: "error"
+                            });
+                        });
+                }
+            });
+        }
     },
     props: {
         color: {
