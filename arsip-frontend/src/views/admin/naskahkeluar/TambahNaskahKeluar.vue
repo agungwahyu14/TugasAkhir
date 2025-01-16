@@ -21,7 +21,7 @@
                             <!-- No Naskah -->
                             <div class="mb-3 pt-0 mr-2">
                                 <label for="no_naskah" class="text-sm font-semibold">No Naskah</label>
-                                <input type="number" id="no_naskah" v-model="no_naskah"
+                                <input type="text" id="no_naskah" v-model="no_naskah"
                                     class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
                                     required />
                             </div>

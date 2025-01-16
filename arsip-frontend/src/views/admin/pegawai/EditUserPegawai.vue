@@ -91,7 +91,7 @@
 
 <script>
 import axios from "axios";
-
+import Swal from 'sweetalert2';
 export default {
     name: "EditEmployee",
     data() {
@@ -138,6 +138,11 @@ export default {
                 })
                 .then((response) => {
                     console.log("Employee updated:", response.data);
+                    Swal.fire({
+                    title: 'Success',
+                    text: 'Berhasil Update Data',
+                    icon: 'success',
+                })
                     this.$router.push("/admin/pegawai/user-pegawai"); // Redirect to list page
                 })
                 .catch((error) => {

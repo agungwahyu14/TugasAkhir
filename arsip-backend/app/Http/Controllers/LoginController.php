@@ -12,7 +12,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required',
             'password' => 'required|string|min:6',
         ]);
 
@@ -20,14 +20,14 @@ class LoginController extends Controller
         $password = $request->password;
 
         // Check Pegawai first
-        $user = Pegawai::where('email', $email)
+        $user = Pegawai::where('username', $email)
                       ->where('status', 'aktif')
                       ->first();
         $model = 'Pegawai';
 
         if (!$user) {
             // If not found in Pegawai, check Admin
-            $user = Admin::where('email', $email)
+            $user = Admin::where('username', $email)
                         ->where('status', 'aktif')
                         ->first();
             $model = 'Admin';
