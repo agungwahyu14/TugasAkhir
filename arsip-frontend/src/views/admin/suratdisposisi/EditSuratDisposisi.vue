@@ -125,16 +125,16 @@ export default {
         };
     },
     mounted() {
-        const naskahID = this.$route.params.id_disposisi;
-        this.fetchNaskah(naskahID);
+        const disposisiId = this.$route.params.id_disposisi;
+        this.fetchDisposisi(disposisiId);
         console.log("apa ini");
-        console.log(naskahID);
+        console.log(disposisiId);
     },
     methods: {
-        fetchNaskah(id_disposisi) {
+        fetchDisposisi(id_disposisi) {
             const token = sessionStorage.getItem('token'); // Ambil token dari localStorage
             axios
-                .get(`http://127.0.0.1:8000/api/disposisi/${id_disposisi}`, {
+                .get(`http://127.0.0.1:8000/api/disposisis/${id_disposisi}`, {
                     headers: {
                         Authorization: `Bearer ${token}` // Tambahkan header Bearer Token
                     }
@@ -149,45 +149,59 @@ export default {
                 });
         },
         handleFileChange(event) {
-            this.suratDisposisi.file = event.target.files[0];
+            const file = event.target.files[0];
+            if (file) {
+                this.naskahMasuk.file = file;
+            }
         },
-        updateNaskah() {
+        updateDisposisi() {
             const token = sessionStorage.getItem('token');
-            const naskahID = this.$route.params.id_disposisi;
+            const disposisiId = this.$route.params.id_disposisi;
+
+            // Prepare FormData for file upload
+            const formData = new FormData();
+            formData.append('jenis_disposisi', this.suratDisposisi.jenis_disposisi);
+            formData.append('isi_disposisi', this.suratDisposisi.isi_disposisi);
+            formData.append('perihal', this.suratDisposisi.perihal);
+            formData.append('tujuan', this.suratDisposisi.tujuan);
+            formData.append('tgl_waktu', this.suratDisposisi.tgl_waktu);
+            formData.append('_method', 'PUT');
+
+            if (this.suratDisposisi.file instanceof File) {
+                formData.append('file', this.suratDisposisi.file);
+            }
 
             axios
-                .put(`http://127.0.0.1:8000/api/disposisi/${naskahID}`, this.suratDisposisi, {
+                .post(`http://127.0.0.1:8000/api/disposisis/${disposisiId}`, formData, {
                     headers: {
                         Authorization: `Bearer ${token}`,
-
+                        'Content-Type': 'multipart/form-data',
                     },
                 })
                 .then((response) => {
-                    console.log("Naskah updated:", response.data);
+                    console.log('Naskah updated:', response.data);
 
-                    // Tampilkan notifikasi sukses dengan SweetAlert2
                     Swal.fire({
-                        position: "center",
-                        icon: "success",
-                        title: "Your work has been saved",
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Your work has been saved',
                         showConfirmButton: false,
                         timer: 1500,
                     }).then(() => {
-                        // Redirect ke halaman daftar setelah notifikasi selesai
-                        this.$router.push('/admin/suratDisposisi/naskah-masuk');
+                        this.$router.push('/admin/suratdisposisi/surat-disposisi');
                     });
                 })
                 .catch((error) => {
-                    console.error("Error updating naskah:", error);
+                    console.error('Error updating disposisi:', error);
 
-                    // Tampilkan notifikasi error dengan SweetAlert2
                     Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "Something went wrong while updating the naskah!",
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong while updating the disposisi!',
                     });
                 });
         }
+
     },
     props: {
         color: {

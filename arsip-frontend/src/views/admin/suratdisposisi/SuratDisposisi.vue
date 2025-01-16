@@ -81,7 +81,7 @@
                       <i class="fas fa-trash text-sm "></i>
                     </button>
 
-                    <router-link :to="`/admin/disposisimasuk/detail-disposisi-masuk/${disposisi.id_disposisis}`"
+                    <router-link :to="`/admin/disposisimasuk/detail-disposisi-masuk/${disposisi.id_disposisi}`"
                       class="text-white rounded bg-orange-500 text-xs px-4 py-2 mr-2">
                       <i class="fas fa-info-circle text-sm "></i>
                     </router-link>

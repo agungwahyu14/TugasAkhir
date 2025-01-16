@@ -193,7 +193,7 @@ class DisposisiController extends Controller
         'isi_disposisi' => 'sometimes|string',
         'perihal' => 'sometimes|string|max:150',
         'tujuan' => 'sometimes|string|max:150',
-        'file' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+        'file' => 'nullable|max:2048',
         'tgl_waktu' => 'sometimes|date',
     ], [
         'required' => ':attribute wajib diisi.',
