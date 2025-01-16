@@ -6,10 +6,11 @@ use App\Models\Admin;
 use App\Models\Pegawai;
 use App\Models\NaskahKeluar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
 class NaskahKeluarController extends Controller
@@ -163,7 +164,7 @@ class NaskahKeluarController extends Controller
                 'tujuan' => 'sometimes|string|max:255',
                 'tgl_naskah' => 'sometimes|date',
                 'status' => 'sometimes|in:Menunggu Validasi,Diterima,Ditolak,Diproses',
-                'file' => 'nullable|mimes:doc,docx,pdf|max:2048',
+                'file' => 'nullable|max:2048',
             ], [
                 'jenis_naskah.required' => 'Jenis naskah wajib diisi.',
                 'perihal.required' => 'Perihal wajib diisi.',

@@ -143,7 +143,7 @@ class NaskahMasukController extends Controller
                 'tujuan' => 'sometimes|string|max:255',
                 'tgl_naskah' => 'sometimes|date',
                 'status' => 'sometimes|in:Menunggu Validasi,Diterima,Ditolak,Diproses',
-                'file' => 'nullable|mimes:doc,docx,pdf|max:2048',
+                'file' => 'nullable|max:2048',
             ], [
                 'jenis_naskah.string' => 'Jenis naskah harus berupa teks.',
                 'jenis_naskah.max' => 'Jenis naskah maksimal 255 karakter.',

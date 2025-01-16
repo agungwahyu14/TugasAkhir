@@ -105,7 +105,7 @@
 <script>
 
 import axios from "axios";
-
+import Swal from 'sweetalert2';
 export default {
     name: "EditNaskahkeluar",
     data() {
@@ -159,14 +159,14 @@ export default {
             formData.append('tujuan', this.formData.tujuan);
             formData.append('tgl_naskah', this.formData.tgl_naskah);
             formData.append('status', this.formData.status);
-
+            formData.append('_method', 'PUT');
             // Jika file ada, tambahkan file ke FormData
             if (this.formData.file) {
                 formData.append('file', this.formData.file);
             }
 
             axios
-                .put(`http://127.0.0.1:8000/api/naskah-keluars/${naskahID}`, formData, {
+                .post(`http://127.0.0.1:8000/api/naskah-keluars/${naskahID}`, formData, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         'Content-Type': 'multipart/form-data', // Pastikan header ini ada saat mengirim file
@@ -174,10 +174,23 @@ export default {
                 })
                 .then((response) => {
                     console.log("Naskah updated:", response.data);
-                    this.$router.push('/admin/naskahkeluar/naskah-keluar'); // Redirect to list page
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Your work has been saved',
+                        showConfirmButton: false,
+                        timer: 1500,
+                    }).then(() => {
+                        this.$router.push('/admin/naskahkeluar/naskah-keluar');
+                    });
                 })
                 .catch((error) => {
-                    console.error("Error updating naskah:", error);
+                    console.log(error)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong while updating the naskah!',
+                    });
                 });
         }
 

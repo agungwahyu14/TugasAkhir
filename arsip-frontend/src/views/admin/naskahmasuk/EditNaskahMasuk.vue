@@ -148,45 +148,56 @@ export default {
                 });
         },
         handleFileChange(event) {
-            this.naskahMasuk.file = event.target.files[0];
+            const file = event.target.files[0];
+            if (file) {
+                this.naskahMasuk.file = file;
+            }
         },
+
         updateNaskah() {
             const token = sessionStorage.getItem('token');
             const naskahID = this.$route.params.id_naskah_masuk;
 
+            const formData = new FormData();
+            formData.append('jenis_naskah',this.naskahMasuk.jenis_naskah)
+            formData.append('perihal',this.naskahMasuk.perihal)
+            formData.append('tujuan',this.naskahMasuk.tujuan)
+            formData.append('tgl_naskah',this.naskahMasuk.tgl_naskah)
+            formData.append('status',this.naskahMasuk.status)
+            formData.append('file',this.naskahMasuk.file)
+            formData.append('_method', 'PUT');
+
+            // Mengirim permintaan POST tetapi dengan _method=PUT dalam body
             axios
-                .put(`http://127.0.0.1:8000/api/naskah-masuks/${naskahID}`, this.naskahMasuk, {
+                .post(`http://127.0.0.1:8000/api/naskah-masuks/${naskahID}`, formData, {
                     headers: {
                         Authorization: `Bearer ${token}`,
-
+                        'Content-Type': 'multipart/form-data',
                     },
                 })
                 .then((response) => {
-                    console.log("Naskah updated:", response.data);
-
-                    // Tampilkan notifikasi sukses dengan SweetAlert2
+                    console.log(response);
                     Swal.fire({
-                        position: "center",
-                        icon: "success",
-                        title: "Your work has been saved",
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Your work has been saved',
                         showConfirmButton: false,
                         timer: 1500,
                     }).then(() => {
-                        // Redirect ke halaman daftar setelah notifikasi selesai
                         this.$router.push('/admin/naskahmasuk/naskah-masuk');
                     });
                 })
                 .catch((error) => {
-                    console.error("Error updating naskah:", error);
-
-                    // Tampilkan notifikasi error dengan SweetAlert2
+                    console.log(error);
                     Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "Something went wrong while updating the naskah!",
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong while updating the naskah!',
                     });
                 });
         }
+
+
     },
     props: {
         color: {
