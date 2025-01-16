@@ -129,7 +129,7 @@
 </template>
 <script>
 import axios from "axios";
-
+import Swal from 'sweetalert2';
 
 export default {
     name: "DataPegawai",
@@ -174,22 +174,53 @@ export default {
                 });
         },
         deleteEmployee(nip) {
-            const token = sessionStorage.getItem('token'); // Ambil token dari localStorage
+
+
+            Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+            const token = sessionStorage.getItem('token');
+
+            // Proses penghapusan hanya terjadi jika dikonfirmasi
             axios
                 .delete(`http://127.0.0.1:8000/api/pegawai/${nip}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}` // Tambahkan header Bearer Token
-                    }
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
                 })
                 .then((response) => {
-                    console.log("Delete Employee Response:", response); // Print seluruh response
-                    console.log("Employee Deleted:", response.data); // Print hanya pesan sukses
-                    // Fetch employees again or update state after deletion
-                    this.fetchEmployees();
+                console.log("Delete Naskah Response:", response);
+
+                // Tampilkan notifikasi sukses setelah penghapusan berhasil
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your Data has been deleted.",
+                    icon: "success"
+                });
+
+                // Refresh data setelah menghapus
+                this.fetchEmployees();
                 })
                 .catch((error) => {
-                    console.error("Error deleting employee:", error.response || error); // Print error detail
+                console.error("Error deleting Naskah:", error.response || error);
+
+                // Tampilkan notifikasi error jika penghapusan gagal
+                Swal.fire({
+                    title: "Error!",
+                    text: "There was an error deleting the file.",
+                    icon: "error"
                 });
+                });
+            }
+        });
+
         },
 
         toggleStatus(employee) {

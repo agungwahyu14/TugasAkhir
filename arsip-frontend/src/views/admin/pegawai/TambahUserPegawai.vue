@@ -96,6 +96,7 @@
 
 <script>
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default {
     name: "TambahUserPegawai",
@@ -132,7 +133,11 @@ export default {
                 });
 
                 console.log(response.data);
-                alert('User berhasil ditambahkan!');
+                Swal.fire({
+                    title: 'Success',
+                    text: 'Berhasil Menambahkan Data',
+                    icon: 'success',
+                })
                 this.$router.push('/admin/pegawai/user-pegawai');
             } catch (error) {
                 console.error(error);
